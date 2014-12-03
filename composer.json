@@ -3,21 +3,13 @@
     "description": "Communify PHP integration package.",
     "version": "1.0.0",
     "keywords": ["communify", "communify-php"],
-    "homepage": "https://github.com/Communify/Communify-php",
+    "homepage": "https://github.com/communify/communify-php",
     "license": "MIT",
     "authors": [
         {
-            "name": "Danny van Kooten",
-            "email": "dannyvankooten@gmail.com",
-            "homepage": "http://dannyvankooten.com/"
-        },
-        {
-            "name": "Koen Punt",
-            "homepage": "https://github.com/koenpunt"
-        },
-        {
-            "name": "niahoo",
-            "homepage": "https://github.com/niahoo"
+            "name": "Communify web team",
+            "email": "pitu@communify.com",
+            "homepage": "http://communify.com"
         }
     ],
     "require": {
