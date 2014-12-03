@@ -19,5 +19,11 @@
         "psr-0" : {
             "Communify\\Integration" : "src"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Communify/Communify-php"
+        }
+    ]
 }
