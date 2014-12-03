@@ -16,6 +16,8 @@
         "php": ">=5.3.0"
     },
     "autoload": {
-        "classmap": ["AltoRouter.php"]
+        "psr-0" : {
+            "Communify\\Integration" : "src"
+        }
     }
 }
