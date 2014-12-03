@@ -1,0 +1,8 @@
+{
+    "name": "Communify/Communify-php",
+    "autoload": {
+        "psr-0" : {
+            "Communify\\Integration" : "src"
+        }
+    }
+}
