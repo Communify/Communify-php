@@ -3,6 +3,7 @@
 namespace tests\Communify\S2O;
 
 use Communify\S2O\S2OConnector;
+use Communify\S2O\S2OFactory;
 
 class S2OConnectorTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +21,7 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
 
   private function configureSut()
   {
-    return new S2OConnector($this->factory);
+    return new S2OConnector();//$this->factory);
   }
 
   /**
@@ -35,6 +36,29 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
     $this->assertInstanceOf('Communify\S2O\S2OConnector', $actual);
   }
 
+  /**
+  * method: login
+  * when: called
+  * with: correctInnerCalls
+  * should: correctReturn
+  */
+  public function test_login_called_correctInnerCalls_correctReturn()
+  {
+    $expected = array('dummy expected value');
+    $credential = $this->getMock('Communify\S2O\S2OCredential');
+    $client = $this->getMock('Guzzle\Http\Client');
+    $res = $this->getMockBuilder('Guzzle\Http\Message\EntityEnclosingRequest')
+      ->disableOriginalConstructor()->getMock();
 
+    $this->factory->expects($this->any())
+      ->method('httpClient')
+      ->will($this->returnValue($client));
+
+    $credential->expects($this->any())
+      ->method('get')
+      ->will($this->returnValue($expected));
+
+    $this->configureSut()->login($credential);
+  }
   
 }

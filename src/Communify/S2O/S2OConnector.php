@@ -41,8 +41,8 @@ class S2OConnector
   public function login(S2OCredential $credential)
   {
     $client = $this->factory->httpClient();
-    $res = $client->get('', $credential->getData());
-    $json = $res->json();
+    $res = $client->post('http://communify.com', $credential->get());
+    $json = $res->getBody();
     return $this->factory->response($json);
   }
 
