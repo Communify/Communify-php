@@ -1,7 +1,7 @@
 {
     "name": "communify/communify-php",
     "description": "Communify PHP integration package.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": ["communify", "communify-php"],
     "homepage": "https://github.com/communify/communify-php",
     "license": "MIT",
