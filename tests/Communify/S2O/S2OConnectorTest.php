@@ -21,7 +21,7 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
 
   private function configureSut()
   {
-    return new S2OConnector();//$this->factory);
+    return new S2OConnector($this->factory);
   }
 
   /**
@@ -37,28 +37,61 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
+  * dataProvider getLoginData
+  */
+  public function getLoginData()
+  {
+    return array(
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
+    );
+  }
+
+  /**
   * method: login
   * when: called
   * with: correctInnerCalls
   * should: correctReturn
+   * @dataProvider getLoginData
   */
-  public function test_login_called_correctInnerCalls_correctReturn()
+  public function test_login_called_correctInnerCalls_correctReturn($timesHttpClient, $timesCredentialGet, $timesPost, $timesGetJson, $timesResponse)
   {
-    $expected = array('dummy expected value');
+    $json = '{"dummy": "value"}';
+    $expected = 'dummy expected value';
+    $credentialData = array('dummy credential data');
     $credential = $this->getMock('Communify\S2O\S2OCredential');
     $client = $this->getMock('Guzzle\Http\Client');
     $res = $this->getMockBuilder('Guzzle\Http\Message\EntityEnclosingRequest')
       ->disableOriginalConstructor()->getMock();
 
-    $this->factory->expects($this->any())
+    $this->factory->expects($timesHttpClient)
       ->method('httpClient')
       ->will($this->returnValue($client));
 
-    $credential->expects($this->any())
+    $credential->expects($timesCredentialGet)
       ->method('get')
+      ->will($this->returnValue($credentialData));
+
+    $client->expects($timesPost)
+      ->method('post')
+      ->with('http://communify.com', $credentialData)
+      ->will($this->returnValue($res));
+
+    $res->expects($timesGetJson)
+      ->method('getBody')
+      ->will($this->returnValue($json));
+
+    $this->factory->expects($timesResponse)
+      ->method('response')
+      ->with($json)
       ->will($this->returnValue($expected));
 
-    $this->configureSut()->login($credential);
+    $actual = $this->configureSut()->login($credential);
+    $this->assertEquals($expected, $actual);
   }
   
 }
