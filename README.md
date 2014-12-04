@@ -34,14 +34,13 @@ downloading a single zip or phar file from our [latest release][latest-release].
 
     <?php 
         $data = array(
-            'name'      => ...,
-            'surname'   => ...,
-            'email'     => ...,
-            'image'     => ...,
+            'name'      => '...',
+            'surname'   => '...',
+            'email'     => '...',
+            'image'     => '...',
             ...
         );    
         Communify\S2O\S2OClient::factory()->login($data)->metas();
-    
     ?>
 
 ```
