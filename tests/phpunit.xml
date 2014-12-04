@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit backupGlobals="true"
+         bootstrap="../vendor/autoload.php"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         mapTestClassNameToCoveredClassName="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         syntaxCheck="false"
+         testSuiteLoaderFile="../vendor/phpunit/phpunit/src/Runner/StandardTestSuiteLoader.php"
+         strict="false"
+         verbose="false">
+
+    <testsuites>
+        <testsuite name="S2O">
+            <directory>Communify/S2O</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <blacklist>
+            <directory suffix=".php">test</directory>
+            <directory suffix=".php">src</directory>
+        </blacklist>
+    </filter>
+
+</phpunit>

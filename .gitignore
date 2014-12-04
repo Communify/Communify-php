@@ -39,10 +39,7 @@ Thumbs.db
 .settings
 /.project
 .idea/
-ci/build/*
-config/Constants.php
-config/license.pls
-config/terms/terms.html
-test/reports/*
+vendor
+composer.phar
 
 composer.lock

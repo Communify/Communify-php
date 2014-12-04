@@ -13,11 +13,18 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "guzzle/guzzle": "~3.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.3"
+    },
+    "config": {
+        "bin-dir": "bin/"
     },
     "autoload": {
         "psr-0" : {
-            "Communify\\Integration" : "src"
+            "Communify" : "src"
         }
     },
     "repositories": [
