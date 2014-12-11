@@ -23,14 +23,14 @@ downloading a single zip or phar file from our [latest release][latest-release].
 ```php
 
     <?php 
+        $ssid = 'COMMUNIFY ACCOUNT SSID';
         $data = array(
-            'name'      => '...',
-            'surname'   => '...',
-            'email'     => '...',
-            'image'     => '...',
+            'email'     		=> 'USER EMAIL',
+            'name'      		=> 'USER NAME',
+            'surname'   		=> 'USER SURNAME',
             ...
-        );    
-        echo Communify\S2O\S2OClient::factory()->login($data)->metas();
+        );
+        echo \Communify\S2O\S2OClient::factory()->login($ssid, $data)->metas();
     ?>
 
 ```
