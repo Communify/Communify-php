@@ -16,6 +16,7 @@
 
 namespace Communify\S2O;
 
+use Communify\C2\C2Credential;
 use Guzzle\Http\Client;
 
 /**
@@ -70,10 +71,10 @@ class S2OConnector
   /**
    * Login method. Call to Communify server and generate a response.
    *
-   * @param S2OCredential $credential
+   * @param C2Credential $credential
    * @return S2OResponse
    */
-  public function login(S2OCredential $credential)
+  public function login(C2Credential $credential)
   {
     $url = $credential->getUrl();
     $request = $this->client->createRequest('POST', $url.'/'.self::SINGLE_SIGN_ON_API_METHOD, null, $credential->get());

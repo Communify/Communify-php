@@ -14,13 +14,13 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\S2O;
+namespace Communify\C2;
 
 /**
- * Class S2OCredential
- * @package Communify\S2O
+ * Class C2Credential
+ * @package Communify\C2
  */
-class S2OCredential
+class C2Credential
 {
 
   /**
@@ -43,20 +43,20 @@ class S2OCredential
 
 
   /**
-   * Create S2OCredential.
+   * Create C2Credential.
    *
-   * @return S2OCredential
+   * @return C2Credential
    */
   public static function factory()
   {
-    return new S2OCredential();
+    return new C2Credential();
   }
 
   /**
    * Create credential from option. On develop use communify_url and remove it from credential.
    *
-   * @param array $data
-   * @throws S2OException
+   * @param $ssid
+   * @param $data
    */
   public function set($ssid, $data)
   {

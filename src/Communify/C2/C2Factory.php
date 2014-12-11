@@ -14,56 +14,55 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\S2O;
-
-use Communify\C2\C2Factory;
-use Guzzle\Http\Client;
+namespace Communify\C2;
 
 /**
  * Class S2OFactory
  * @package Communify\S2O
  */
-class S2OFactory extends C2Factory
+class C2Factory
 {
 
   /**
-   * Create S2OFactory.
+   * Create C2Factory.
    *
-   * @return S2OFactory
+   * @return C2Factory
    */
   public static function factory()
   {
-    return new S2OFactory();
+    return new C2Factory();
   }
 
   /**
-   * Create S2OConnector.
+   * Create C2Credential.
    *
-   * @return S2OConnector
+   * @return C2Credential
    */
-  public function connector()
+  public function credential()
   {
-    return S2OConnector::factory();
+    return C2Credential::factory();
   }
 
   /**
-   * Create S2OResponse.
+   * Create C2MetasIterator.
    *
-   * @return S2OResponse
+   * @return C2MetasIterator
    */
-  public function response()
+  public function metasIterator()
   {
-    return S2OResponse::factory();
+    return C2MetasIterator::factory();
   }
 
   /**
-   * Create a Guzzle Http Client.
+   * Create S2OMeta.
    *
-   * @return Client
+   * @param $name
+   * @param $content
+   * @return C2Meta
    */
-  public function httpClient()
+  public function meta($name, $content)
   {
-    return new Client();
+    return C2Meta::factory($name, $content);
   }
 
 }

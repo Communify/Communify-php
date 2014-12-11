@@ -106,7 +106,7 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
   {
     $ssid = 'dummy ssid';
     $data = array('dummy data');
-    $credential = $this->getMock('Communify\S2O\S2OCredential');
+    $credential = $this->getMock('Communify\C2\C2Credential');
 
 
     $this->factory->expects($timesCreate)

@@ -115,7 +115,7 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
     $url = 'dummy url value';
     $request = 'dummy request object';
     $credentialData = array('dummy credential data');
-    $credential = $this->getMock('Communify\S2O\S2OCredential');
+    $credential = $this->getMock('Communify\C2\C2Credential');
     $response = $this->getMockBuilder('Guzzle\Http\Message\Response')->disableOriginalConstructor()->getMock();
     $credential->expects($timesGetUrl)
       ->method('getUrl')

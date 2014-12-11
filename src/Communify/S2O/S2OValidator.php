@@ -15,6 +15,7 @@
  */
 
 namespace Communify\S2O;
+use Communify\C2\C2Meta;
 
 /**
  * Class S2OMeta
@@ -45,27 +46,27 @@ class S2OValidator
   {
     if( !isset($data['status']) )
     {
-      throw new S2OException(S2OMeta::STATUS_ERROR_NAME, S2OException::PARAM_ERROR);
+      throw new S2OException(C2Meta::STATUS_ERROR_NAME, S2OException::PARAM_ERROR);
     }
 
     if( $data['status'] != S2OResponse::STATUS_KO && $data['status'] != S2OResponse::STATUS_OK )
     {
-      throw new S2OException(S2OMeta::STATUS_VALUE_ERROR_NAME, S2OException::PARAM_ERROR);
+      throw new S2OException(C2Meta::STATUS_VALUE_ERROR_NAME, S2OException::PARAM_ERROR);
     }
 
     if( !isset($data['data']) )
     {
-      throw new S2OException(S2OMeta::DATA_ERROR_NAME, S2OException::PARAM_ERROR);
+      throw new S2OException(C2Meta::DATA_ERROR_NAME, S2OException::PARAM_ERROR);
     }
 
     if( $data['status'] == S2OResponse::STATUS_KO && !isset($data['data']['message']) )
     {
-      throw new S2OException(S2OMeta::MSG_ERROR_NAME, S2OException::PARAM_ERROR);
+      throw new S2OException(C2Meta::MSG_ERROR_NAME, S2OException::PARAM_ERROR);
     }
 
     if($data['status'] == S2OResponse::STATUS_KO)
     {
-      throw new S2OException(S2OMeta::KO_ERROR_NAME, S2OException::KO_ERROR);
+      throw new S2OException(C2Meta::KO_ERROR_NAME, S2OException::KO_ERROR);
     }
 
     return $data['status'];

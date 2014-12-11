@@ -14,13 +14,13 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\S2O;
+namespace Communify\C2;
 
 /**
- * Class S2OMeta
- * @package Communify\S2O
+ * Class C2Meta
+ * @package Communify\C2
  */
-class S2OMeta
+class C2Meta
 {
 
   const STATUS_ERROR_NAME           = 'communify-error-json-status';
@@ -51,7 +51,7 @@ class S2OMeta
   );
 
   /**
-   * Create S2OMeta. Name and content are needed.
+   * Create C2Meta. Name and content are needed.
    *
    * @param $name
    * @param $content
@@ -63,15 +63,15 @@ class S2OMeta
   }
 
   /**
-   * Create S2OMeta.
+   * Create C2Meta.
    *
    * @param $name
    * @param $content
-   * @return S2OMeta
+   * @return C2Meta
    */
   public static function factory($name, $content)
   {
-    return new S2OMeta($name, $content);
+    return new C2Meta($name, $content);
   }
 
   /**

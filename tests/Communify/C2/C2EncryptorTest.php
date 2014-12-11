@@ -14,24 +14,24 @@
  * permissions and limitations under the License.
  */
 
-namespace tests\Communify\S2O;
+namespace tests\Communify\C2;
 
-use Communify\S2O\S2OEncryptor;
+use Communify\C2\C2Encryptor;
 
 /**
- * @covers Communify\S2O\S2OEncryptor
+ * @covers Communify\C2\C2Encryptor
  */
-class S2OEncryptorTest extends \PHPUnit_Framework_TestCase
+class C2EncryptorTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
-   * @var S2OEncryptor
+   * @var C2Encryptor
    */
   private $sut;
 
   public function setUp()
   {
-    $this->sut = S2OEncryptor::factory();
+    $this->sut = C2Encryptor::factory();
   }
 
   /**
@@ -42,8 +42,8 @@ class S2OEncryptorTest extends \PHPUnit_Framework_TestCase
   */
   public function test_factory_called_noDependencyInjection_correctReturn()
   {
-    $actual = S2OEncryptor::factory();
-    $this->assertInstanceOf('Communify\S2O\S2OEncryptor', $actual);
+    $actual = C2Encryptor::factory();
+    $this->assertInstanceOf('Communify\C2\C2Encryptor', $actual);
   }
 
   /**

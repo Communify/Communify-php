@@ -14,24 +14,24 @@
  * permissions and limitations under the License.
  */
 
-namespace tests\Communify\S2O;
+namespace tests\Communify\C2;
 
-use Communify\S2O\S2OFactory;
+use Communify\C2\C2Factory;
 
 /**
- * @covers Communify\S2O\S2OFactory
+ * @covers Communify\C2\C2Factory
  */
-class S2OFactoryTest extends \PHPUnit_Framework_TestCase
+class C2FactoryTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
-   * @var S2OFactory
+   * @var C2Factory
    */
   private $sut;
 
   public function setUp()
   {
-    $this->sut = new S2OFactory();
+    $this->sut = new C2Factory();
   }
 
   /**
@@ -42,44 +42,44 @@ class S2OFactoryTest extends \PHPUnit_Framework_TestCase
   */
   public function test_factory_called_noDependencyInjection_correctReturn()
   {
-    $actual = S2OFactory::factory();
-    $this->assertInstanceOf('Communify\S2O\S2OFactory', $actual);
+    $actual = C2Factory::factory();
+    $this->assertInstanceOf('Communify\C2\C2Factory', $actual);
   }
 
   /**
-  * dataProvider getS2OMethodsData
+  * dataProvider getC2MethodsData
   */
-  public function getS2OMethodsData()
+  public function getC2MethodsData()
   {
     return array(
-      array('connector', 'S2OConnector'),
-      array('response', 'S2OResponse'),
+      array('credential', 'C2Credential'),
+      array('metasIterator', 'C2MetasIterator'),
     );
   }
 
   /**
-  * method: s2OMethods
+  * method: C2Methods
   * when: called
   * with:
   * should: correctReturn
-   * @dataProvider getS2OMethodsData
+   * @dataProvider getC2MethodsData
   */
-  public function test_s2OMethods_called__correctReturn($method, $class)
+  public function test_C2Methods_called__correctReturn($method, $class)
   {
     $actual = $this->sut->$method();
-    $this->assertInstanceOf('Communify\S2O\\'.$class, $actual);
+    $this->assertInstanceOf('Communify\C2\\'.$class, $actual);
   }
 
   /**
-  * method: httpClient
+  * method: meta
   * when: called
   * with:
   * should: correct
   */
-  public function test_httpClient_called__correct()
+  public function test_meta_called__correct()
   {
-    $actual = $this->sut->httpClient();
-    $this->assertInstanceOf('Guzzle\Http\Client', $actual);
+    $actual = $this->sut->meta('dummy name', 'dummy content');
+    $this->assertInstanceOf('Communify\C2\C2Meta', $actual);
   }
-  
+
 }

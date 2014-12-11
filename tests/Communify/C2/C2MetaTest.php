@@ -14,24 +14,24 @@
  * permissions and limitations under the License.
  */
 
-namespace tests\Communify\S2O;
+namespace tests\Communify\C2;
 
-use Communify\S2O\S2OMeta;
+use Communify\C2\C2Meta;
 
 /**
- * @covers Communify\S2O\S2OMeta
+ * @covers Communify\C2\C2Meta
  */
-class S2OMetaTest extends \PHPUnit_Framework_TestCase
+class C2MetaTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
    * @param $name
    * @param $content
-   * @return S2OMeta
+   * @return C2Meta
    */
   private function configureSut($name, $content)
   {
-    return new S2OMeta($name, $content);
+    return new C2Meta($name, $content);
   }
 
   /**
@@ -42,8 +42,8 @@ class S2OMetaTest extends \PHPUnit_Framework_TestCase
   */
   public function test_factory_called_noDependencyInjection_correctReturn()
   {
-    $actual = S2OMeta::factory('dummy name', 'dummy content');
-    $this->assertInstanceOf('Communify\S2O\S2OMeta', $actual);
+    $actual = C2Meta::factory('dummy name', 'dummy content');
+    $this->assertInstanceOf('Communify\C2\C2Meta', $actual);
   }
 
   /**
@@ -56,7 +56,7 @@ class S2OMetaTest extends \PHPUnit_Framework_TestCase
   {
     $name = 'dummy name';
     $content = 'dummy content';
-    $actual = S2OMeta::factory($name, $content);
+    $actual = C2Meta::factory($name, $content);
     $this->assertEquals($name, $actual->getName());
   }
 
@@ -70,7 +70,7 @@ class S2OMetaTest extends \PHPUnit_Framework_TestCase
   {
     $name = 'dummy name';
     $content = 'dummy content';
-    $actual = S2OMeta::factory($name, $content);
+    $actual = C2Meta::factory($name, $content);
     $this->assertEquals($content, $actual->getContent());
   }
 

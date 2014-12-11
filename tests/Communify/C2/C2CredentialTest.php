@@ -14,24 +14,24 @@
  * permissions and limitations under the License.
  */
 
-namespace tests\Communify\S2O;
+namespace tests\Communify\C2;
 
-use Communify\S2O\S2OCredential;
+use Communify\C2\C2Credential;
 
 /**
- * @covers Communify\S2O\S2OCredential
+ * @covers Communify\C2\C2Credential
  */
-class S2OCredentialTest extends \PHPUnit_Framework_TestCase
+class C2CredentialTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
-   * @var S2OCredential
+   * @var C2Credential
    */
   private $sut;
 
   public function setUp()
   {
-    $this->sut = new S2OCredential();
+    $this->sut = new C2Credential();
   }
 
   /**
@@ -42,8 +42,8 @@ class S2OCredentialTest extends \PHPUnit_Framework_TestCase
   */
   public function test_factory_called_noDependencyInjection_correctReturn()
   {
-    $actual = S2OCredential::factory();
-    $this->assertInstanceOf('Communify\S2O\S2OCredential', $actual);
+    $actual = C2Credential::factory();
+    $this->assertInstanceOf('Communify\C2\C2Credential', $actual);
   }
 
   /**
@@ -91,7 +91,7 @@ class S2OCredentialTest extends \PHPUnit_Framework_TestCase
   /**
    * @param $expectedData
    * @param $data
-   * @return S2OCredential
+   * @return C2Credential
    */
   private function configureAndExecuteSetWithDataAssert($expectedData, $data)
   {

@@ -14,14 +14,14 @@
  * permissions and limitations under the License.
  */
 
-namespace tests\Communify\S2O;
+namespace tests\Communify\C2;
 
-use Communify\S2O\S2OMetasIterator;
+use Communify\C2\C2MetasIterator;
 
 /**
- * @covers Communify\S2O\S2OMetasIterator
+ * @covers Communify\C2\C2MetasIterator
  */
-class S2OMetasIteratorTest extends \PHPUnit_Framework_TestCase
+class C2MetasIteratorTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
@@ -30,14 +30,14 @@ class S2OMetasIteratorTest extends \PHPUnit_Framework_TestCase
   private $factory;
 
   /**
-   * @var S2OMetasIterator
+   * @var C2MetasIterator
    */
   private $sut;
 
   public function setUp()
   {
-    $this->factory = $this->getMock('Communify\S2O\S2OFactory');
-    $this->sut = new S2OMetasIterator($this->factory);
+    $this->factory = $this->getMock('Communify\C2\C2Factory');
+    $this->sut = new C2MetasIterator($this->factory);
   }
 
   /**
@@ -48,8 +48,8 @@ class S2OMetasIteratorTest extends \PHPUnit_Framework_TestCase
   */
   public function test_factory_called_noDependencyInjection_correctReturn()
   {
-    $actual = S2OMetasIterator::factory();
-    $this->assertInstanceOf('Communify\S2O\S2OMetasIterator', $actual);
+    $actual = C2MetasIterator::factory();
+    $this->assertInstanceOf('Communify\C2\C2MetasIterator', $actual);
   }
 
   /**
@@ -74,7 +74,7 @@ class S2OMetasIteratorTest extends \PHPUnit_Framework_TestCase
   {
     $name = 'dummy name';
     $content = 'dummy content';
-    $meta = $this->getMockBuilder('Communify\S2O\S2OMeta')->disableOriginalConstructor()->getMock();
+    $meta = $this->getMockBuilder('Communify\C2\C2Meta')->disableOriginalConstructor()->getMock();
     $this->factory->expects($times)
       ->method('meta')
       ->with($name, $content)

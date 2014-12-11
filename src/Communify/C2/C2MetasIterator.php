@@ -14,13 +14,13 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\S2O;
+namespace Communify\C2;
 
 /**
- * Class S2OMeta
- * @package Communify\S2O
+ * Class C2Meta
+ * @package Communify\C2
  */
-class S2OMetasIterator implements \Iterator
+class C2MetasIterator implements \Iterator
 {
 
   /**
@@ -29,27 +29,27 @@ class S2OMetasIterator implements \Iterator
   private $position;
 
   /**
-   * @var S2OMeta[]
+   * @var C2Meta[]
    */
   private $array;
 
   /**
-   * @var S2OFactory
+   * @var C2Factory
    */
   private $factory;
 
   /**
-   * Create S2OMetasIterator with dependency injection. Position and array with empty default values.
+   * Create C2MetasIterator with dependency injection. Position and array with empty default values.
    *
-   * @param S2OFactory $factory
+   * @param C2Factory $factory
    * @param int $position
    * @param array $array
    */
-  function __construct(S2OFactory $factory = null, $position = 0, $array = array())
+  function __construct(C2Factory $factory = null, $position = 0, $array = array())
   {
     if($factory == null)
     {
-      $factory = S2OFactory::factory();
+      $factory = C2Factory::factory();
     }
     $this->position = $position;
     $this->array = $array;
@@ -57,17 +57,17 @@ class S2OMetasIterator implements \Iterator
   }
 
   /**
-   * Create S2OMetasIterator.
+   * Create C2MetasIterator.
    *
-   * @return S2OMetasIterator
+   * @return C2MetasIterator
    */
   public static function factory()
   {
-    return new S2OMetasIterator();
+    return new C2MetasIterator();
   }
 
   /**
-   * Push meta on S2OMetasIterator.
+   * Push meta on C2MetasIterator.
    *
    * @param $name
    * @param $content
@@ -87,9 +87,9 @@ class S2OMetasIterator implements \Iterator
   }
 
   /**
-   * Get current meta element on S2OMetaIterator.
+   * Get current meta element on C2MetaIterator.
    *
-   * @return S2OMeta
+   * @return C2Meta
    */
   public function current()
   {
@@ -97,7 +97,7 @@ class S2OMetasIterator implements \Iterator
   }
 
   /**
-   * Get current key on S2OMetasIterator.
+   * Get current key on C2MetasIterator.
    *
    * @return int
    */
@@ -115,7 +115,7 @@ class S2OMetasIterator implements \Iterator
   }
 
   /**
-   * Check if is a valid position on S2OMetasIterator.
+   * Check if is a valid position on C2MetasIterator.
    *
    * @return bool
    */
@@ -125,9 +125,9 @@ class S2OMetasIterator implements \Iterator
   }
 
   /**
-   * Set S2OMeta's array.
+   * Set C2Meta's array.
    *
-   * @param S2OMeta[] $array
+   * @param C2Meta[] $array
    */
   public function setArray($array)
   {

@@ -16,6 +16,9 @@
 
 namespace Communify\S2O;
 
+use Communify\C2\C2Encryptor;
+use Communify\C2\C2Meta;
+use Communify\C2\C2MetasIterator;
 use Guzzle\Http\Message\Response;
 
 /**
@@ -29,7 +32,7 @@ class S2OResponse
   const STATUS_KO   = 'ko';
 
   /**
-   * @var S2OMetasIterator
+   * @var C2MetasIterator
    */
   private $metas;
 
@@ -39,7 +42,7 @@ class S2OResponse
   private $validator;
 
   /**
-   * @var S2OEncryptor
+   * @var C2Encryptor
    */
   private $encryptor;
 
@@ -47,10 +50,10 @@ class S2OResponse
    * Create S2OValidator.
    *
    * @param S2OValidator $validator
-   * @param S2OMetasIterator $metas
-   * @param S2OEncryptor $encryptor
+   * @param C2MetasIterator $metas
+   * @param C2Encryptor $encryptor
    */
-  function __construct(S2OValidator $validator = null, S2OMetasIterator $metas = null, S2OEncryptor $encryptor = null)
+  function __construct(S2OValidator $validator = null, C2MetasIterator $metas = null, C2Encryptor $encryptor = null)
   {
     if($validator == null)
     {
@@ -59,12 +62,12 @@ class S2OResponse
 
     if($metas == null)
     {
-      $metas = S2OMetasIterator::factory();
+      $metas = C2MetasIterator::factory();
     }
 
     if($encryptor == null)
     {
-      $encryptor = S2OEncryptor::factory();
+      $encryptor = C2Encryptor::factory();
     }
 
     $this->metas = $metas;
@@ -96,7 +99,7 @@ class S2OResponse
       foreach($data['data'] as $key => $value)
       {
         $value64 = $this->encryptor->execute($value);
-        $this->metas->push(S2OMeta::OK_BASE_NAME.$key, $value64);
+        $this->metas->push(C2Meta::OK_BASE_NAME.$key, $value64);
       }
     }
     catch(S2OException $e)
@@ -105,12 +108,12 @@ class S2OResponse
 
       switch($error)
       {
-        case S2OMeta::KO_ERROR_NAME:
+        case C2Meta::KO_ERROR_NAME:
           $msg = $data['data']['message'];
           break;
 
         default:
-          $msg = S2OMeta::$MESSAGES[$error];
+          $msg = C2Meta::$MESSAGES[$error];
           break;
       }
 
@@ -136,7 +139,7 @@ class S2OResponse
   /**
    * Set S2OMeta's array.
    *
-   * @param S2OMeta[] $metas
+   * @param C2Meta[] $metas
    */
   public function setMetas($metas)
   {

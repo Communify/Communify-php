@@ -14,23 +14,23 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\S2O;
+namespace Communify\C2;
 
 /**
- * Class S2OEncryptor
- * @package Communify\S2O
+ * Class C2Encryptor
+ * @package Communify\C2
  */
-class S2OEncryptor
+class C2Encryptor
 {
 
   /**
-   * Create S2OEncryptor
+   * Create C2Encryptor
    *
-   * @return S2OEncryptor
+   * @return C2Encryptor
    */
   public static function factory()
   {
-    return new S2OEncryptor();
+    return new C2Encryptor();
   }
 
   /**
