@@ -71,7 +71,7 @@ class S2OMetaTest extends \PHPUnit_Framework_TestCase
     $name = 'dummy name';
     $content = 'dummy content';
     $actual = S2OMeta::factory($name, $content);
-    $this->assertEquals($name, $actual->getName());
+    $this->assertEquals($content, $actual->getContent());
   }
 
   /**
