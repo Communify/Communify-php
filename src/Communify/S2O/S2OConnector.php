@@ -16,6 +16,8 @@ use Guzzle\Http\Client;
 class S2OConnector
 {
 
+  const SINGLE_SIGN_ON_API_METHOD = 'user/authentication/singleSignOnLogin';
+
   /**
    * @var S2OFactory
    */
@@ -34,7 +36,7 @@ class S2OConnector
     }
     if($client == null)
     {
-      $factory->httpClient();
+      $client = $factory->httpClient();
     }
     $this->factory = $factory;
     $this->client = $client;
@@ -54,11 +56,11 @@ class S2OConnector
    */
   public function login(S2OCredential $credential)
   {
-    $request = $this->client->createRequest('POST', 'http://10.0.1.126:80/api/user/authentication/login', null, $credential->get());
+    $url = $credential->getUrl();
+    $request = $this->client->createRequest('POST', $url.'/'.self::SINGLE_SIGN_ON_API_METHOD, null, $credential->get());
     $response = $this->client->send($request);
-    $data = $response->json();
     $s2OResponse = $this->factory->response();
-    $s2OResponse->set($data);
+    $s2OResponse->set($response);
     return $s2OResponse;
   }
 

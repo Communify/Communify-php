@@ -1,6 +1,7 @@
 <?php
 
 namespace Communify\S2O;
+use Guzzle\Http\Message\Response;
 
 /**
  * Class S2OResponse
@@ -13,31 +14,33 @@ class S2OResponse
   const STATUS_KO   = 'ko';
 
   /**
-   * @var S2OMeta[]
+   * @var S2OMetasArray
    */
   private $metas;
 
-  /**
-   * @var S2OFactory
-   */
-  private $factory;
 
+  /**
+   * @var S2OValidator
+   */
   private $validator;
 
-  function __construct(S2OFactory $factory = null, S2OValidator $validator = null)
+  /**
+   * @param S2OValidator $validator
+   * @param S2OMetasArray $metas
+   */
+  function __construct(S2OValidator $validator = null, S2OMetasArray $metas = null)
   {
-    if($factory == null)
-    {
-      $factory = S2OFactory::factory();
-    }
-
     if($validator == null)
     {
       $validator = S2OValidator::factory();
     }
 
-    $this->metas = array();
-    $this->factory = $factory;
+    if($metas == null)
+    {
+      $metas = S2OMetasArray::factory();
+    }
+
+    $this->metas = $metas;
     $this->validator = $validator;
   }
 
@@ -52,33 +55,38 @@ class S2OResponse
   }
 
   /**
-   * @param $data
+   * @param Response $response
    */
-  public function set($data)
+  public function set(Response $response)
   {
+
+
+
     try
     {
+      $data = $response->json();
       $this->validator->checkData($data);
-      switch($data['status'])
+      foreach($data['data'] as $key => $value)
       {
-        case self::STATUS_KO:
-          $meta = $this->factory->meta(S2OMeta::KO_ERROR_NAME, $data['data']['message']);
-          $this->metas[] = $meta;
-          break;
-        case self::STATUS_OK:
-          foreach($data['data'] as $key => $value)
-          {
-            $meta = $this->factory->meta(S2OMeta::OK_BASE_NAME.$key, base64_encode(json_encode($value)));
-            $this->metas[] = $meta;
-          }
-          break;
+        $this->metas->push(S2OMeta::OK_BASE_NAME.$key, base64_encode(json_encode($value)));
       }
     }
     catch(S2OException $e)
     {
       $error = $e->getMessage();
-      $meta = $this->factory->meta($error, S2OMeta::$MESSAGES[$error]);
-      $this->metas[] = $meta;
+
+      switch($error)
+      {
+        case S2OMeta::KO_ERROR_NAME:
+          $msg = $data['data']['message'];
+          break;
+
+        default:
+          $msg = S2OMeta::$MESSAGES[$error];
+          break;
+      }
+
+      $this->metas->push($error, $msg);
     }
   }
 
@@ -93,14 +101,6 @@ class S2OResponse
       $html .= $meta->getHtml();
     }
     return $html;
-  }
-
-  /**
-   * @return S2OMeta[]
-   */
-  public function getMetas()
-  {
-    return $this->metas;
   }
 
   /**

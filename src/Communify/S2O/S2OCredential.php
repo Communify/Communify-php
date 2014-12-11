@@ -14,6 +14,14 @@ class S2OCredential
    */
   private $data;
 
+  private $url;
+
+  function __construct()
+  {
+    $this->url = 'https://communify.com/api';
+  }
+
+
   /**
    * @return S2OCredential
    */
@@ -28,6 +36,11 @@ class S2OCredential
    */
   public function set($ssid, $data)
   {
+    if( isset($data['communify_url']) )
+    {
+      $this->url = $data['communify_url'];
+      unset($data['communify_url']);
+    }
     $this->data = array(
       'ssid'  => $ssid,
       'info'  => $data
@@ -48,6 +61,14 @@ class S2OCredential
   public function getData()
   {
     return $this->data;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getUrl()
+  {
+    return $this->url;
   }
 
 }

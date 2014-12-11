@@ -19,7 +19,7 @@ class S2OValidator
 
   /**
    * @param $data
-   * @return bool
+   * @return mixed
    * @throws S2OException
    */
   public function checkData($data)
@@ -29,7 +29,7 @@ class S2OValidator
       throw new S2OException(S2OMeta::STATUS_ERROR_NAME, S2OException::PARAM_ERROR);
     }
 
-    if( $data['status'] != 'ko' && $data['status'] != 'ok' )
+    if( $data['status'] != S2OResponse::STATUS_KO && $data['status'] != S2OResponse::STATUS_OK )
     {
       throw new S2OException(S2OMeta::STATUS_VALUE_ERROR_NAME, S2OException::PARAM_ERROR);
     }
@@ -39,12 +39,17 @@ class S2OValidator
       throw new S2OException(S2OMeta::DATA_ERROR_NAME, S2OException::PARAM_ERROR);
     }
 
-    if( $data['status'] == 'ko' && !isset($data['data']['message']) )
+    if( $data['status'] == S2OResponse::STATUS_KO && !isset($data['data']['message']) )
     {
       throw new S2OException(S2OMeta::MSG_ERROR_NAME, S2OException::PARAM_ERROR);
     }
 
-    return true;
+    if($data['status'] == S2OResponse::STATUS_KO)
+    {
+      throw new S2OException(S2OMeta::KO_ERROR_NAME, S2OException::KO_ERROR);
+    }
+
+    return $data['status'];
   }
 
 }

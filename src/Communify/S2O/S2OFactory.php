@@ -45,6 +45,14 @@ class S2OFactory
   }
 
   /**
+   * @return S2OMetasArray
+   */
+  public function metasArray()
+  {
+    return S2OMetasArray::factory();
+  }
+
+  /**
    * @param $name
    * @param $content
    * @return S2OResponse

@@ -12,20 +12,23 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   /**
    * @var \PHPUnit_Framework_MockObject_MockObject
    */
-  private $factory;
+  private $validator;
 
   /**
    * @var \PHPUnit_Framework_MockObject_MockObject
    */
-  private $validator;
+  private $metas;
 
+  /**
+   * @var \Communify\S2O\S2OResponse
+   */
   private $sut;
 
   public function setUp()
   {
-    $this->factory = $this->getMock('Communify\S2O\S2OFactory');
     $this->validator = $this->getMock('Communify\S2O\S2OValidator');
-    $this->sut = new S2OResponse($this->factory, $this->validator);
+    $this->metas = $this->getMock('Communify\S2O\S2OMetasArray');
+    $this->sut = new S2OResponse($this->validator, $this->metas);
   }
 
   /**
@@ -41,54 +44,39 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * dataProvider getSetData
-  */
-  public function getSetData()
+   * dataProvider getSetOkStatusAndEmptyDataNoMetaPushData
+   */
+  public function getSetOkStatusAndEmptyDataNoMetaPushData()
   {
     return array(
-      array(S2OMeta::STATUS_ERROR_NAME, $this->any(), $this->any()),
-      array(S2OMeta::STATUS_ERROR_NAME, $this->once(), $this->any()),
-      array(S2OMeta::STATUS_ERROR_NAME, $this->any(), $this->once()),
-
-      array(S2OMeta::STATUS_VALUE_ERROR_NAME, $this->any(), $this->any()),
-      array(S2OMeta::STATUS_VALUE_ERROR_NAME, $this->once(), $this->any()),
-      array(S2OMeta::STATUS_VALUE_ERROR_NAME, $this->any(), $this->once()),
-
-      array(S2OMeta::DATA_ERROR_NAME, $this->any(), $this->any()),
-      array(S2OMeta::DATA_ERROR_NAME, $this->once(), $this->any()),
-      array(S2OMeta::DATA_ERROR_NAME, $this->any(), $this->once()),
-
-      array(S2OMeta::MSG_ERROR_NAME, $this->any(), $this->any()),
-      array(S2OMeta::MSG_ERROR_NAME, $this->once(), $this->any()),
-      array(S2OMeta::MSG_ERROR_NAME, $this->any(), $this->once()),
+      array($this->any(), $this->any()),
+      array($this->once(), $this->any()),
+      array($this->any(), $this->once()),
     );
   }
 
   /**
-  * method: set
-  * when: called
-  * with: checkDataThrowingException
-  * should: catchCase
-   * @dataProvider getSetData
-  */
-  public function test_set_called_checkDataThrowingException_catchCase($msg, $timesCheckData, $timesMeta)
+   * method: set
+   * when: called
+   * with: okStatusAndEmptyData
+   * should: noMetaPush
+   * @dataProvider getSetOkStatusAndEmptyDataNoMetaPushData
+   */
+  public function test_set_called_okStatusAndEmptyData_noMetaPush($timesJson, $timesCheckData)
   {
-    $data = array('dummy data');
-    $name = $msg;
-    $content = S2OMeta::$MESSAGES[$name];
-    $exception = new S2OException($msg);
-    $meta = $this->getMetaMock();
-    $expected = array($meta);
-    $this->configureCheckData($timesCheckData, $data, $this->throwException($exception));
-    $this->configureFactoryCreateMeta($timesMeta, $name, $content, $meta);
-    $this->sut->set($data);
-    $this->assertEquals($expected, $this->sut->getMetas());
+    $data = array('data' => array());
+    $response = $this->getMockBuilder('Guzzle\Http\Message\Response')->disableOriginalConstructor()->getMock();
+    $this->configureResponseJson($timesJson, $response, $data);
+    $this->configureCheckData($timesCheckData, $data, $this->returnValue('dummy return check data'));
+    $this->metas->expects($this->never())
+      ->method('push');
+    $this->sut->set($response);
   }
 
   /**
-  * dataProvider getSetWithKoStatusData
+  * dataProvider getSetOkStatusWithDataPushInnerCallsData
   */
-  public function getSetWithKoStatusData()
+  public function getSetOkStatusWithDataPushInnerCallsData()
   {
     return array(
       array($this->any(), $this->any()),
@@ -100,63 +88,91 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   /**
   * method: set
   * when: called
-  * with: koStatus
-  * should: correctMeta
-   * @dataProvider getSetWithKoStatusData
+  * with: okStatusWithData
+  * should: pushInnerCalls
+   * @dataProvider getSetOkStatusWithDataPushInnerCallsData
   */
-  public function test_set_called_koStatus_correctMeta($timesCheckData, $timesMeta)
+  public function test_set_called_okStatusWithData_pushInnerCalls($timesJson, $timesCheckData)
   {
-    $msg = 'dummy exception message';
-    $data = array(
-      'message' => $msg
-    );
-    $data = $this->getDataArray(S2OResponse::STATUS_KO, $data);
-    $meta = $this->getMetaMock();
-    $this->configureCheckData($timesCheckData, $data, $this->returnValue(true));
-    $this->configureFactoryCreateMeta($timesMeta, S2OMeta::KO_ERROR_NAME, $msg, $meta);
-    $this->sut->set($data);
-    $this->assertEquals(array($meta), $this->sut->getMetas());
+    $key1 = 'dummy1';
+    $value1 = 'value 1';
+    $key2 = 'dummy2';
+    $value2 = 'value 2';
+    $data = array('data' => array($key1 => $value1, $key2 => $value2));
+    $response = $this->getMockBuilder('Guzzle\Http\Message\Response')->disableOriginalConstructor()->getMock();
+    $this->configureResponseJson($timesJson, $response, $data);
+    $this->configureCheckData($timesCheckData, $data, $this->returnValue('dummy return check data'));
+    $this->configureMetasPush($this->at(0), S2OMeta::OK_BASE_NAME.$key1, base64_encode(json_encode($value1)));
+    $this->configureMetasPush($this->at(1), S2OMeta::OK_BASE_NAME.$key2, base64_encode(json_encode($value2)));
+    $this->sut->set($response);
   }
 
   /**
-  * dataProvider getSetOkStatusData
+  * dataProvider getSetInvalidDataKoStatusCorrectMetaMsgData
   */
-  public function getSetOkStatusData()
+  public function getSetInvalidDataKoStatusCorrectMetaMsgData()
   {
     return array(
-      array($this->any()),
-      array($this->once()),
+      array($this->any(), $this->any(), $this->any()),
+      array($this->once(), $this->any(), $this->any()),
+      array($this->any(), $this->once(), $this->any()),
+      array($this->any(), $this->any(), $this->once()),
     );
   }
 
   /**
   * method: set
   * when: called
-  * with: okStatus
-  * should: correctMetasArray
-   * @dataProvider getSetOkStatusData
+  * with: invalidDataWithKoStatus
+  * should: correctMetaMsg
+   * @dataProvider getSetInvalidDataKoStatusCorrectMetaMsgData
   */
-  public function test_set_called_okStatus_correctMetasArray($timesCheckData)
+  public function test_set_called_invalidDataWithKoStatus_correctMetaMsg($timesJson, $timesCheckData, $timesPush)
   {
-    $key1 = 'dummy-key-1';
-    $value1 = 'dummy value 1';
-    $expectedContent1 = base64_encode(json_encode($value1));
-    $key2 = 'dummy-key-2';
-    $value2 = 'dummy value 2';
-    $expectedContent2 = base64_encode(json_encode($value2));
-    $data = array(
-      $key1 => $value1,
-      $key2 => $value2
+    $msg = 'dummy error message';
+    $error = S2OMeta::KO_ERROR_NAME;
+    $this->configureAndExecuteSetWithCatchCase($timesJson, $timesCheckData, $timesPush, $msg, $error);
+  }
+
+  /**
+  * dataProvider getSetInvalidDataDefaultCaseCorrectMetaMsgData
+  */
+  public function getSetInvalidDataDefaultCaseCorrectMetaMsgData()
+  {
+    return array(
+      array(S2OMeta::STATUS_ERROR_NAME, $this->any(), $this->any(), $this->any()),
+      array(S2OMeta::STATUS_ERROR_NAME, $this->once(), $this->any(), $this->any()),
+      array(S2OMeta::STATUS_ERROR_NAME, $this->any(), $this->once(), $this->any()),
+      array(S2OMeta::STATUS_ERROR_NAME, $this->any(), $this->any(), $this->once()),
+
+      array(S2OMeta::STATUS_VALUE_ERROR_NAME, $this->any(), $this->any(), $this->any()),
+      array(S2OMeta::STATUS_VALUE_ERROR_NAME, $this->once(), $this->any(), $this->any()),
+      array(S2OMeta::STATUS_VALUE_ERROR_NAME, $this->any(), $this->once(), $this->any()),
+      array(S2OMeta::STATUS_VALUE_ERROR_NAME, $this->any(), $this->any(), $this->once()),
+
+      array(S2OMeta::DATA_ERROR_NAME, $this->any(), $this->any(), $this->any()),
+      array(S2OMeta::DATA_ERROR_NAME, $this->once(), $this->any(), $this->any()),
+      array(S2OMeta::DATA_ERROR_NAME, $this->any(), $this->once(), $this->any()),
+      array(S2OMeta::DATA_ERROR_NAME, $this->any(), $this->any(), $this->once()),
+
+      array(S2OMeta::MSG_ERROR_NAME, $this->any(), $this->any(), $this->any()),
+      array(S2OMeta::MSG_ERROR_NAME, $this->once(), $this->any(), $this->any()),
+      array(S2OMeta::MSG_ERROR_NAME, $this->any(), $this->once(), $this->any()),
+      array(S2OMeta::MSG_ERROR_NAME, $this->any(), $this->any(), $this->once()),
     );
-    $data = $this->getDataArray(S2OResponse::STATUS_OK, $data);
-    $meta1 = $this->getMetaMock();
-    $meta2 = $this->getMetaMock();
-    $expected = array($meta1, $meta2);
-    $this->configureCheckData($timesCheckData, $data, $this->returnValue(true));
-    $this->configureFactoryCreateMeta($this->at(0), S2OMeta::OK_BASE_NAME.$key1, $expectedContent1, $meta1);
-    $this->configureFactoryCreateMeta($this->at(1), S2OMeta::OK_BASE_NAME.$key2, $expectedContent2, $meta2);
-    $this->sut->set($data);
-    $this->assertEquals($expected, $this->sut->getMetas());
+  }
+
+  /**
+  * method: set
+  * when: called
+  * with: invalidDataDefaultCase
+  * should: correctMetaMsg
+   * @dataProvider getSetInvalidDataDefaultCaseCorrectMetaMsgData
+  */
+  public function test_set_called_invalidDataDefaultCase_correctMetaMsg($error, $timesJson, $timesCheckData, $timesPush)
+  {
+    $msg = S2OMeta::$MESSAGES[$error];
+    $this->configureAndExecuteSetWithCatchCase($timesJson, $timesCheckData, $timesPush, $msg, $error);
   }
 
   /**
@@ -231,20 +247,6 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * @param $timesMeta
-   * @param $name
-   * @param $content
-   * @param $meta
-   */
-  private function configureFactoryCreateMeta($timesMeta, $name, $content, $meta)
-  {
-    $this->factory->expects($timesMeta)
-      ->method('meta')
-      ->with($name, $content)
-      ->will($this->returnValue($meta));
-  }
-
-  /**
    * @return \PHPUnit_Framework_MockObject_MockObject
    */
   private function getMetaMock()
@@ -254,17 +256,45 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * @param $status
+   * @param $timesJson
+   * @param $response
    * @param $data
-   * @return array
    */
-  private function getDataArray($status, $data)
+  private function configureResponseJson($timesJson, $response, $data)
   {
-    $data = array(
-      'status' => $status,
-      'data' => $data
-    );
-    return $data;
+    $response->expects($timesJson)
+      ->method('json')
+      ->will($this->returnValue($data));
+  }
+
+  /**
+   * @param $times
+   * @param $name
+   * @param $content
+   */
+  private function configureMetasPush($times, $name, $content)
+  {
+    $this->metas->expects($times)
+      ->method('push')
+      ->with($name, $content);
+  }
+
+  /**
+   * @param $timesJson
+   * @param $timesCheckData
+   * @param $timesPush
+   * @param $msg
+   * @param $error
+   */
+  private function configureAndExecuteSetWithCatchCase($timesJson, $timesCheckData, $timesPush, $msg, $error)
+  {
+    $data = array('data' => array('message' => $msg));
+    $exception = new S2OException($error);
+    $response = $this->getMockBuilder('Guzzle\Http\Message\Response')->disableOriginalConstructor()->getMock();
+    $this->configureResponseJson($timesJson, $response, $data);
+    $this->configureCheckData($timesCheckData, $data, $this->throwException($exception));
+    $this->configureMetasPush($timesPush, $error, $msg);
+    $this->sut->set($response);
   }
 
 }

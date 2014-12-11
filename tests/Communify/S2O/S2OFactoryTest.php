@@ -33,6 +33,7 @@ class S2OFactoryTest extends \PHPUnit_Framework_TestCase
       array('connector', 'S2OConnector'),
       array('credential', 'S2OCredential'),
       array('response', 'S2OResponse'),
+      array('metasArray', 'S2OMetasArray'),
     );
   }
 

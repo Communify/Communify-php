@@ -27,20 +27,28 @@ class S2OCredentialTest extends \PHPUnit_Framework_TestCase
   /**
   * method: set
   * when: called
-  * with:
+  * with: noCommunifyUrl
   * should: correctData
   */
-  public function test_set_called__correctData()
+  public function test_set_called_noCommunifyUrl_correctData()
   {
-    $ssid = 'dummy ssid';
     $data = array('dummy' => 'value');
-    $expected = array(
-      'ssid'  => $ssid,
-      'info'  => $data
-    );
-    $sut = $this->configureSut();
-    $sut->set($ssid, $data);
-    $this->assertEquals($expected, $sut->getData());
+    $this->configureAndExecuteSetWithDataAssert($data, $data);
+  }
+
+  /**
+  * method: set
+  * when: called
+  * with: communifyUrl
+  * should: correctDataAndUrlAttr
+  */
+  public function test_set_called_communifyUrl_correctDataAndUrlAttr()
+  {
+    $url = 'dummy communify url';
+    $data = array('dummy' => 'value', 'communify_url' => $url);
+    $expectedData = array('dummy' => 'value');
+    $sut = $this->configureAndExecuteSetWithDataAssert($expectedData, $data);
+    $this->assertEquals($sut->getUrl(), $url);
   }
 
   /**
@@ -60,6 +68,24 @@ class S2OCredentialTest extends \PHPUnit_Framework_TestCase
     $sut = $this->configureSut();
     $sut->set($ssid, $data);
     $this->assertEquals(json_encode($expected), $sut->get());
+  }
+
+  /**
+   * @param $expectedData
+   * @param $data
+   * @return S2OCredential
+   */
+  private function configureAndExecuteSetWithDataAssert($expectedData, $data)
+  {
+    $ssid = 'dummy ssid';
+    $expected = array(
+      'ssid' => $ssid,
+      'info' => $expectedData
+    );
+    $sut = $this->configureSut();
+    $sut->set($ssid, $data);
+    $this->assertEquals($expected, $sut->getData());
+    return $sut;
   }
 
 }

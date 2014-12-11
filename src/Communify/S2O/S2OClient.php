@@ -61,7 +61,7 @@ class S2OClient
    */
   public function login($ssid, $data)
   {
-    $credential = $this->factory->credential($ssid, $data);
+    $credential = $this->factory->credential();
     $credential->set($ssid, $data);
     return $this->connector->login($credential);
   }

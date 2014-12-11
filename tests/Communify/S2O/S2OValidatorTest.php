@@ -2,6 +2,7 @@
 
 namespace tests\Communify\S2O;
 
+use Communify\S2O\S2OResponse;
 use Communify\S2O\S2OValidator;
 
 class S2OValidatorTest extends \PHPUnit_Framework_TestCase
@@ -121,6 +122,20 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
+   * method: checkData
+   * when: called
+   * with: koStatus
+   * should: throwException
+   * @expectedException \Communify\S2O\S2OException
+   * @expectedExceptionMessage communify-error
+   * @expectedExceptionCode 101
+   */
+  public function test_checkData_called_koStatus_throwException()
+  {
+    $this->configureSut()->checkData(array('status' => 'ko', 'data' => array('message' => 'dummy message')));
+  }
+
+  /**
   * dataProvider getCheckData
   */
   public function getCheckData()
@@ -129,7 +144,6 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
       array(array('status' => 'ok', 'data' => 'value')),
       array(array('status' => 'ok', 'data' => array('dummy value'))),
       array(array('status' => 'ok', 'data' => array('dummy' => 'value'))),
-      array(array('status' => 'ko', 'data' => array('message' => 'value'))),
     );
   }
 
@@ -143,7 +157,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   public function test_checkData_called_correctData_returnTrue($data)
   {
     $actual = $this->configureSut()->checkData($data);
-    $this->assertEquals(true, $actual);
+    $this->assertEquals(S2OResponse::STATUS_OK, $actual);
   }
 
 }
