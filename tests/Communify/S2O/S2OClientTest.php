@@ -34,18 +34,16 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
    */
   private $factory;
 
+  /**
+   * @var S2OClient
+   */
+  private $sut;
+
   public function setUp()
   {
     $this->factory = $this->getMock('Communify\S2O\S2OFactory');
     $this->connector = $this->getMock('Communify\S2O\S2OConnector');
-  }
-
-  /**
-   * @return S2OClient
-   */
-  private function configureSut()
-  {
-    return new S2OClient($this->factory, $this->connector);
+    $this->sut = new S2OClient($this->factory, $this->connector);
   }
 
   /**
@@ -124,7 +122,7 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
       ->with($credential)
       ->will($this->returnValue($expected));
 
-    return $this->configureSut()->login($ssid, $data);
+    return $this->sut->login($ssid, $data);
   }
 
 }

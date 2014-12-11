@@ -20,7 +20,7 @@ namespace Communify\S2O;
  * Class S2OMeta
  * @package Communify\S2O
  */
-class S2OMetasArray implements \Iterator
+class S2OMetasIterator implements \Iterator
 {
 
   /**
@@ -39,6 +39,8 @@ class S2OMetasArray implements \Iterator
   private $factory;
 
   /**
+   * Create S2OMetasIterator with dependency injection. Position and array with empty default values.
+   *
    * @param S2OFactory $factory
    * @param int $position
    * @param array $array
@@ -55,14 +57,18 @@ class S2OMetasArray implements \Iterator
   }
 
   /**
-   * @return S2OMetasArray
+   * Create S2OMetasIterator.
+   *
+   * @return S2OMetasIterator
    */
   public static function factory()
   {
-    return new S2OMetasArray();
+    return new S2OMetasIterator();
   }
 
   /**
+   * Push meta on S2OMetasIterator.
+   *
    * @param $name
    * @param $content
    */
@@ -73,7 +79,7 @@ class S2OMetasArray implements \Iterator
   }
 
   /**
-   *
+   * Go to position as zero.
    */
   public function rewind()
   {
@@ -81,6 +87,8 @@ class S2OMetasArray implements \Iterator
   }
 
   /**
+   * Get current meta element on S2OMetaIterator.
+   *
    * @return S2OMeta
    */
   public function current()
@@ -89,6 +97,8 @@ class S2OMetasArray implements \Iterator
   }
 
   /**
+   * Get current key on S2OMetasIterator.
+   *
    * @return int
    */
   public function key()
@@ -97,7 +107,7 @@ class S2OMetasArray implements \Iterator
   }
 
   /**
-   *
+   * Increments position.
    */
   public function next()
   {
@@ -105,6 +115,8 @@ class S2OMetasArray implements \Iterator
   }
 
   /**
+   * Check if is a valid position on S2OMetasIterator.
+   *
    * @return bool
    */
   public function valid()
@@ -113,6 +125,8 @@ class S2OMetasArray implements \Iterator
   }
 
   /**
+   * Set S2OMeta's array.
+   *
    * @param S2OMeta[] $array
    */
   public function setArray($array)

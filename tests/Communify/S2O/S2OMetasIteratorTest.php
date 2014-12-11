@@ -16,12 +16,12 @@
 
 namespace tests\Communify\S2O;
 
-use Communify\S2O\S2OMetasArray;
+use Communify\S2O\S2OMetasIterator;
 
 /**
- * @covers Communify\S2O\S2OMetasArray
+ * @covers Communify\S2O\S2OMetasIterator
  */
-class S2OMetasArrayTest extends \PHPUnit_Framework_TestCase
+class S2OMetasIteratorTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
@@ -30,14 +30,14 @@ class S2OMetasArrayTest extends \PHPUnit_Framework_TestCase
   private $factory;
 
   /**
-   * @var S2OMetasArray
+   * @var S2OMetasIterator
    */
   private $sut;
 
   public function setUp()
   {
     $this->factory = $this->getMock('Communify\S2O\S2OFactory');
-    $this->sut = new S2OMetasArray($this->factory);
+    $this->sut = new S2OMetasIterator($this->factory);
   }
 
   /**
@@ -48,8 +48,8 @@ class S2OMetasArrayTest extends \PHPUnit_Framework_TestCase
   */
   public function test_factory_called_noDependencyInjection_correctReturn()
   {
-    $actual = S2OMetasArray::factory();
-    $this->assertInstanceOf('Communify\S2O\S2OMetasArray', $actual);
+    $actual = S2OMetasIterator::factory();
+    $this->assertInstanceOf('Communify\S2O\S2OMetasIterator', $actual);
   }
 
   /**
@@ -91,11 +91,11 @@ class S2OMetasArrayTest extends \PHPUnit_Framework_TestCase
   */
   public function test_rewindAndNext_called__correct()
   {
-    $this->assertEquals(0, $this->sut->key());
+    $this->assertSame(0, $this->sut->key());
     $this->sut->next();
-    $this->assertEquals(1, $this->sut->key());
+    $this->assertSame(1, $this->sut->key());
     $this->sut->rewind();
-    $this->assertEquals(0, $this->sut->key());
+    $this->assertSame(0, $this->sut->key());
   }
 
   /**
@@ -106,7 +106,7 @@ class S2OMetasArrayTest extends \PHPUnit_Framework_TestCase
   */
   public function test_valid_called_noElements_correct()
   {
-    $this->assertEquals(false, $this->sut->valid());
+    $this->assertSame(false, $this->sut->valid());
   }
 
   /**
@@ -118,7 +118,7 @@ class S2OMetasArrayTest extends \PHPUnit_Framework_TestCase
   public function test_valid_called_oneElement_correct()
   {
     $this->sut->setArray(array('dummy array'));
-    $this->assertEquals(true, $this->sut->valid());
+    $this->assertSame(true, $this->sut->valid());
   }
   
 }

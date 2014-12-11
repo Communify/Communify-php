@@ -51,6 +51,8 @@ class S2OMeta
   );
 
   /**
+   * Create S2OMeta. Name and content are needed.
+   *
    * @param $name
    * @param $content
    */
@@ -61,6 +63,8 @@ class S2OMeta
   }
 
   /**
+   * Create S2OMeta.
+   *
    * @param $name
    * @param $content
    * @return S2OMeta
@@ -71,6 +75,8 @@ class S2OMeta
   }
 
   /**
+   * Return HTML string value with name and content values.
+   *
    * @return string
    */
   public function getHtml()
@@ -79,6 +85,8 @@ class S2OMeta
   }
 
   /**
+   * Get content string.
+   *
    * @return mixed
    */
   public function getContent()
@@ -87,6 +95,8 @@ class S2OMeta
   }
 
   /**
+   * Get name string.
+   *
    * @return mixed
    */
   public function getName()

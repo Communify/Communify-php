@@ -26,11 +26,13 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
-   * @return S2OValidator
+   * @var S2OValidator
    */
-  private function configureSut()
+  private $sut;
+
+  public function setUp()
   {
-    return new S2OValidator();
+    $this->sut = new S2OValidator();
   }
 
   /**
@@ -70,7 +72,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   */
   public function test_checkData_called_noStatus_throwException($data)
   {
-    $this->configureSut()->checkData($data);
+    $this->sut->checkData($data);
   }
 
   /**
@@ -84,7 +86,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   */
   public function test_checkData_called_invalidStatusValue_throwException()
   {
-    $this->configureSut()->checkData(array('status' => 'dummy value'));
+    $this->sut->checkData(array('status' => 'dummy value'));
   }
 
   /**
@@ -112,7 +114,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   */
   public function test_checkData_called_noData_throwException($data)
   {
-    $this->configureSut()->checkData($data);
+    $this->sut->checkData($data);
   }
 
   /**
@@ -138,7 +140,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   */
   public function test_checkData_called_koStatusWithoutMessage_throwException($data)
   {
-    $this->configureSut()->checkData($data);
+    $this->sut->checkData($data);
   }
 
   /**
@@ -152,7 +154,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
    */
   public function test_checkData_called_koStatus_throwException()
   {
-    $this->configureSut()->checkData(array('status' => 'ko', 'data' => array('message' => 'dummy message')));
+    $this->sut->checkData(array('status' => 'ko', 'data' => array('message' => 'dummy message')));
   }
 
   /**
@@ -176,7 +178,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   */
   public function test_checkData_called_correctData_returnTrue($data)
   {
-    $actual = $this->configureSut()->checkData($data);
+    $actual = $this->sut->checkData($data);
     $this->assertEquals(S2OResponse::STATUS_OK, $actual);
   }
 

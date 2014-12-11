@@ -25,11 +25,13 @@ class S2OFactoryTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
-   * @return S2OFactory
+   * @var S2OFactory
    */
-  private function configureSut()
+  private $sut;
+
+  public function setUp()
   {
-    return new S2OFactory();
+    $this->sut = new S2OFactory();
   }
 
   /**
@@ -53,7 +55,7 @@ class S2OFactoryTest extends \PHPUnit_Framework_TestCase
       array('connector', 'S2OConnector'),
       array('credential', 'S2OCredential'),
       array('response', 'S2OResponse'),
-      array('metasArray', 'S2OMetasArray'),
+      array('metasIterator', 'S2OMetasIterator'),
     );
   }
 
@@ -66,7 +68,7 @@ class S2OFactoryTest extends \PHPUnit_Framework_TestCase
   */
   public function test_s2OMethods_called__correctReturn($method, $class)
   {
-    $actual = $this->configureSut()->$method();
+    $actual = $this->sut->$method();
     $this->assertInstanceOf('Communify\S2O\\'.$class, $actual);
   }
 
@@ -78,7 +80,7 @@ class S2OFactoryTest extends \PHPUnit_Framework_TestCase
   */
   public function test_meta_called__correct()
   {
-    $actual = $this->configureSut()->meta('dummy name', 'dummy content');
+    $actual = $this->sut->meta('dummy name', 'dummy content');
     $this->assertInstanceOf('Communify\S2O\S2OMeta', $actual);
   }
 
@@ -90,7 +92,7 @@ class S2OFactoryTest extends \PHPUnit_Framework_TestCase
   */
   public function test_httpClient_called__correct()
   {
-    $actual = $this->configureSut()->httpClient();
+    $actual = $this->sut->httpClient();
     $this->assertInstanceOf('Guzzle\Http\Client', $actual);
   }
   

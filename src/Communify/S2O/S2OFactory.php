@@ -26,6 +26,8 @@ class S2OFactory
 {
 
   /**
+   * Create S2OFactory.
+   *
    * @return S2OFactory
    */
   public static function factory()
@@ -34,6 +36,8 @@ class S2OFactory
   }
 
   /**
+   * Create S2OConnector.
+   *
    * @return S2OConnector
    */
   public function connector()
@@ -42,6 +46,8 @@ class S2OFactory
   }
 
   /**
+   * Create S2OCredential.
+   *
    * @return S2OCredential
    * @throws S2OException
    */
@@ -51,6 +57,8 @@ class S2OFactory
   }
 
   /**
+   * Create S2OResponse.
+   *
    * @return S2OResponse
    */
   public function response()
@@ -59,14 +67,18 @@ class S2OFactory
   }
 
   /**
-   * @return S2OMetasArray
+   * Create S2OMetasIterator.
+   *
+   * @return S2OMetasIterator
    */
-  public function metasArray()
+  public function metasIterator()
   {
-    return S2OMetasArray::factory();
+    return S2OMetasIterator::factory();
   }
 
   /**
+   * Create S2OMeta.
+   *
    * @param $name
    * @param $content
    * @return S2OResponse
@@ -77,6 +89,8 @@ class S2OFactory
   }
 
   /**
+   * Create a Guzzle Http Client.
+   *
    * @return Client
    */
   public function httpClient()

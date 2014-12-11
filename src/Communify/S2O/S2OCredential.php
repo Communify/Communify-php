@@ -33,6 +33,9 @@ class S2OCredential
    */
   private $url;
 
+  /**
+   * Init url with production server. To test on develop add communify_url option.
+   */
   function __construct()
   {
     $this->url = 'https://communify.com/api';
@@ -40,6 +43,8 @@ class S2OCredential
 
 
   /**
+   * Create S2OCredential.
+   *
    * @return S2OCredential
    */
   public static function factory()
@@ -48,6 +53,8 @@ class S2OCredential
   }
 
   /**
+   * Create credential from option. On develop use communify_url and remove it from credential.
+   *
    * @param array $data
    * @throws S2OException
    */
@@ -65,6 +72,8 @@ class S2OCredential
   }
 
   /**
+   * Get json encoded data array.
+   *
    * @return string
    */
   public function get()
@@ -73,6 +82,8 @@ class S2OCredential
   }
 
   /**
+   * Get data array.
+   *
    * @return array
    */
   public function getData()
@@ -81,6 +92,8 @@ class S2OCredential
   }
 
   /**
+   * Get url string.
+   *
    * @return string
    */
   public function getUrl()

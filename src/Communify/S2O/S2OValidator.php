@@ -24,6 +24,8 @@ class S2OValidator
 {
 
   /**
+   * Create S2OValidator.
+   *
    * @return S2OValidator
    */
   public static function factory()
@@ -32,6 +34,9 @@ class S2OValidator
   }
 
   /**
+   * Check response data is valid and with all needed information.
+   * Throw exception with all no valid cases and with KO status.
+   *
    * @param $data
    * @return mixed
    * @throws S2OException

@@ -35,7 +35,7 @@ class S2OClient
 
 
   /**
-   * Call without params on production purposes. Can use factory static method.
+   * Call without params on production purposes. Use factory static method.
    *
    * @param S2OFactory $factory
    * @param S2OConnector $connector

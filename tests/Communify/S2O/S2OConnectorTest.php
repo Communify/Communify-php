@@ -34,18 +34,16 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
    */
   private $client;
 
+  /**
+   * @var S2OConnector
+   */
+  private $sut;
+
   public function setUp()
   {
     $this->factory = $this->getMock('Communify\S2O\S2OFactory');
     $this->client = $this->getMock('Guzzle\Http\Client');
-  }
-
-  /**
-   * @return S2OConnector
-   */
-  private function configureSut()
-  {
-    return new S2OConnector($this->factory, $this->client);
+    $this->sut = new S2OConnector($this->factory, $this->client);
   }
 
   /**
@@ -139,7 +137,7 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
     $s2OResponse->expects($timesSet)
       ->method('set')
       ->with($response);
-    return $this->configureSut()->login($credential);
+    return $this->sut->login($credential);
   }
 
 

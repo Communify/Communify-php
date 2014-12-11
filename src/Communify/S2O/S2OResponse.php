@@ -29,7 +29,7 @@ class S2OResponse
   const STATUS_KO   = 'ko';
 
   /**
-   * @var S2OMetasArray
+   * @var S2OMetasIterator
    */
   private $metas;
 
@@ -39,10 +39,18 @@ class S2OResponse
   private $validator;
 
   /**
-   * @param S2OValidator $validator
-   * @param S2OMetasArray $metas
+   * @var S2OEncryptor
    */
-  function __construct(S2OValidator $validator = null, S2OMetasArray $metas = null)
+  private $encryptor;
+
+  /**
+   * Create S2OValidator.
+   *
+   * @param S2OValidator $validator
+   * @param S2OMetasIterator $metas
+   * @param S2OEncryptor $encryptor
+   */
+  function __construct(S2OValidator $validator = null, S2OMetasIterator $metas = null, S2OEncryptor $encryptor = null)
   {
     if($validator == null)
     {
@@ -51,11 +59,17 @@ class S2OResponse
 
     if($metas == null)
     {
-      $metas = S2OMetasArray::factory();
+      $metas = S2OMetasIterator::factory();
+    }
+
+    if($encryptor == null)
+    {
+      $encryptor = S2OEncryptor::factory();
     }
 
     $this->metas = $metas;
     $this->validator = $validator;
+    $this->encryptor = $encryptor;
   }
 
   /**
@@ -69,6 +83,8 @@ class S2OResponse
   }
 
   /**
+   * Set Guzzle Response data to S2OResponse as elements on S2OMetasIterator.
+   *
    * @param Response $response
    */
   public function set(Response $response)
@@ -79,7 +95,8 @@ class S2OResponse
       $this->validator->checkData($data);
       foreach($data['data'] as $key => $value)
       {
-        $this->metas->push(S2OMeta::OK_BASE_NAME.$key, base64_encode(json_encode($value)));
+        $value64 = $this->encryptor->execute($value);
+        $this->metas->push(S2OMeta::OK_BASE_NAME.$key, $value64);
       }
     }
     catch(S2OException $e)
@@ -102,6 +119,8 @@ class S2OResponse
   }
 
   /**
+   * Get HTML metas string.
+   *
    * @return string
    */
   public function metas()
@@ -115,6 +134,8 @@ class S2OResponse
   }
 
   /**
+   * Set S2OMeta's array.
+   *
    * @param S2OMeta[] $metas
    */
   public function setMetas($metas)

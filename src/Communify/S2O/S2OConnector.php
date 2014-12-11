@@ -38,6 +38,8 @@ class S2OConnector
   private $client;
 
   /**
+   * Constructor with dependency injection.
+   *
    * @param S2OFactory $factory
    * @param Client $client
    */
@@ -56,6 +58,8 @@ class S2OConnector
   }
 
   /**
+   * Create a S2OConnector.
+   *
    * @return S2OConnector
    */
   public static function factory()
@@ -64,6 +68,8 @@ class S2OConnector
   }
 
   /**
+   * Login method. Call to Communify server and generate a response.
+   *
    * @param S2OCredential $credential
    * @return S2OResponse
    */
