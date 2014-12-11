@@ -1,15 +1,37 @@
 <?php
+/**
+ * Copyright 2014 Communify.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may not use this file except in compliance with the License.
+ * A copy of the License is located at
+ *
+ * http://dev.communify.com/apache2.0
+ *
+ * or in the "license" file accompanying this file. This file is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 
 namespace tests\Communify\S2O;
 
 use Communify\S2O\S2OCredential;
 
+/**
+ * @covers Communify\S2O\S2OCredential
+ */
 class S2OCredentialTest extends \PHPUnit_Framework_TestCase
 {
 
-  private function configureSut()
+  /**
+   * @var S2OCredential
+   */
+  private $sut;
+
+  public function setUp()
   {
-    return new S2OCredential();
+    $this->sut = new S2OCredential();
   }
 
   /**
@@ -47,8 +69,8 @@ class S2OCredentialTest extends \PHPUnit_Framework_TestCase
     $url = 'dummy communify url';
     $data = array('dummy' => 'value', 'communify_url' => $url);
     $expectedData = array('dummy' => 'value');
-    $sut = $this->configureAndExecuteSetWithDataAssert($expectedData, $data);
-    $this->assertEquals($sut->getUrl(), $url);
+    $this->configureAndExecuteSetWithDataAssert($expectedData, $data);
+    $this->assertEquals($this->sut->getUrl(), $url);
   }
 
   /**
@@ -61,13 +83,9 @@ class S2OCredentialTest extends \PHPUnit_Framework_TestCase
   {
     $ssid = 'dummy ssid';
     $data = array('dummy' => 'value');
-    $expected = array(
-      'ssid'  => $ssid,
-      'info'  => $data
-    );
-    $sut = $this->configureSut();
-    $sut->set($ssid, $data);
-    $this->assertEquals(json_encode($expected), $sut->get());
+    $expected = $this->generateExpectedData($ssid, $data);
+    $this->sut->set($ssid, $data);
+    $this->assertEquals(json_encode($expected), $this->sut->get());
   }
 
   /**
@@ -78,14 +96,23 @@ class S2OCredentialTest extends \PHPUnit_Framework_TestCase
   private function configureAndExecuteSetWithDataAssert($expectedData, $data)
   {
     $ssid = 'dummy ssid';
+    $expected = $this->generateExpectedData($ssid, $expectedData);
+    $this->sut->set($ssid, $data);
+    $this->assertEquals($expected, $this->sut->getData());
+  }
+
+  /**
+   * @param $ssid
+   * @param $data
+   * @return array
+   */
+  private function generateExpectedData($ssid, $data)
+  {
     $expected = array(
       'ssid' => $ssid,
-      'info' => $expectedData
+      'info' => $data
     );
-    $sut = $this->configureSut();
-    $sut->set($ssid, $data);
-    $this->assertEquals($expected, $sut->getData());
-    return $sut;
+    return $expected;
   }
 
 }
