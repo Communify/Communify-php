@@ -2,19 +2,31 @@
 
 namespace Communify\S2O;
 
-
+/**
+ * Class S2OClient
+ * @package Communify\S2O
+ */
 class S2OClient
 {
 
+  /**
+   * @var S2OConnector
+   */
   private $connector;
+
+  /**
+   * @var S2OFactory
+   */
   private $factory;
 
 
   /**
-   * @param S2OConnector $connector
+   * Call without params on production purposes. Can use factory static method.
+   *
    * @param S2OFactory $factory
+   * @param S2OConnector $connector
    */
-  function __construct(S2OConnector $connector = null, S2OFactory $factory = null)
+  function __construct(S2OFactory $factory = null, S2OConnector $connector = null)
   {
     if($connector == null)
     {
@@ -26,8 +38,8 @@ class S2OClient
       $factory = S2OFactory::factory();
     }
 
-    $this->connector = $connector;
     $this->factory = $factory;
+    $this->connector = $connector;
   }
 
   /**
@@ -41,13 +53,16 @@ class S2OClient
   }
 
   /**
+   * Makes single sign on possible.
+   *
+   * @param $ssid
    * @param $data
    * @return S2OResponse
-   * @throws S2OException
    */
-  public function login($data)
+  public function login($ssid, $data)
   {
-    $credential = $this->factory->credential($data);
+    $credential = $this->factory->credential($ssid, $data);
+    $credential->set($ssid, $data);
     return $this->connector->login($credential);
   }
 

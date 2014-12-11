@@ -2,13 +2,44 @@
 
 namespace Communify\S2O;
 
-
+/**
+ * Class S2OResponse
+ * @package Communify\S2O
+ */
 class S2OResponse
 {
-  function __construct()
-  {
-  }
 
+  const STATUS_OK   = 'ok';
+  const STATUS_KO   = 'ko';
+
+  /**
+   * @var S2OMeta[]
+   */
+  private $metas;
+
+  /**
+   * @var S2OFactory
+   */
+  private $factory;
+
+  private $validator;
+
+  function __construct(S2OFactory $factory = null, S2OValidator $validator = null)
+  {
+    if($factory == null)
+    {
+      $factory = S2OFactory::factory();
+    }
+
+    if($validator == null)
+    {
+      $validator = S2OValidator::factory();
+    }
+
+    $this->metas = array();
+    $this->factory = $factory;
+    $this->validator = $validator;
+  }
 
   /**
    * Create a S2OResponse.
@@ -21,12 +52,63 @@ class S2OResponse
   }
 
   /**
+   * @param $data
+   */
+  public function set($data)
+  {
+    try
+    {
+      $this->validator->checkData($data);
+      switch($data['status'])
+      {
+        case self::STATUS_KO:
+          $meta = $this->factory->meta(S2OMeta::KO_ERROR_NAME, $data['data']['message']);
+          $this->metas[] = $meta;
+          break;
+        case self::STATUS_OK:
+          foreach($data['data'] as $key => $value)
+          {
+            $meta = $this->factory->meta(S2OMeta::OK_BASE_NAME.$key, base64_encode(json_encode($value)));
+            $this->metas[] = $meta;
+          }
+          break;
+      }
+    }
+    catch(S2OException $e)
+    {
+      $error = $e->getMessage();
+      $meta = $this->factory->meta($error, S2OMeta::$MESSAGES[$error]);
+      $this->metas[] = $meta;
+    }
+  }
+
+  /**
    * @return string
    */
   public function metas()
   {
-    return '<meta name="communify-user-hash" content="a46b73f57665d177220abac99e85c81e"><meta name="communify-user-json" content=\'{"id":4,"name":"Joan","email":"joan@please.to","surname":"Català","bio":"","phone":"","address":"","postal_code":"","gender":0,"birth_date":"","facebook_id":"","image":"http://pitu-comunify.s3.amazonaws.com/users/4","country_id":0,"state_id":0,"banned":false,"language":{"id":1,"name":"english","locale":"en"},"allow_create_site":false,"ext":"","updated_at":1417100009,"backoffice":true}\'>';
+    $html = '';
+    foreach($this->metas as $meta)
+    {
+      $html .= $meta->getHtml();
+    }
+    return $html;
   }
 
+  /**
+   * @return S2OMeta[]
+   */
+  public function getMetas()
+  {
+    return $this->metas;
+  }
+
+  /**
+   * @param S2OMeta[] $metas
+   */
+  public function setMetas($metas)
+  {
+    $this->metas = $metas;
+  }
 
 } 

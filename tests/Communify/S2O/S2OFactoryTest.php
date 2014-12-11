@@ -25,42 +25,40 @@ class S2OFactoryTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * method: credential
-  * when: called
-  * with: setInnerCallError
-  * should: throwException
-   * @expectedException \Communify\S2O\S2OException
-   * @expectedExceptionMessage Data must be an array.
-   * @expectedExceptionCode 101
+  * dataProvider getS2OMethodsData
   */
-  public function test_credential_called_setInnerCallError_throwException()
+  public function getS2OMethodsData()
   {
-    $this->configureSut()->credential('dummy data');
+    return array(
+      array('connector', 'S2OConnector'),
+      array('credential', 'S2OCredential'),
+      array('response', 'S2OResponse'),
+    );
   }
 
   /**
-  * method: credential
+  * method: s2OMethods
   * when: called
-  * with: validData
+  * with:
   * should: correctReturn
+   * @dataProvider getS2OMethodsData
   */
-  public function test_credential_called_validData_correctReturn()
+  public function test_s2OMethods_called__correctReturn($method, $class)
   {
-    $actual = $this->configureSut()->credential(array('name' => 'dummy name', 'surname' => 'dummy surname', 'email' => 'dummy surname', 'ssid' => 'dummy ssid'));
-    $this->assertInstanceOf('Communify\S2O\S2OCredential', $actual);
+    $actual = $this->configureSut()->$method();
+    $this->assertInstanceOf('Communify\S2O\\'.$class, $actual);
   }
 
   /**
-  * method: response
+  * method: meta
   * when: called
   * with:
   * should: correct
   */
-  public function test_response_called__correct()
+  public function test_meta_called__correct()
   {
-    $json = 'dummy json';
-    $actual = $this->configureSut()->response($json);
-    $this->assertInstanceOf('Communify\S2O\S2OResponse', $actual);
+    $actual = $this->configureSut()->meta('dummy name', 'dummy content');
+    $this->assertInstanceOf('Communify\S2O\S2OMeta', $actual);
   }
 
   /**

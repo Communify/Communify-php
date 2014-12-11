@@ -7,8 +7,12 @@
  */
 
 namespace Communify\S2O;
+use Guzzle\Http\Client;
 
-
+/**
+ * Class S2OConnector
+ * @package Communify\S2O
+ */
 class S2OConnector
 {
 
@@ -17,13 +21,23 @@ class S2OConnector
    */
   private $factory;
 
-  function __construct(S2OFactory $factory = null)
+  /**
+   * @var \Guzzle\Http\Client
+   */
+  private $client;
+
+  function __construct(S2OFactory $factory = null, Client $client = null)
   {
     if($factory == null)
     {
       $factory = S2OFactory::factory();
     }
+    if($client == null)
+    {
+      $factory->httpClient();
+    }
     $this->factory = $factory;
+    $this->client = $client;
   }
 
   /**
@@ -40,10 +54,12 @@ class S2OConnector
    */
   public function login(S2OCredential $credential)
   {
-    $client = $this->factory->httpClient();
-    $res = $client->post('http://communify.com', $credential->get());
-    $json = $res->getBody();
-    return $this->factory->response($json);
+    $request = $this->client->createRequest('POST', 'http://10.0.1.126:80/api/user/authentication/login', null, $credential->get());
+    $response = $this->client->send($request);
+    $data = $response->json();
+    $s2OResponse = $this->factory->response();
+    $s2OResponse->set($data);
+    return $s2OResponse;
   }
 
 

@@ -26,7 +26,7 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
 
   private function configureSut()
   {
-    return new S2OClient($this->connector, $this->factory);
+    return new S2OClient($this->factory, $this->connector);
   }
 
   /**
@@ -47,37 +47,66 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
   public function getLoginData()
   {
     return array(
-      array($this->any(), $this->any()),
-      array($this->once(), $this->any()),
-      array($this->any(), $this->once()),
+      array($this->once(), $this->any(), $this->any()),
+      array($this->any(), $this->once(), $this->any()),
+      array($this->any(), $this->any(), $this->once()),
     );
   }
 
   /**
   * method: login
   * when: called
-  * with: correctInnerCalls
-  * should: correctReturn
+  * with:
+  * should: correctInnerCalls
    * @dataProvider getLoginData
   */
-  public function test_login_called_correctInnerCalls_correctReturn($timesCreate, $timesLogin)
+  public function test_login_called__correctInnerCalls($timesCreate, $timesSet, $timesLogin)
   {
+    $this->configureAndExecuteLogin($timesCreate, $timesSet, $timesLogin, 'dummy expected response');
+  }
+
+  /**
+   * method: login
+   * when: called
+   * with:
+   * should: correctReturn
+   */
+  public function test_login_called__correctReturn()
+  {
+    $expected = 'dummy expected response';
+    $actual = $this->configureAndExecuteLogin($this->any(), $this->any(), $this->any(), $expected);
+    $this->assertEquals($expected, $actual);
+  }
+
+  /**
+   * @param $timesCreate
+   * @param $timesSet
+   * @param $timesLogin
+   * @param $expected
+   * @return \Communify\S2O\S2OResponse
+   */
+  private function configureAndExecuteLogin($timesCreate, $timesSet, $timesLogin, $expected)
+  {
+    $ssid = 'dummy ssid';
     $data = array('dummy data');
     $credential = $this->getMock('Communify\S2O\S2OCredential');
-    $expected = 'dummy expected response';
+
 
     $this->factory->expects($timesCreate)
       ->method('credential')
-      ->with($data)
       ->will($this->returnValue($credential));
+
+    $credential->expects($timesSet)
+      ->method('set')
+      ->with($ssid, $data);
 
     $this->connector->expects($timesLogin)
       ->method('login')
       ->with($credential)
       ->will($this->returnValue($expected));
 
-    $actual = $this->configureSut()->login($data);
-    $this->assertEquals($expected, $actual);
+    $actual = $this->configureSut()->login($ssid, $data);
+    return $actual;
   }
-  
+
 }
