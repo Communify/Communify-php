@@ -20,15 +20,17 @@
          verbose="false">
 
     <testsuites>
-        <testsuite name="S2O">
-            <directory>Communify/S2O</directory>
+        <testsuite name="communify-php/Communify/C2">
+            <directory>./Communify/C2</directory>
+        </testsuite>
+        <testsuite name="communify-php/Communify/S2O">
+            <directory>./Communify/S2O</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <blacklist>
-            <directory suffix=".php">test</directory>
-            <directory suffix=".php">src</directory>
+            <directory>../vendor</directory>
         </blacklist>
     </filter>
 
