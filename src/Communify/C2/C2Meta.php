@@ -23,13 +23,6 @@ namespace Communify\C2;
 class C2Meta
 {
 
-  const STATUS_ERROR_NAME           = 'communify-error-json-status';
-  const STATUS_VALUE_ERROR_NAME     = 'communify-error-status-value';
-  const DATA_ERROR_NAME             = 'communify-error-json-data';
-  const MSG_ERROR_NAME              = 'communify-error-json-msg';
-  const KO_ERROR_NAME               = 'communify-error';
-  const OK_BASE_NAME                = 'communify-';
-
   /**
    * @var string
    */
@@ -39,6 +32,13 @@ class C2Meta
    * @var string
    */
   private $content;
+
+  const STATUS_ERROR_NAME           = 'communify-error-json-status';
+  const STATUS_VALUE_ERROR_NAME     = 'communify-error-status-value';
+  const DATA_ERROR_NAME             = 'communify-error-json-data';
+  const MSG_ERROR_NAME              = 'communify-error-json-msg';
+  const KO_ERROR_NAME               = 'communify-error';
+  const OK_BASE_NAME                = 'communify-';
 
   /**
    * @var array

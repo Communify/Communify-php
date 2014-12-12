@@ -16,12 +16,12 @@
 
 namespace tests\Communify\C2;
 
-use Communify\C2\C2MetasIterator;
+use Communify\C2\C2MetaIterator;
 
 /**
- * @covers Communify\C2\C2MetasIterator
+ * @covers Communify\C2\C2MetaIterator
  */
-class C2MetasIteratorTest extends \PHPUnit_Framework_TestCase
+class C2MetaIteratorTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
@@ -30,14 +30,20 @@ class C2MetasIteratorTest extends \PHPUnit_Framework_TestCase
   private $factory;
 
   /**
-   * @var C2MetasIterator
+   * @var \PHPUnit_Framework_MockObject_MockObject
+   */
+  private $encryptor;
+
+  /**
+   * @var C2MetaIterator
    */
   private $sut;
 
   public function setUp()
   {
     $this->factory = $this->getMock('Communify\C2\C2Factory');
-    $this->sut = new C2MetasIterator($this->factory);
+    $this->encryptor = $this->getMock('Communify\C2\C2Encryptor');
+    $this->sut = new C2MetaIterator($this->factory, $this->encryptor);
   }
 
   /**
@@ -48,8 +54,8 @@ class C2MetasIteratorTest extends \PHPUnit_Framework_TestCase
   */
   public function test_factory_called_noDependencyInjection_correctReturn()
   {
-    $actual = C2MetasIterator::factory();
-    $this->assertInstanceOf('Communify\C2\C2MetasIterator', $actual);
+    $actual = C2MetaIterator::factory();
+    $this->assertInstanceOf('Communify\C2\C2MetaIterator', $actual);
   }
 
   /**
@@ -66,20 +72,51 @@ class C2MetasIteratorTest extends \PHPUnit_Framework_TestCase
   /**
   * method: push
   * when: called
-  * with:
+  * with: cryptFalse
   * should: correct
    * @dataProvider getPushData
   */
-  public function test_push_called__correct($times)
+  public function test_push_called_cryptFalse_correct($times)
   {
     $name = 'dummy name';
     $content = 'dummy content';
-    $meta = $this->getMockBuilder('Communify\C2\C2Meta')->disableOriginalConstructor()->getMock();
-    $this->factory->expects($times)
-      ->method('meta')
-      ->with($name, $content)
-      ->will($this->returnValue($meta));
+    $meta = $this->configureCreateMeta($times, $name, $content);
+    $this->encryptor->expects($this->never())
+      ->method('execute');
     $this->sut->push($name, $content);
+    $this->assertEquals($this->sut->current(), $meta);
+  }
+
+  /**
+  * dataProvider getPushCryptTrueData
+  */
+  public function getPushCryptTrueData()
+  {
+    return array(
+      array($this->any(), $this->any()),
+      array($this->once(), $this->any()),
+      array($this->any(), $this->once()),
+    );
+  }
+
+  /**
+  * method: push
+  * when: called
+  * with: cryptTrue
+  * should: correct
+   * @dataProvider getPushCryptTrueData
+  */
+  public function test_push_called_cryptTrue_correct($timesCreateMeta, $timesExecute)
+  {
+    $name = 'dummy name';
+    $content = 'dummy content';
+    $content64 = 'dummy content 64';
+    $meta = $this->configureCreateMeta($timesCreateMeta, $name, $content64);
+    $this->encryptor->expects($timesExecute)
+      ->method('execute')
+      ->with($content)
+      ->will($this->returnValue($content64));
+    $this->sut->push($name, $content, true);
     $this->assertEquals($this->sut->current(), $meta);
   }
 
@@ -120,5 +157,21 @@ class C2MetasIteratorTest extends \PHPUnit_Framework_TestCase
     $this->sut->setArray(array('dummy array'));
     $this->assertSame(true, $this->sut->valid());
   }
-  
+
+  /**
+   * @param $times
+   * @param $name
+   * @param $content
+   * @return \PHPUnit_Framework_MockObject_MockObject
+   */
+  private function configureCreateMeta($times, $name, $content)
+  {
+    $meta = $this->getMockBuilder('Communify\C2\C2Meta')->disableOriginalConstructor()->getMock();
+    $this->factory->expects($times)
+      ->method('meta')
+      ->with($name, $content)
+      ->will($this->returnValue($meta));
+    return $meta;
+  }
+
 }

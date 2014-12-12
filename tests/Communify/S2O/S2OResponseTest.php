@@ -37,11 +37,6 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   private $metas;
 
   /**
-   * @var \PHPUnit_Framework_MockObject_MockObject
-   */
-  private $encryptor;
-
-  /**
    * @var \Communify\S2O\S2OResponse
    */
   private $sut;
@@ -49,9 +44,8 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   public function setUp()
   {
     $this->validator = $this->getMock('Communify\S2O\S2OValidator');
-    $this->metas = $this->getMock('Communify\C2\C2MetasIterator');
-    $this->encryptor = $this->getMock('Communify\C2\C2Encryptor');
-    $this->sut = new S2OResponse($this->validator, $this->metas, $this->encryptor);
+    $this->metas = $this->getMock('Communify\C2\C2MetaIterator');
+    $this->sut = new S2OResponse($this->validator, $this->metas);
   }
 
   /**
@@ -119,18 +113,14 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   {
     $key1 = 'dummy1';
     $value1 = 'value 1';
-    $value641 = 'value 64 1';
     $key2 = 'dummy2';
     $value2 = 'value 2';
-    $value642 = 'value 64 2';
     $data = array('data' => array($key1 => $value1, $key2 => $value2));
     $response = $this->getMockBuilder('Guzzle\Http\Message\Response')->disableOriginalConstructor()->getMock();
     $this->configureResponseJson($timesJson, $response, $data);
     $this->configureCheckData($timesCheckData, $data, $this->returnValue('dummy return check data'));
-    $this->configureEncryptorExecute($this->at(0), $value1, $value641);
-    $this->configureEncryptorExecute($this->at(1), $value2, $value642);
-    $this->configureMetasPush($this->at(0), C2Meta::OK_BASE_NAME.$key1, $value641);
-    $this->configureMetasPush($this->at(1), C2Meta::OK_BASE_NAME.$key2, $value642);
+    $this->configureMetasPush($this->at(0), C2Meta::OK_BASE_NAME.$key1, $value1);
+    $this->configureMetasPush($this->at(1), C2Meta::OK_BASE_NAME.$key2, $value2);
     $this->sut->set($response);
   }
 
@@ -322,19 +312,6 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
     $this->configureCheckData($timesCheckData, $data, $this->throwException($exception));
     $this->configureMetasPush($timesPush, $error, $msg);
     $this->sut->set($response);
-  }
-
-  /**
-   * @param $times
-   * @param $value1
-   * @param $value641
-   */
-  private function configureEncryptorExecute($times, $value1, $value641)
-  {
-    $this->encryptor->expects($times)
-      ->method('execute')
-      ->with($value1)
-      ->will($this->returnValue($value641));
   }
 
 }

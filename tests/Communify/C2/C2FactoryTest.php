@@ -53,7 +53,8 @@ class C2FactoryTest extends \PHPUnit_Framework_TestCase
   {
     return array(
       array('credential', 'C2Credential'),
-      array('metasIterator', 'C2MetasIterator'),
+      array('encryptor', 'C2Encryptor'),
+      array('metaIterator', 'C2MetaIterator'),
     );
   }
 

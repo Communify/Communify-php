@@ -44,13 +44,21 @@ class C2Factory
   }
 
   /**
-   * Create C2MetasIterator.
-   *
-   * @return C2MetasIterator
+   * @return C2Encryptor
    */
-  public function metasIterator()
+  public function encryptor()
   {
-    return C2MetasIterator::factory();
+    return C2Encryptor::factory();
+  }
+
+  /**
+   * Create C2MetaIterator.
+   *
+   * @return C2MetaIterator
+   */
+  public function metaIterator()
+  {
+    return C2MetaIterator::factory();
   }
 
   /**

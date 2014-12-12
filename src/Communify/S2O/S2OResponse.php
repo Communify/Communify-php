@@ -16,9 +16,8 @@
 
 namespace Communify\S2O;
 
-use Communify\C2\C2Encryptor;
 use Communify\C2\C2Meta;
-use Communify\C2\C2MetasIterator;
+use Communify\C2\C2MetaIterator;
 use Guzzle\Http\Message\Response;
 
 /**
@@ -32,7 +31,7 @@ class S2OResponse
   const STATUS_KO   = 'ko';
 
   /**
-   * @var C2MetasIterator
+   * @var C2MetaIterator
    */
   private $metas;
 
@@ -42,18 +41,12 @@ class S2OResponse
   private $validator;
 
   /**
-   * @var C2Encryptor
-   */
-  private $encryptor;
-
-  /**
    * Create S2OValidator.
    *
    * @param S2OValidator $validator
-   * @param C2MetasIterator $metas
-   * @param C2Encryptor $encryptor
+   * @param C2MetaIterator $metas
    */
-  function __construct(S2OValidator $validator = null, C2MetasIterator $metas = null, C2Encryptor $encryptor = null)
+  function __construct(S2OValidator $validator = null, C2MetaIterator $metas = null)
   {
     if($validator == null)
     {
@@ -62,17 +55,11 @@ class S2OResponse
 
     if($metas == null)
     {
-      $metas = C2MetasIterator::factory();
-    }
-
-    if($encryptor == null)
-    {
-      $encryptor = C2Encryptor::factory();
+      $metas = C2MetaIterator::factory();
     }
 
     $this->metas = $metas;
     $this->validator = $validator;
-    $this->encryptor = $encryptor;
   }
 
   /**
@@ -86,7 +73,7 @@ class S2OResponse
   }
 
   /**
-   * Set Guzzle Response data to S2OResponse as elements on S2OMetasIterator.
+   * Set Guzzle Response data to S2OResponse as elements on S2OMetaIterator.
    *
    * @param Response $response
    */
@@ -98,8 +85,7 @@ class S2OResponse
       $this->validator->checkData($data);
       foreach($data['data'] as $key => $value)
       {
-        $value64 = $this->encryptor->execute($value);
-        $this->metas->push(C2Meta::OK_BASE_NAME.$key, $value64);
+        $this->metas->push(C2Meta::OK_BASE_NAME.$key, $value, true);
       }
     }
     catch(S2OException $e)

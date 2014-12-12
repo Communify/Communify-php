@@ -20,7 +20,7 @@ namespace Communify\C2;
  * Class C2Meta
  * @package Communify\C2
  */
-class C2MetasIterator implements \Iterator
+class C2MetaIterator implements \Iterator
 {
 
   /**
@@ -39,41 +39,61 @@ class C2MetasIterator implements \Iterator
   private $factory;
 
   /**
-   * Create C2MetasIterator with dependency injection. Position and array with empty default values.
+   * @var C2Encryptor
+   */
+  private $encryptor;
+
+  /**
+   * Create C2MetaIterator with dependency injection. Position and array with empty default values.
    *
    * @param C2Factory $factory
+   * @param C2Encryptor $encryptor
    * @param int $position
    * @param array $array
    */
-  function __construct(C2Factory $factory = null, $position = 0, $array = array())
+  function __construct(C2Factory $factory = null, C2Encryptor $encryptor = null, $position = 0, $array = array())
   {
     if($factory == null)
     {
       $factory = C2Factory::factory();
     }
+
+    if($encryptor == null)
+    {
+      $encryptor = C2Encryptor::factory();
+    }
+
     $this->position = $position;
     $this->array = $array;
     $this->factory = $factory;
+    $this->encryptor = $encryptor;
   }
 
   /**
-   * Create C2MetasIterator.
+   * Create C2MetaIterator.
    *
-   * @return C2MetasIterator
+   * @return C2MetaIterator
    */
   public static function factory()
   {
-    return new C2MetasIterator();
+    return new C2MetaIterator();
   }
 
   /**
-   * Push meta on C2MetasIterator.
+   * Push meta on C2MetaIterator.
    *
    * @param $name
    * @param $content
+   * @param bool $crypt
    */
-  public function push($name, $content)
+  public function push($name, $content, $crypt = false)
   {
+
+    if($crypt)
+    {
+      $content = $this->encryptor->execute($content);
+    }
+
     $meta = $this->factory->meta($name, $content);
     $this->array[] = $meta;
   }
@@ -97,7 +117,7 @@ class C2MetasIterator implements \Iterator
   }
 
   /**
-   * Get current key on C2MetasIterator.
+   * Get current key on C2MetaIterator.
    *
    * @return int
    */
@@ -115,7 +135,7 @@ class C2MetasIterator implements \Iterator
   }
 
   /**
-   * Check if is a valid position on C2MetasIterator.
+   * Check if is a valid position on C2MetaIterator.
    *
    * @return bool
    */
