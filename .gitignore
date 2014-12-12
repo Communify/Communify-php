@@ -43,3 +43,6 @@ vendor
 composer.phar
 
 composer.lock
+
+codecoverage/*
+bin/*
