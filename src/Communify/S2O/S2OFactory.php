@@ -17,7 +17,6 @@
 namespace Communify\S2O;
 
 use Communify\C2\C2Factory;
-use Guzzle\Http\Client;
 
 /**
  * Class S2OFactory
@@ -25,16 +24,6 @@ use Guzzle\Http\Client;
  */
 class S2OFactory extends C2Factory
 {
-
-  /**
-   * Create S2OFactory.
-   *
-   * @return S2OFactory
-   */
-  public static function factory()
-  {
-    return new S2OFactory();
-  }
 
   /**
    * Create S2OConnector.
@@ -54,16 +43,6 @@ class S2OFactory extends C2Factory
   public function response()
   {
     return S2OResponse::factory();
-  }
-
-  /**
-   * Create a Guzzle Http Client.
-   *
-   * @return Client
-   */
-  public function httpClient()
-  {
-    return new Client();
   }
 
 }

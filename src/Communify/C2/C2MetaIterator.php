@@ -15,12 +15,13 @@
  */
 
 namespace Communify\C2;
+use Communify\C2\abstracts\C2AbstractFactorizable;
 
 /**
  * Class C2Meta
  * @package Communify\C2
  */
-class C2MetaIterator implements \Iterator
+class C2MetaIterator extends C2AbstractFactorizable implements \Iterator
 {
 
   /**
@@ -67,16 +68,6 @@ class C2MetaIterator implements \Iterator
     $this->array = $array;
     $this->factory = $factory;
     $this->encryptor = $encryptor;
-  }
-
-  /**
-   * Create C2MetaIterator.
-   *
-   * @return C2MetaIterator
-   */
-  public static function factory()
-  {
-    return new C2MetaIterator();
   }
 
   /**

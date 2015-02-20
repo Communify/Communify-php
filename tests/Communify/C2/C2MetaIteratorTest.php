@@ -47,15 +47,18 @@ class C2MetaIteratorTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * method: factory
+  * method: constructor
   * when: called
-  * with:
-  * should: correctReturn
+  * with: noParameters
+  * should: defaultObjectAttrs
   */
-  public function test_factory_called_noDependencyInjection_correctReturn()
+  public function test_constructor_called_noParameters_defaultObjectAttrs()
   {
-    $actual = C2MetaIterator::factory();
-    $this->assertInstanceOf('Communify\C2\C2MetaIterator', $actual);
+    $sut = new C2MetaIterator();
+    $this->assertAttributeInstanceOf('Communify\C2\C2Factory', 'factory', $sut);
+    $this->assertAttributeInstanceOf('Communify\C2\C2Encryptor', 'encryptor', $sut);
+    $this->assertAttributeEquals(0, 'position', $sut);
+    $this->assertAttributeEquals(array(), 'array', $sut);
   }
 
   /**

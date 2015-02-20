@@ -35,18 +35,6 @@ class C2CredentialTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * method: factory
-  * when: called
-  * with: noDependencyInjection
-  * should: correctReturn
-  */
-  public function test_factory_called_noDependencyInjection_correctReturn()
-  {
-    $actual = C2Credential::factory();
-    $this->assertInstanceOf('Communify\C2\C2Credential', $actual);
-  }
-
-  /**
   * method: set
   * when: called
   * with: noCommunifyUrl

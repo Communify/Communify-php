@@ -16,11 +16,13 @@
 
 namespace Communify\S2O;
 
+use Communify\C2\abstracts\C2AbstractFactorizable;
+
 /**
  * Class S2OClient
  * @package Communify\S2O
  */
-class S2OClient
+class S2OClient extends C2AbstractFactorizable
 {
 
   /**
@@ -54,16 +56,6 @@ class S2OClient
 
     $this->factory = $factory;
     $this->connector = $connector;
-  }
-
-  /**
-   * Create a S2OClient.
-   *
-   * @return S2OClient
-   */
-  public static function factory()
-  {
-    return new S2OClient();
   }
 
   /**

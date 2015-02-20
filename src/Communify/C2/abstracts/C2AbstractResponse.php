@@ -13,26 +13,14 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+namespace Communify\C2\abstracts;
 
-namespace Communify\C2;
-use Communify\C2\abstracts\C2AbstractFactorizable;
+use Communify\C2\interfaces\IC2Response;
+use Guzzle\Http\Message\Response;
 
-/**
- * Class C2Encryptor
- * @package Communify\C2
- */
-class C2Encryptor extends C2AbstractFactorizable
+abstract class C2AbstractResponse extends C2AbstractFactorizable implements IC2Response
 {
 
-  /**
-   * Return a base64 encoded from a json encoded value.
-   *
-   * @param $value
-   * @return string
-   */
-  public function execute($value)
-  {
-    return base64_encode(json_encode($value));
-  }
+  abstract public function set(Response $response);
 
-} 
+}

@@ -15,24 +15,15 @@
  */
 
 namespace Communify\S2O;
+use Communify\C2\abstracts\C2AbstractFactorizable;
 use Communify\C2\C2Meta;
 
 /**
  * Class S2OMeta
  * @package Communify\S2O
  */
-class S2OValidator
+class S2OValidator extends C2AbstractFactorizable
 {
-
-  /**
-   * Create S2OValidator.
-   *
-   * @return S2OValidator
-   */
-  public static function factory()
-  {
-    return new S2OValidator();
-  }
 
   /**
    * Check response data is valid and with all needed information.

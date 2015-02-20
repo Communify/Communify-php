@@ -14,25 +14,17 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\C2;
+namespace Communify\SEO;
+
 use Communify\C2\abstracts\C2AbstractFactorizable;
 
 /**
- * Class C2Encryptor
- * @package Communify\C2
+ * Class S2OClient
+ * @package Communify\S2O
  */
-class C2Encryptor extends C2AbstractFactorizable
+class SEOClient extends C2AbstractFactorizable
 {
 
-  /**
-   * Return a base64 encoded from a json encoded value.
-   *
-   * @param $value
-   * @return string
-   */
-  public function execute($value)
-  {
-    return base64_encode(json_encode($value));
-  }
+
 
 } 

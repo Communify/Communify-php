@@ -13,26 +13,32 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+namespace tests\Communify\C2\abstracts;
 
-namespace Communify\C2;
-use Communify\C2\abstracts\C2AbstractFactorizable;
+use Communify\C2\abstracts\C2AbstractFactory;
+
+class DummyFactory extends C2AbstractFactory
+{
+
+}
 
 /**
- * Class C2Encryptor
- * @package Communify\C2
+ * @covers \Communify\C2\abstracts\C2AbstractFactory
  */
-class C2Encryptor extends C2AbstractFactorizable
+class C2AbstractFactoryTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
-   * Return a base64 encoded from a json encoded value.
-   *
-   * @param $value
-   * @return string
-   */
-  public function execute($value)
+  * method: httpClient
+  * when: called
+  * with:
+  * should: correct
+  */
+  public function test_httpClient_called__correct()
   {
-    return base64_encode(json_encode($value));
+    $sut = new DummyFactory();
+    $actual = $sut->httpClient();
+    $this->assertEquals(get_class($actual), 'Guzzle\Http\Client');
   }
 
-} 
+}

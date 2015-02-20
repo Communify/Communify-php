@@ -36,18 +36,6 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * method: factory
-  * when: called
-  * with:
-  * should: correctReturn
-  */
-  public function test_factory_called__correctReturn()
-  {
-    $actual = S2OValidator::factory();
-    $this->assertInstanceOf('Communify\S2O\S2OValidator', $actual);
-  }
-
-  /**
   * dataProvider getCheckDataNoStatusThrowExceptionData
   */
   public function getCheckDataNoStatusThrowExceptionData()

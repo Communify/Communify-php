@@ -14,25 +14,16 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\C2;
-use Communify\C2\abstracts\C2AbstractFactorizable;
+namespace Communify\C2\interfaces;
 
-/**
- * Class C2Encryptor
- * @package Communify\C2
- */
-class C2Encryptor extends C2AbstractFactorizable
+use Guzzle\Http\Message\Response;
+
+interface IC2Response
 {
 
-  /**
-   * Return a base64 encoded from a json encoded value.
-   *
-   * @param $value
-   * @return string
-   */
-  public function execute($value)
-  {
-    return base64_encode(json_encode($value));
-  }
+  const STATUS_OK   = 'ok';
+  const STATUS_KO   = 'ko';
 
-} 
+  public function set(Response $response);
+
+}

@@ -16,6 +16,7 @@
 
 namespace Communify\S2O;
 
+use Communify\C2\abstracts\C2AbstractResponse;
 use Communify\C2\C2Meta;
 use Communify\C2\C2MetaIterator;
 use Guzzle\Http\Message\Response;
@@ -24,11 +25,8 @@ use Guzzle\Http\Message\Response;
  * Class S2OResponse
  * @package Communify\S2O
  */
-class S2OResponse
+class S2OResponse extends C2AbstractResponse
 {
-
-  const STATUS_OK   = 'ok';
-  const STATUS_KO   = 'ko';
 
   /**
    * @var C2MetaIterator
@@ -58,18 +56,8 @@ class S2OResponse
       $metas = C2MetaIterator::factory();
     }
 
-    $this->metas = $metas;
     $this->validator = $validator;
-  }
-
-  /**
-   * Create a S2OResponse.
-   *
-   * @return S2OResponse
-   */
-  public static function factory()
-  {
-    return new S2OResponse();
+    $this->metas = $metas;
   }
 
   /**

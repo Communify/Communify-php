@@ -13,26 +13,38 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+namespace Communify\C2\abstracts;
 
-namespace Communify\C2;
-use Communify\C2\abstracts\C2AbstractFactorizable;
+use Communify\C2\interfaces\IC2Factory;
+use Guzzle\Http\Client;
 
-/**
- * Class C2Encryptor
- * @package Communify\C2
- */
-class C2Encryptor extends C2AbstractFactorizable
+abstract class C2AbstractConnector extends C2AbstractFactorizable
 {
 
   /**
-   * Return a base64 encoded from a json encoded value.
-   *
-   * @param $value
-   * @return string
+   * @var IC2Factory
    */
-  public function execute($value)
+  protected $factory;
+
+  /**
+   * @var \Guzzle\Http\Client
+   */
+  protected $client;
+
+  /**
+   * Constructor with dependency injection.
+   *
+   * @param IC2Factory $factory
+   * @param Client $client
+   */
+  function __construct(IC2Factory $factory, Client $client = null)
   {
-    return base64_encode(json_encode($value));
+    if($client == null)
+    {
+      $client = $factory->httpClient();
+    }
+    $this->factory = $factory;
+    $this->client = $client;
   }
 
-} 
+}

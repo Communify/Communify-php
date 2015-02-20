@@ -13,26 +13,31 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+namespace tests\Communify\C2\abstracts;
 
-namespace Communify\C2;
 use Communify\C2\abstracts\C2AbstractFactorizable;
 
+class DummyFactorizable extends C2AbstractFactorizable
+{
+
+}
+
 /**
- * Class C2Encryptor
- * @package Communify\C2
+ * @covers \Communify\C2\abstracts\C2AbstractFactorizable
  */
-class C2Encryptor extends C2AbstractFactorizable
+class C2AbstractFactorizableTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
-   * Return a base64 encoded from a json encoded value.
-   *
-   * @param $value
-   * @return string
-   */
-  public function execute($value)
+  * method: factory
+  * when: called
+  * with:
+  * should: correct
+  */
+  public function test_factory_called__correct()
   {
-    return base64_encode(json_encode($value));
+    $actual = DummyFactorizable::factory();
+    $this->assertEquals(get_class($actual), 'tests\Communify\C2\abstracts\DummyFactorizable');
   }
 
-} 
+}

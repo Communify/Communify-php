@@ -35,18 +35,6 @@ class C2FactoryTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * method: factory
-  * when: called
-  * with: noDependencyInjection
-  * should: correctReturn
-  */
-  public function test_factory_called_noDependencyInjection_correctReturn()
-  {
-    $actual = C2Factory::factory();
-    $this->assertInstanceOf('Communify\C2\C2Factory', $actual);
-  }
-
-  /**
   * dataProvider getC2MethodsData
   */
   public function getC2MethodsData()

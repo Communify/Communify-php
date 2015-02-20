@@ -16,27 +16,19 @@
 
 namespace Communify\S2O;
 
+use Communify\C2\abstracts\C2AbstractConnector;
 use Communify\C2\C2Credential;
 use Guzzle\Http\Client;
 
 /**
  * Class S2OConnector
  * @package Communify\S2O
+ * @property S2OFactory $factory
  */
-class S2OConnector
+class S2OConnector extends C2AbstractConnector
 {
 
   const SINGLE_SIGN_ON_API_METHOD = 'user/authentication/singleSignOnLogin';
-
-  /**
-   * @var S2OFactory
-   */
-  private $factory;
-
-  /**
-   * @var \Guzzle\Http\Client
-   */
-  private $client;
 
   /**
    * Constructor with dependency injection.
@@ -50,22 +42,8 @@ class S2OConnector
     {
       $factory = S2OFactory::factory();
     }
-    if($client == null)
-    {
-      $client = $factory->httpClient();
-    }
-    $this->factory = $factory;
-    $this->client = $client;
-  }
 
-  /**
-   * Create a S2OConnector.
-   *
-   * @return S2OConnector
-   */
-  public static function factory()
-  {
-    return new S2OConnector();
+    parent::__construct($factory, $client);
   }
 
   /**

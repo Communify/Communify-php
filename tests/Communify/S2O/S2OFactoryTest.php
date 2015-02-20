@@ -35,18 +35,6 @@ class S2OFactoryTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * method: factory
-  * when: called
-  * with: noDependencyInjection
-  * should: correctReturn
-  */
-  public function test_factory_called_noDependencyInjection_correctReturn()
-  {
-    $actual = S2OFactory::factory();
-    $this->assertInstanceOf('Communify\S2O\S2OFactory', $actual);
-  }
-
-  /**
   * dataProvider getS2OMethodsData
   */
   public function getS2OMethodsData()

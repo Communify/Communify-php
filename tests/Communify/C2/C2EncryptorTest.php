@@ -35,18 +35,6 @@ class C2EncryptorTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * method: factory
-  * when: called
-  * with:
-  * should: correctReturn
-  */
-  public function test_factory_called_noDependencyInjection_correctReturn()
-  {
-    $actual = C2Encryptor::factory();
-    $this->assertInstanceOf('Communify\C2\C2Encryptor', $actual);
-  }
-
-  /**
   * dataProvider getExecuteData
   */
   public function getExecuteData()

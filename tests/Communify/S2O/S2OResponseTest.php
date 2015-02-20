@@ -49,15 +49,16 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * method: factory
+  * method: constructor
   * when: called
-  * with: noDependencyInjection
-  * should: correctReturn
+  * with: noParameters
+  * should: defaultAttrObject
   */
-  public function test_factory_called_noDependencyInjection_correctReturn()
+  public function test_constructor_called_noParameters_defaultAttrObject()
   {
-    $actual = S2OResponse::factory();
-    $this->assertInstanceOf('Communify\S2O\S2OResponse', $actual);
+    $sut = new S2OResponse();
+    $this->assertAttributeInstanceOf('Communify\S2O\S2OValidator', 'validator', $sut);
+    $this->assertAttributeInstanceOf('Communify\C2\C2MetaIterator', 'metas', $sut);
   }
 
   /**

@@ -15,12 +15,13 @@
  */
 
 namespace Communify\C2;
+use Communify\C2\abstracts\C2AbstractFactorizable;
 
 /**
  * Class C2Credential
  * @package Communify\C2
  */
-class C2Credential
+class C2Credential extends C2AbstractFactorizable
 {
 
   /**
@@ -39,17 +40,6 @@ class C2Credential
   function __construct()
   {
     $this->url = 'https://communify.com/api';
-  }
-
-
-  /**
-   * Create C2Credential.
-   *
-   * @return C2Credential
-   */
-  public static function factory()
-  {
-    return new C2Credential();
   }
 
   /**

@@ -47,15 +47,16 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * method: factory
-   * when: called
-   * with: noDependencyInjection
-   * should: correctReturn
-   */
-  public function test_factory_called_noDependencyInjection_correctReturn()
+  * method: constructor
+  * when: called
+  * with: noParameters
+  * should: defaultObjectAttrs
+  */
+  public function test_constructor_called_noParameters_defaultObjectAttrs()
   {
-    $actual = S2OClient::factory();
-    $this->assertInstanceOf('Communify\S2O\S2OClient', $actual);
+    $sut = new S2OClient();
+    $this->assertAttributeInstanceOf('Communify\S2O\S2OFactory', 'factory', $sut);
+    $this->assertAttributeInstanceOf('Communify\S2O\S2OConnector', 'connector', $sut);
   }
 
   /**

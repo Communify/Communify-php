@@ -47,15 +47,16 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * method: factory
+  * method: constructor
   * when: called
-  * with: noDependencyInjection
-  * should: correctReturn
+  * with: noParameters
+  * should: defaultAttrObjects
   */
-  public function test_factory_called_noDependencyInjection_correctReturn()
+  public function test_constructor_called_noParameters_defaultAttrObjects()
   {
-    $actual = S2OConnector::factory();
-    $this->assertInstanceOf('Communify\S2O\S2OConnector', $actual);
+    $sut = new S2OConnector();
+    $this->assertAttributeInstanceOf('Communify\C2\C2Factory', 'factory', $sut);
+    $this->assertAttributeInstanceOf('Guzzle\Http\Client', 'client', $sut);
   }
 
   /**

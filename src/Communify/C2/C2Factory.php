@@ -16,22 +16,14 @@
 
 namespace Communify\C2;
 
+use Communify\C2\abstracts\C2AbstractFactory;
+
 /**
  * Class S2OFactory
  * @package Communify\S2O
  */
-class C2Factory
+class C2Factory extends C2AbstractFactory
 {
-
-  /**
-   * Create C2Factory.
-   *
-   * @return C2Factory
-   */
-  public static function factory()
-  {
-    return new C2Factory();
-  }
 
   /**
    * Create C2Credential.
