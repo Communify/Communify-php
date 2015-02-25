@@ -16,25 +16,14 @@
 
 namespace Communify\S2O;
 
-use Communify\C2\abstracts\C2AbstractFactorizable;
+use Communify\C2\abstracts\C2AbstractClient;
 
 /**
  * Class S2OClient
  * @package Communify\S2O
  */
-class S2OClient extends C2AbstractFactorizable
+class S2OClient extends C2AbstractClient
 {
-
-  /**
-   * @var S2OConnector
-   */
-  private $connector;
-
-  /**
-   * @var S2OFactory
-   */
-  private $factory;
-
 
   /**
    * Call without params on production purposes. Use factory static method.
@@ -54,8 +43,7 @@ class S2OClient extends C2AbstractFactorizable
       $factory = S2OFactory::factory();
     }
 
-    $this->factory = $factory;
-    $this->connector = $connector;
+    parent::__construct($factory, $connector);
   }
 
   /**
@@ -67,8 +55,9 @@ class S2OClient extends C2AbstractFactorizable
    */
   public function login($ssid, $data)
   {
+    $info = array( 'info' => $data);
     $credential = $this->factory->credential();
-    $credential->set($ssid, $data);
+    $credential->set($ssid, $info);
     return $this->connector->login($credential);
   }
 

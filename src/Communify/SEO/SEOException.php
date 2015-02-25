@@ -14,18 +14,15 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\C2\interfaces;
+namespace Communify\SEO;
+
+use Communify\C2\C2Exception;
 
 /**
- * Interface IC2Factorizable
- * @package Communify\C2\interfaces
+ * Class S2OException
+ * @package Communify\S2O
  */
-interface IC2Factorizable
+class SEOException extends C2Exception
 {
-
-  /**
-   * @return IC2Factorizable
-   */
-  public static function factory();
 
 }

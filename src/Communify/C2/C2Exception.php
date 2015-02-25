@@ -14,18 +14,16 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\C2\interfaces;
+namespace Communify\C2;
+
+use Communify\C2\interfaces\IC2Exception;
 
 /**
- * Interface IC2Factorizable
- * @package Communify\C2\interfaces
+ * Class C2Exception
+ * @package Communify\C2
  */
-interface IC2Factorizable
+class C2Exception extends \Exception implements IC2Exception
 {
 
-  /**
-   * @return IC2Factorizable
-   */
-  public static function factory();
 
 }

@@ -15,12 +15,36 @@
  */
 namespace Communify\C2\abstracts;
 
+use Communify\C2\C2Validator;
 use Communify\C2\interfaces\IC2Response;
 use Guzzle\Http\Message\Response;
 
 abstract class C2AbstractResponse extends C2AbstractFactorizable implements IC2Response
 {
 
+  /**
+   * @var C2Validator
+   */
+  protected $validator;
+
+  /**
+   * Create S2OValidator.
+   *
+   * @param C2Validator $validator
+   */
+  function __construct(C2Validator $validator = null)
+  {
+    if($validator == null)
+    {
+      $validator = C2Validator::factory();
+    }
+
+    $this->validator = $validator;
+  }
+
+  /**
+   * @param Response $response
+   */
   abstract public function set(Response $response);
 
 }

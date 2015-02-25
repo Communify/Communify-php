@@ -15,6 +15,7 @@
  */
 
 namespace Communify\C2;
+use Communify\C2\interfaces\IC2Exception;
 
 /**
  * Class C2Meta
@@ -33,21 +34,16 @@ class C2Meta
    */
   private $content;
 
-  const STATUS_ERROR_NAME           = 'communify-error-json-status';
-  const STATUS_VALUE_ERROR_NAME     = 'communify-error-status-value';
-  const DATA_ERROR_NAME             = 'communify-error-json-data';
-  const MSG_ERROR_NAME              = 'communify-error-json-msg';
-  const KO_ERROR_NAME               = 'communify-error';
-  const OK_BASE_NAME                = 'communify-';
+  const OK_BASE_NAME = 'communify-';
 
   /**
    * @var array
    */
   public static $MESSAGES = array(
-    self::STATUS_ERROR_NAME         => 'Invalid response structure. Status needed.',
-    self::STATUS_VALUE_ERROR_NAME   => 'Invalid status value',
-    self::DATA_ERROR_NAME           => 'Invalid response structure. Data needed.',
-    self::MSG_ERROR_NAME            => 'Invalid response structure. Message needed.',
+    IC2Exception::STATUS_ERROR_NAME         => IC2Exception::STATUS_ERROR_MSG,
+    IC2Exception::STATUS_VALUE_ERROR_NAME   => IC2Exception::STATUS_VALUE_ERROR_MSG,
+    IC2Exception::DATA_ERROR_NAME           => IC2Exception::DATA_ERROR_MSG,
+    IC2Exception::MSG_ERROR_NAME            => IC2Exception::MSG_ERROR_MSG,
   );
 
   /**

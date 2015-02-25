@@ -16,14 +16,13 @@
 
 namespace Communify\S2O;
 
+use Communify\C2\C2Exception;
+
 /**
  * Class S2OException
  * @package Communify\S2O
  */
-class S2OException extends \Exception
+class S2OException extends C2Exception
 {
 
-  const KO_ERROR = 101;
-  const PARAM_ERROR = 102;
-
-} 
+}

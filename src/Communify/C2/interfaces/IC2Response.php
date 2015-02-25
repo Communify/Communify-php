@@ -18,6 +18,10 @@ namespace Communify\C2\interfaces;
 
 use Guzzle\Http\Message\Response;
 
+/**
+ * Interface IC2Response
+ * @package Communify\C2\interfaces
+ */
 interface IC2Response
 {
 

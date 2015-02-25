@@ -55,10 +55,12 @@ class C2Credential extends C2AbstractFactorizable
       $this->url = $data['communify_url'];
       unset($data['communify_url']);
     }
-    $this->data = array(
-      'ssid'  => $ssid,
-      'info'  => $data
+
+    $basic = array(
+      'ssid'  => $ssid
     );
+
+    $this->data = array_merge($basic, $data);
   }
 
   /**

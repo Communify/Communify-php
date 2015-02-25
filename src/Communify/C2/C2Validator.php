@@ -14,15 +14,14 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\S2O;
-use Communify\C2\abstracts\C2AbstractFactorizable;
-use Communify\C2\C2Meta;
+namespace Communify\C2;
 
-/**
- * Class S2OMeta
- * @package Communify\S2O
- */
-class S2OValidator extends C2AbstractFactorizable
+use Communify\C2\abstracts\C2AbstractFactorizable;
+use Communify\C2\interfaces\IC2Exception;
+use Communify\C2\interfaces\IC2Response;
+
+
+class C2Validator extends C2AbstractFactorizable
 {
 
   /**
@@ -31,33 +30,33 @@ class S2OValidator extends C2AbstractFactorizable
    *
    * @param $data
    * @return mixed
-   * @throws S2OException
+   * @throws C2Exception
    */
   public function checkData($data)
   {
     if( !isset($data['status']) )
     {
-      throw new S2OException(C2Meta::STATUS_ERROR_NAME, S2OException::PARAM_ERROR);
+      throw new C2Exception(IC2Exception::STATUS_ERROR_NAME, IC2Exception::PARAM_ERROR);
     }
 
-    if( $data['status'] != S2OResponse::STATUS_KO && $data['status'] != S2OResponse::STATUS_OK )
+    if( $data['status'] != IC2Response::STATUS_KO && $data['status'] != IC2Response::STATUS_OK )
     {
-      throw new S2OException(C2Meta::STATUS_VALUE_ERROR_NAME, S2OException::PARAM_ERROR);
+      throw new C2Exception(IC2Exception::STATUS_VALUE_ERROR_NAME, IC2Exception::PARAM_ERROR);
     }
 
     if( !isset($data['data']) )
     {
-      throw new S2OException(C2Meta::DATA_ERROR_NAME, S2OException::PARAM_ERROR);
+      throw new C2Exception(IC2Exception::DATA_ERROR_NAME, IC2Exception::PARAM_ERROR);
     }
 
-    if( $data['status'] == S2OResponse::STATUS_KO && !isset($data['data']['message']) )
+    if( $data['status'] == IC2Response::STATUS_KO && !isset($data['data']['message']) )
     {
-      throw new S2OException(C2Meta::MSG_ERROR_NAME, S2OException::PARAM_ERROR);
+      throw new C2Exception(IC2Exception::MSG_ERROR_NAME, IC2Exception::PARAM_ERROR);
     }
 
-    if($data['status'] == S2OResponse::STATUS_KO)
+    if($data['status'] == IC2Response::STATUS_KO)
     {
-      throw new S2OException(C2Meta::KO_ERROR_NAME, S2OException::KO_ERROR);
+      throw new C2Exception(IC2Exception::KO_ERROR_NAME, IC2Exception::KO_ERROR);
     }
 
     return $data['status'];

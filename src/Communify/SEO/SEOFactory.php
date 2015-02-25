@@ -14,18 +14,31 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\C2\interfaces;
+namespace Communify\SEO;
 
-/**
- * Interface IC2Factorizable
- * @package Communify\C2\interfaces
- */
-interface IC2Factorizable
+use Communify\C2\C2Factory;
+
+class SEOFactory extends C2Factory
 {
 
   /**
-   * @return IC2Factorizable
+   * Create SEOResponse.
+   *
+   * @return SEOResponse
    */
-  public static function factory();
+  public function response()
+  {
+    return SEOResponse::factory();
+  }
+
+  /**
+   * @param $result
+   * @return SEOParser
+   * @throws SEOException
+   */
+  public function parser($result)
+  {
+    return SEOParser::factory($result);
+  }
 
 }

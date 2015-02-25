@@ -14,25 +14,25 @@
  * permissions and limitations under the License.
  */
 
-namespace tests\Communify\S2O;
+namespace tests\Communify\C2;
 
-use Communify\S2O\S2OResponse;
-use Communify\S2O\S2OValidator;
+use Communify\C2\C2Validator;
+use Communify\C2\interfaces\IC2Response;
 
 /**
- * @covers Communify\S2O\S2OValidator
+ * @covers Communify\C2\C2Validator
  */
-class S2OValidatorTest extends \PHPUnit_Framework_TestCase
+class C2ValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
-   * @var S2OValidator
+   * @var C2Validator
    */
   private $sut;
 
   public function setUp()
   {
-    $this->sut = new S2OValidator();
+    $this->sut = new C2Validator();
   }
 
   /**
@@ -54,7 +54,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   * with: noStatus
   * should: throwException
    * @dataProvider getCheckDataNoStatusThrowExceptionData
-   * @expectedException \Communify\S2O\S2OException
+   * @expectedException \Communify\C2\C2Exception
    * @expectedExceptionMessage communify-error-json-status
    * @expectedExceptionCode 102
   */
@@ -68,7 +68,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   * when: called
   * with: invalidStatusValue
   * should: throwException
-   * @expectedException \Communify\S2O\S2OException
+   * @expectedException \Communify\C2\C2Exception
    * @expectedExceptionMessage communify-error-status-value
    * @expectedExceptionCode 102
   */
@@ -96,7 +96,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   * with: noData
   * should: throwException
    * @dataProvider getCheckDataNoDataThrowExceptionData
-   * @expectedException \Communify\S2O\S2OException
+   * @expectedException \Communify\C2\C2Exception
    * @expectedExceptionMessage communify-error-json-data
    * @expectedExceptionCode 102
   */
@@ -122,7 +122,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   * with: koStatusWithoutMessage
   * should: throwException
    * @dataProvider getCheckDataKoStatusWithoutMessageThrowExceptionData
-   * @expectedException \Communify\S2O\S2OException
+   * @expectedException \Communify\C2\C2Exception
    * @expectedExceptionMessage communify-error-json-msg
    * @expectedExceptionCode 102
   */
@@ -136,7 +136,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
    * when: called
    * with: koStatus
    * should: throwException
-   * @expectedException \Communify\S2O\S2OException
+   * @expectedException \Communify\C2\C2Exception
    * @expectedExceptionMessage communify-error
    * @expectedExceptionCode 101
    */
@@ -167,7 +167,7 @@ class S2OValidatorTest extends \PHPUnit_Framework_TestCase
   public function test_checkData_called_correctData_returnTrue($data)
   {
     $actual = $this->sut->checkData($data);
-    $this->assertEquals(S2OResponse::STATUS_OK, $actual);
+    $this->assertEquals(IC2Response::STATUS_OK, $actual);
   }
 
 }

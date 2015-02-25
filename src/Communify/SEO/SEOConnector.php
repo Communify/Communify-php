@@ -16,43 +16,40 @@
 
 namespace Communify\SEO;
 
-use Communify\C2\abstracts\C2AbstractClient;
+use Communify\C2\abstracts\C2AbstractConnector;
+use Communify\C2\C2Credential;
+use Guzzle\Http\Client;
 
-/**
- * Class SEOClient
- *
- * @package Communify\SEO
- */
-class SEOClient extends C2AbstractClient
+
+class SEOConnector extends C2AbstractConnector
 {
 
+  const GET_SITE_INFO_API_METHOD = 'user/public/getSiteInfo';
+
   /**
-   * Call without params on production purposes. Use factory static method.
+   * Constructor with dependency injection.
    *
    * @param SEOFactory $factory
-   * @param SEOConnector $connector
+   * @param Client $client
    */
-  function __construct(SEOFactory $factory = null, SEOConnector $connector = null)
+  function __construct(SEOFactory $factory = null, Client $client = null)
   {
-    if($connector == null)
-    {
-      $connector = SEOConnector::factory();
-    }
-
     if($factory == null)
     {
       $factory = SEOFactory::factory();
     }
 
-    parent::__construct($factory, $connector);
+    parent::__construct($factory, $client);
   }
 
-  public function widget($ssid, $data)
+  public function getTopicInfo(C2Credential $credential)
   {
-    $data['url']  = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $credential = $this->factory->credential();
-    $credential->set($ssid, $data);
-    return $this->connector->getTopicInfo($credential);
+    $url = $credential->getUrl();
+    $request = $this->client->createRequest('POST', $url.'/'.self::GET_SITE_INFO_API_METHOD, null, $credential->get());
+    $response = $this->client->send($request);
+    $seoResponse = $this->factory->response();
+    $seoResponse->set($response);
+    return $seoResponse;
   }
 
 }

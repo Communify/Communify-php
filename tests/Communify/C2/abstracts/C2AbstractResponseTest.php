@@ -43,8 +43,32 @@ class C2AbstractResponseTest extends \PHPUnit_Framework_TestCase
   public function test_constructor_called__correct()
   {
     $actual = new DummyResponse();
+    $this->assertCommonAssertOnConstructor($actual);
+    $this->assertAttributeInstanceOf('Communify\C2\C2Validator', 'validator', $actual);
+  }
+
+  /**
+  * method: constructor
+  * when: called
+  * with: injectedValidator
+  * should: correct
+  */
+  public function test_constructor_called_injectedValidator_correct()
+  {
+    $validator = $this->getMock('Communify\C2\C2Validator');
+    $actual = new DummyResponse($validator);
+    $this->assertCommonAssertOnConstructor($actual);
+    $this->assertAttributeEquals($validator, 'validator', $actual);
+  }
+
+  /**
+   * @param $actual
+   */
+  protected function assertCommonAssertOnConstructor($actual)
+  {
     $this->assertTrue(method_exists('tests\Communify\C2\abstracts\DummyResponse', 'factory'));
     $this->assertTrue(method_exists($actual, 'set'));
   }
+
 
 }

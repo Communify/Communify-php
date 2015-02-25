@@ -37,28 +37,32 @@ class C2CredentialTest extends \PHPUnit_Framework_TestCase
   /**
   * method: set
   * when: called
-  * with: noCommunifyUrl
-  * should: correctData
+  * with: withoutCommunifyUrl
+  * should: correct
   */
-  public function test_set_called_noCommunifyUrl_correctData()
+  public function test_set_called_withoutCommunifyUrl_correct()
   {
+    $ssid = 'dummy ssid';
+    $url = 'https://communify.com/api';
     $data = array('dummy' => 'value');
-    $this->configureAndExecuteSetWithDataAssert($data, $data);
+    $expectedData = $this->generateExpectedData($ssid, $data);
+    $this->executeAndAssertSet($ssid, $data, $expectedData, $url);
   }
 
   /**
   * method: set
   * when: called
-  * with: communifyUrl
-  * should: correctDataAndUrlAttr
+  * with: witCommunifyUrl
+  * should: correct
   */
-  public function test_set_called_communifyUrl_correctDataAndUrlAttr()
+  public function test_set_called_witCommunifyUrl_correct()
   {
-    $url = 'dummy communify url';
+    $ssid = 'dummy ssid';
+    $url = 'dummy url';
     $data = array('dummy' => 'value', 'communify_url' => $url);
-    $expectedData = array('dummy' => 'value');
-    $this->configureAndExecuteSetWithDataAssert($expectedData, $data);
-    $this->assertEquals($this->sut->getUrl(), $url);
+    $usedData = array('dummy' => 'value');
+    $expected = $this->generateExpectedData($ssid, $usedData);
+    $this->executeAndAssertSet($ssid, $data, $expected, $url);
   }
 
   /**
@@ -77,30 +81,26 @@ class C2CredentialTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * @param $expectedData
+   * @param $ssid
    * @param $data
-   * @return C2Credential
+   * @return array
    */
-  private function configureAndExecuteSetWithDataAssert($expectedData, $data)
+  protected function generateExpectedData($ssid, $data)
   {
-    $ssid = 'dummy ssid';
-    $expected = $this->generateExpectedData($ssid, $expectedData);
-    $this->sut->set($ssid, $data);
-    $this->assertEquals($expected, $this->sut->getData());
+    return array_merge(array('ssid' => $ssid), $data);
   }
 
   /**
    * @param $ssid
    * @param $data
-   * @return array
+   * @param $expectedData
+   * @param $url
    */
-  private function generateExpectedData($ssid, $data)
+  protected function executeAndAssertSet($ssid, $data, $expectedData, $url)
   {
-    $expected = array(
-      'ssid' => $ssid,
-      'info' => $data
-    );
-    return $expected;
+    $this->sut->set($ssid, $data);
+    $this->assertAttributeEquals($expectedData, 'data', $this->sut);
+    $this->assertAttributeEquals($url, 'url', $this->sut);
   }
 
 }

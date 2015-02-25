@@ -16,6 +16,10 @@
 
 namespace Communify\C2\interfaces;
 
+/**
+ * Interface IC2Factory
+ * @package Communify\C2\interfaces
+ */
 interface IC2Factory
 {
 

@@ -13,19 +13,36 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+namespace Communify\C2\abstracts;
 
-namespace Communify\C2\interfaces;
+use Communify\C2\C2Factory;
+use Communify\C2\interfaces\IC2Factory;
 
 /**
- * Interface IC2Factorizable
- * @package Communify\C2\interfaces
+ * Class C2AbstractClient
+ * @package Communify\C2\abstracts
  */
-interface IC2Factorizable
+abstract class C2AbstractClient extends C2AbstractFactorizable
 {
 
   /**
-   * @return IC2Factorizable
+   * @var C2AbstractConnector
    */
-  public static function factory();
+  protected $connector;
+
+  /**
+   * @var C2Factory
+   */
+  protected $factory;
+
+  /**
+   * @param IC2Factory $factory
+   * @param C2AbstractConnector $connector
+   */
+  function __construct(IC2Factory $factory, C2AbstractConnector $connector)
+  {
+    $this->factory = $factory;
+    $this->connector = $connector;
+  }
 
 }

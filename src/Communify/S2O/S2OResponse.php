@@ -17,8 +17,11 @@
 namespace Communify\S2O;
 
 use Communify\C2\abstracts\C2AbstractResponse;
+use Communify\C2\C2Exception;
 use Communify\C2\C2Meta;
 use Communify\C2\C2MetaIterator;
+use Communify\C2\C2Validator;
+use Communify\C2\interfaces\IC2Exception;
 use Guzzle\Http\Message\Response;
 
 /**
@@ -34,30 +37,22 @@ class S2OResponse extends C2AbstractResponse
   private $metas;
 
   /**
-   * @var S2OValidator
-   */
-  private $validator;
-
-  /**
    * Create S2OValidator.
    *
-   * @param S2OValidator $validator
+   * @param C2Validator $validator
    * @param C2MetaIterator $metas
    */
-  function __construct(S2OValidator $validator = null, C2MetaIterator $metas = null)
+  function __construct(C2Validator $validator = null, C2MetaIterator $metas = null)
   {
-    if($validator == null)
-    {
-      $validator = S2OValidator::factory();
-    }
 
     if($metas == null)
     {
       $metas = C2MetaIterator::factory();
     }
 
-    $this->validator = $validator;
     $this->metas = $metas;
+
+    parent::__construct($validator);
   }
 
   /**
@@ -67,22 +62,22 @@ class S2OResponse extends C2AbstractResponse
    */
   public function set(Response $response)
   {
+    $data = $response->json();
     try
     {
-      $data = $response->json();
       $this->validator->checkData($data);
       foreach($data['data'] as $key => $value)
       {
         $this->metas->push(C2Meta::OK_BASE_NAME.$key, $value, true);
       }
     }
-    catch(S2OException $e)
+    catch(C2Exception $e)
     {
       $error = $e->getMessage();
 
       switch($error)
       {
-        case C2Meta::KO_ERROR_NAME:
+        case IC2Exception::KO_ERROR_NAME:
           $msg = $data['data']['message'];
           break;
 
@@ -90,7 +85,6 @@ class S2OResponse extends C2AbstractResponse
           $msg = C2Meta::$MESSAGES[$error];
           break;
       }
-
       $this->metas->push($error, $msg);
     }
   }

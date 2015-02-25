@@ -1,0 +1,80 @@
+<div class="widget-content">
+
+    <article class="widget-topic">
+
+        <h3 class="widget-topic-title">{{topic_title}}</h3>
+        <img width="100" src="{{topic_img}}" alt="Photo about {{topic_title}}" />
+
+        <!-- If allow ratings -->
+            <p>{{review_average}} / 5 <small>based on {{num_opinions}} opinions</small></p>
+        <!-- Endif allow ratings -->
+
+        <p>{{topic_description}}</p>
+        <footer class="widget-topic-footer">
+            <small>by {{topic_author}}</small>
+        </footer>
+
+        <!-- If allow ratings -->
+            <!-- Google Rich Snippets for topic -->
+            <div itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
+                <meta itemprop="average" content="{{review_average}}">
+                <meta itemprop="count" content="{{total_reviews}}">
+                <meta itemprop="votes" content="{{total_reviews}}">
+            </div>
+            <!-- end Google Rich Snippets for topic -->
+        <!-- Endif allow ratings -->
+
+    </article>
+
+    <section class="widget-opinions">
+        <h4 class="widget-opinions-total">{{num_opinions}} opinions</h4>
+        <ul>
+            {{# opinions}}
+                <li>
+                    <img width="40" height="40" src="{{reviewer_img}}">
+                    <p>
+                        <strong>{{reviewer_name}}</strong>
+                        <time>5 months ago</time>
+                    </p>
+                    <!-- If allow ratings -->
+                        <p class="widget-rating">{{reviewer_rating}}</p>
+                    <!-- Endif allow ratings -->
+                    <p>{{reviewer_review}}</p>
+                    <div class="widget-votes">
+                        <span>{{num_positives}} positive votes</span>
+                        <span>{{num_negatives}} negative votes</span>
+                    </div>
+                    <div class="widget-comments">
+                        <h5>{{num_comments}} comments</h5>
+                        <ul>
+                            <!-- Comment element * N -->
+                            {{# comments}}
+                                <li>
+                                    <img width="35" height="35" src="{{author_img}}">
+                                    <p>
+                                        <strong>{{user_name}}</strong>
+                                        <time>7 months ago</time>
+                                    </p>
+                                    <p>{{comment_text}}</p>
+                                </li>
+                            {{/ comments}}
+                        </ul>
+                    </div>
+                    <!-- Google Rich Snippets for review -->
+                    <div itemscope itemtype="http://data-vocabulary.org/Review">
+                        <meta itemprop="itemreviewed" content="{{topic_title}}">
+                        <meta itemprop="reviewer" content="{{reviewer_name}}">
+                        <meta itemprop="dtreviewed" content="2015-01-06">
+                        <meta itemprop="rating" content="{{reviewer_rating}}" />
+                        <meta itemprop="description" content="{{reviewer_review}}" />
+                    </div>
+                    <!-- end Google Rich Snippets for review -->
+                </li>
+            {{/ opinions}}
+        </ul>
+    </section>
+    <footer class="widget-footer">
+        <span>powered by </span>
+        <a target="_blank" title="Increase sales & your community engagement with communify" href="http://communify.com">communify</a>
+    </footer>
+</div>

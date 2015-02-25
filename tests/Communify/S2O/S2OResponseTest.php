@@ -16,7 +16,8 @@
 
 namespace tests\Communify\S2O;
 
-use Communify\S2O\S2OException;
+use Communify\C2\C2Exception;
+use Communify\C2\interfaces\IC2Exception;
 use Communify\C2\C2Meta;
 use Communify\S2O\S2OResponse;
 
@@ -25,11 +26,6 @@ use Communify\S2O\S2OResponse;
  */
 class S2OResponseTest extends \PHPUnit_Framework_TestCase
 {
-
-  /**
-   * @var \PHPUnit_Framework_MockObject_MockObject
-   */
-  private $validator;
 
   /**
    * @var \PHPUnit_Framework_MockObject_MockObject
@@ -43,7 +39,7 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
 
   public function setUp()
   {
-    $this->validator = $this->getMock('Communify\S2O\S2OValidator');
+    $this->validator = $this->getMock('Communify\C2\C2Validator');
     $this->metas = $this->getMock('Communify\C2\C2MetaIterator');
     $this->sut = new S2OResponse($this->validator, $this->metas);
   }
@@ -57,7 +53,7 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   public function test_constructor_called_noParameters_defaultAttrObject()
   {
     $sut = new S2OResponse();
-    $this->assertAttributeInstanceOf('Communify\S2O\S2OValidator', 'validator', $sut);
+    $this->assertAttributeInstanceOf('Communify\C2\C2Validator', 'validator', $sut);
     $this->assertAttributeInstanceOf('Communify\C2\C2MetaIterator', 'metas', $sut);
   }
 
@@ -148,7 +144,7 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   public function test_set_called_invalidDataWithKoStatus_correctMetaMsg($timesJson, $timesCheckData, $timesPush)
   {
     $msg = 'dummy error message';
-    $error = C2Meta::KO_ERROR_NAME;
+    $error = IC2Exception::KO_ERROR_NAME;
     $this->configureAndExecuteSetWithCatchCase($timesJson, $timesCheckData, $timesPush, $msg, $error);
   }
 
@@ -158,25 +154,25 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   public function getSetInvalidDataDefaultCaseCorrectMetaMsgData()
   {
     return array(
-      array(C2Meta::STATUS_ERROR_NAME, $this->any(), $this->any(), $this->any()),
-      array(C2Meta::STATUS_ERROR_NAME, $this->once(), $this->any(), $this->any()),
-      array(C2Meta::STATUS_ERROR_NAME, $this->any(), $this->once(), $this->any()),
-      array(C2Meta::STATUS_ERROR_NAME, $this->any(), $this->any(), $this->once()),
+      array(IC2Exception::STATUS_ERROR_NAME, $this->any(), $this->any(), $this->any()),
+      array(IC2Exception::STATUS_ERROR_NAME, $this->once(), $this->any(), $this->any()),
+      array(IC2Exception::STATUS_ERROR_NAME, $this->any(), $this->once(), $this->any()),
+      array(IC2Exception::STATUS_ERROR_NAME, $this->any(), $this->any(), $this->once()),
 
-      array(C2Meta::STATUS_VALUE_ERROR_NAME, $this->any(), $this->any(), $this->any()),
-      array(C2Meta::STATUS_VALUE_ERROR_NAME, $this->once(), $this->any(), $this->any()),
-      array(C2Meta::STATUS_VALUE_ERROR_NAME, $this->any(), $this->once(), $this->any()),
-      array(C2Meta::STATUS_VALUE_ERROR_NAME, $this->any(), $this->any(), $this->once()),
+      array(IC2Exception::STATUS_VALUE_ERROR_NAME, $this->any(), $this->any(), $this->any()),
+      array(IC2Exception::STATUS_VALUE_ERROR_NAME, $this->once(), $this->any(), $this->any()),
+      array(IC2Exception::STATUS_VALUE_ERROR_NAME, $this->any(), $this->once(), $this->any()),
+      array(IC2Exception::STATUS_VALUE_ERROR_NAME, $this->any(), $this->any(), $this->once()),
 
-      array(C2Meta::DATA_ERROR_NAME, $this->any(), $this->any(), $this->any()),
-      array(C2Meta::DATA_ERROR_NAME, $this->once(), $this->any(), $this->any()),
-      array(C2Meta::DATA_ERROR_NAME, $this->any(), $this->once(), $this->any()),
-      array(C2Meta::DATA_ERROR_NAME, $this->any(), $this->any(), $this->once()),
+      array(IC2Exception::DATA_ERROR_NAME, $this->any(), $this->any(), $this->any()),
+      array(IC2Exception::DATA_ERROR_NAME, $this->once(), $this->any(), $this->any()),
+      array(IC2Exception::DATA_ERROR_NAME, $this->any(), $this->once(), $this->any()),
+      array(IC2Exception::DATA_ERROR_NAME, $this->any(), $this->any(), $this->once()),
 
-      array(C2Meta::MSG_ERROR_NAME, $this->any(), $this->any(), $this->any()),
-      array(C2Meta::MSG_ERROR_NAME, $this->once(), $this->any(), $this->any()),
-      array(C2Meta::MSG_ERROR_NAME, $this->any(), $this->once(), $this->any()),
-      array(C2Meta::MSG_ERROR_NAME, $this->any(), $this->any(), $this->once()),
+      array(IC2Exception::MSG_ERROR_NAME, $this->any(), $this->any(), $this->any()),
+      array(IC2Exception::MSG_ERROR_NAME, $this->once(), $this->any(), $this->any()),
+      array(IC2Exception::MSG_ERROR_NAME, $this->any(), $this->once(), $this->any()),
+      array(IC2Exception::MSG_ERROR_NAME, $this->any(), $this->any(), $this->once()),
     );
   }
 
@@ -307,7 +303,7 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   private function configureAndExecuteSetWithCatchCase($timesJson, $timesCheckData, $timesPush, $msg, $error)
   {
     $data = array('data' => array('message' => $msg));
-    $exception = new S2OException($error);
+    $exception = new C2Exception($error);
     $response = $this->getMockBuilder('Guzzle\Http\Message\Response')->disableOriginalConstructor()->getMock();
     $this->configureResponseJson($timesJson, $response, $data);
     $this->configureCheckData($timesCheckData, $data, $this->throwException($exception));
