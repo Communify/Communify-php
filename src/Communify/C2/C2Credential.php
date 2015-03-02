@@ -50,6 +50,9 @@ class C2Credential extends C2AbstractFactorizable
    */
   public function set($ssid, $data)
   {
+
+
+
     if( isset($data['communify_url']) )
     {
       $this->url = $data['communify_url'];

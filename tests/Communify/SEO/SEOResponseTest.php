@@ -33,7 +33,7 @@ class SEOResponseTest extends \PHPUnit_Framework_TestCase
   /**
    * @var \PHPUnit_Framework_MockObject_MockObject
    */
-  private $mustache;
+  private $engine;
 
   /**
    * @var \PHPUnit_Framework_MockObject_MockObject
@@ -48,9 +48,9 @@ class SEOResponseTest extends \PHPUnit_Framework_TestCase
   public function setUp()
   {
     $this->validator = $this->getMock('Communify\C2\C2Validator');
-    $this->mustache = $this->getMock('\Mustache_Engine');
+    $this->engine = $this->getMock('Communify\SEO\SEOEngine');
     $this->factory = $this->getMock('Communify\SEO\SEOFactory');
-    $this->sut = new SEOResponse($this->validator, $this->mustache, $this->factory);
+    $this->sut = new SEOResponse($this->validator, $this->engine, $this->factory);
   }
 
   /**
@@ -64,7 +64,7 @@ class SEOResponseTest extends \PHPUnit_Framework_TestCase
     $sut = new SEOResponse();
     $this->assertAttributeInstanceOf('Communify\C2\C2Validator', 'validator', $sut);
     $this->assertAttributeInstanceOf('Communify\SEO\SEOFactory', 'factory', $sut);
-    $this->assertAttributeInstanceOf('\Mustache_Engine', 'mustache', $sut);
+    $this->assertAttributeInstanceOf('Communify\SEO\SEOEngine', 'engine', $sut);
   }
 
   /**
@@ -107,12 +107,13 @@ class SEOResponseTest extends \PHPUnit_Framework_TestCase
   public function getSetData()
   {
     return array(
-      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
-      array($this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
-      array($this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
-      array($this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
-      array($this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
-      array($this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
     );
   }
 
@@ -123,12 +124,13 @@ class SEOResponseTest extends \PHPUnit_Framework_TestCase
   * should: correct
    * @dataProvider getSetData
   */
-  public function test_set_called__correct($timesJson, $timesCheckData, $timesParser, $timesGetTopic, $timesGetOpinions)
+  public function test_set_called__correct($timesJson, $timesCheckData, $timesParser, $timesGetTopic, $timesGetOpinions, $timesGetLang)
   {
     $result = 'dummy result';
     $topic = array('topic'  => 'dummy topic');
     $opinions = array('opinions'  => 'dummy opinions');
-    $expected = array_merge($topic, $opinions);
+    $lang = array('lang' => 'dummy lang');
+    $expected = array_merge($topic, $opinions, $lang);
     $parser = $this->getMockBuilder('Communify\SEO\SEOParser')->disableOriginalConstructor()->getMock();
     $response = $this->getMockBuilder('Guzzle\Http\Message\Response')->disableOriginalConstructor()->getMock();
     $this->configureJson($timesJson, $response, $result);
@@ -145,6 +147,9 @@ class SEOResponseTest extends \PHPUnit_Framework_TestCase
     $parser->expects($timesGetOpinions)
       ->method('getOpinions')
       ->will($this->returnValue($opinions));
+    $parser->expects($timesGetLang)
+      ->method('getLang')
+      ->will($this->returnValue($lang));
     $this->sut->set($response);
     $this->assertAttributeEquals($expected, 'context', $this->sut);
   }
@@ -170,7 +175,7 @@ class SEOResponseTest extends \PHPUnit_Framework_TestCase
   public function test_html_called_nullContext_emptyString()
   {
     $this->sut->setContext(null);
-    $this->mustache->expects($this->never())
+    $this->engine->expects($this->never())
       ->method('render');
     $actual = $this->sut->html();
     $this->assertEquals('', $actual);
@@ -196,12 +201,11 @@ class SEOResponseTest extends \PHPUnit_Framework_TestCase
   */
   public function test_html_called__correct($timesRender)
   {
-    $html = file_get_contents(dirname(__FILE__).'/../../../src/Communify/SEO/html/template.html');
     $expected = 'dummy expected value';
     $context = 'dummy context';
-    $this->mustache->expects($timesRender)
+    $this->engine->expects($timesRender)
       ->method('render')
-      ->with($html, $context)
+      ->with($context)
       ->will($this->returnValue($expected));
     $this->sut->setContext($context);
     $actual = $this->sut->html();

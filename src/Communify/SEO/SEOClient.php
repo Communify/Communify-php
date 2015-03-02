@@ -22,6 +22,7 @@ use Communify\C2\abstracts\C2AbstractClient;
  * Class SEOClient
  *
  * @package Communify\SEO
+ * @method SEOClient static factory
  */
 class SEOClient extends C2AbstractClient
 {

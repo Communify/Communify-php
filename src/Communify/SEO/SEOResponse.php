@@ -29,37 +29,40 @@ class SEOResponse extends C2AbstractResponse
 {
 
   /**
-   * @var \Mustache_Engine
-   */
-  private $mustache;
-
-  /**
    * @var SEOFactory
    */
   private $factory;
 
+  /**
+   * @var SEOEngine
+   */
+  private $engine;
+
+  /**
+   * @var array
+   */
   private $context;
 
   /**
    * @param C2Validator $validator
-   * @param \Mustache_Engine $mustache
+   * @param SEOEngine $template
    * @param SEOFactory $factory
    */
-  function __construct(C2Validator $validator = null, \Mustache_Engine $mustache = null, SEOFactory $factory = null)
+  function __construct(C2Validator $validator = null, SEOEngine $template = null, SEOFactory $factory = null)
   {
-
-    if($mustache == null)
-    {
-      $mustache = new \Mustache_Engine();
-    }
 
     if($factory == null)
     {
       $factory = SEOFactory::factory();
     }
 
-    $this->mustache = $mustache;
+    if($template == null)
+    {
+      $template = SEOEngine::factory();
+    }
+
     $this->factory = $factory;
+    $this->engine = $template;
 
     parent::__construct($validator);
 
@@ -77,7 +80,7 @@ class SEOResponse extends C2AbstractResponse
       $result = $response->json();
       $this->validator->checkData($result);
       $parser = $this->factory->parser($result);
-      $this->context = array_merge($parser->getTopic(), $parser->getOpinions());
+      $this->context = array_merge($parser->getTopic(), $parser->getOpinions(), $parser->getLang());
     }
     catch(C2Exception $e)
     {
@@ -90,8 +93,7 @@ class SEOResponse extends C2AbstractResponse
    */
   public function html()
   {
-    $html = file_get_contents(dirname(__FILE__).'/html/template.html');
-    return $this->context == null ? '' : $this->mustache->render($html, $this->context);
+    return $this->context == null ? '' : $this->engine->render($this->context);
   }
 
   /**

@@ -65,10 +65,15 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
   public function getLoginData()
   {
     return array(
-      array($this->any(), $this->any(), $this->any()),
-      array($this->once(), $this->any(), $this->any()),
-      array($this->any(), $this->once(), $this->any()),
-      array($this->any(), $this->any(), $this->once()),
+      array(array('dummy' => 'value'), array('dummy' => 'value'), null, $this->any(), $this->any(), $this->any()),
+      array(array('dummy' => 'value'), array('dummy' => 'value'), null, $this->once(), $this->any(), $this->any()),
+      array(array('dummy' => 'value'), array('dummy' => 'value'), null, $this->any(), $this->once(), $this->any()),
+      array(array('dummy' => 'value'), array('dummy' => 'value'), null, $this->any(), $this->any(), $this->once()),
+
+      array(array('dummy' => 'value', 'communify_url' => 'dummy url'), array('dummy' => 'value'), 'dummy url', $this->any(), $this->any(), $this->any()),
+      array(array('dummy' => 'value', 'communify_url' => 'dummy url'), array('dummy' => 'value'), 'dummy url', $this->once(), $this->any(), $this->any()),
+      array(array('dummy' => 'value', 'communify_url' => 'dummy url'), array('dummy' => 'value'), 'dummy url', $this->any(), $this->once(), $this->any()),
+      array(array('dummy' => 'value', 'communify_url' => 'dummy url'), array('dummy' => 'value'), 'dummy url', $this->any(), $this->any(), $this->once()),
     );
   }
 
@@ -79,12 +84,16 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
   * should: correct
    * @dataProvider getLoginData
   */
-  public function test_login_called__correct($timesCredential, $timesSet, $timesLogin)
+  public function test_login_called__correct($data, $expectedData, $url, $timesCredential, $timesSet, $timesLogin)
   {
+
     $ssid = 'dummy ssid';
-    $expected = 'dummy expected value';
-    $data = array('dummy' => 'value');
-    $info = array('info'  => $data);
+    $info = array(
+      'info'          => $expectedData,
+      'communify_url' => $url
+    );
+    $expected = array('dummy expected value');
+
     $credential = $this->getMock('Communify\C2\C2Credential');
     $this->factory->expects($timesCredential)
       ->method('credential')

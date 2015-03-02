@@ -58,17 +58,38 @@ class SEOFactoryTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
+  * dataProvider getParserData
+  */
+  public function getParserData()
+  {
+    return array(
+      array(true),
+      array(false),
+    );
+  }
+
+  /**
   * method: parser
   * when: called
   * with:
   * should: correct
+   * @dataProvider getParserData
   */
-  public function test_parser_called__correct()
+  public function test_parser_called__correct($allowRatings)
   {
-    $result = 'dummy result';
+    $result = array(
+      'data'  => array(
+        'topic' => array(
+          'site'  => array(
+            'allow_ratings' => $allowRatings
+          )
+        )
+      )
+    );
     $actual = $this->sut->parser($result);
     $this->assert('SEOParser', $actual);
     $this->assertAttributeEquals($result, 'result', $actual);
+    $this->assertAttributeEquals($allowRatings, 'allowRatings', $actual);
   }
 
   /**

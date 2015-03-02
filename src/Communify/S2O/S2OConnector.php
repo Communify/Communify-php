@@ -57,6 +57,7 @@ class S2OConnector extends C2AbstractConnector
     $url = $credential->getUrl();
     $request = $this->client->createRequest('POST', $url.'/'.self::SINGLE_SIGN_ON_API_METHOD, null, $credential->get());
     $response = $this->client->send($request);
+
     $s2OResponse = $this->factory->response();
     $s2OResponse->set($response);
     return $s2OResponse;

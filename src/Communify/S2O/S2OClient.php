@@ -21,6 +21,7 @@ use Communify\C2\abstracts\C2AbstractClient;
 /**
  * Class S2OClient
  * @package Communify\S2O
+ * @method S2OClient static factory
  */
 class S2OClient extends C2AbstractClient
 {
@@ -55,11 +56,20 @@ class S2OClient extends C2AbstractClient
    */
   public function login($ssid, $data)
   {
-    $info = array( 'info' => $data);
+    $url = null;
+    if(isset($data['communify_url']))
+    {
+      $url = $data['communify_url'];
+      unset($data['communify_url']);
+    }
+
+    $info = array(
+      'info'  => $data,
+      'communify_url' => $url
+    );
     $credential = $this->factory->credential();
     $credential->set($ssid, $info);
     return $this->connector->login($credential);
   }
-
 
 } 
