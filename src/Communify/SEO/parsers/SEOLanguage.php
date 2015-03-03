@@ -14,26 +14,41 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\C2;
-use Communify\C2\abstracts\C2AbstractFactorizable;
+namespace Communify\SEO\parsers;
 
-/**
- * Class C2Encryptor
- * @package Communify\C2
- * @method C2Encryptor static factory
- */
-class C2Encryptor extends C2AbstractFactorizable
+
+use Communify\C2\abstracts\C2AbstractFactorizable;
+use Communify\SEO\parsers\interfaces\ISEOParser;
+
+class SEOLanguage extends C2AbstractFactorizable implements ISEOParser
 {
 
+  const langKey = 'language_id';
+  const defaultLang = 'en';
+
   /**
-   * Return a base64 encoded from a json encoded value.
+   * Return Language value from public configurations.
+   * English as default language.
    *
-   * @param $value
-   * @return string
+   * @param $publicConfiguration
+   * @return array
    */
-  public function execute($value)
+  public function get($publicConfiguration)
   {
-    return base64_encode(json_encode($value));
+    $lang = self::defaultLang;
+
+    foreach($publicConfiguration as $config)
+    {
+      if($config['id'] == self::langKey)
+      {
+        $lang = $config['value'];
+        break;
+      }
+    }
+
+    return array(
+      'language'  => $lang
+    );
   }
 
-} 
+}

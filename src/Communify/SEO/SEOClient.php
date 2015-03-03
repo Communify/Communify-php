@@ -48,6 +48,13 @@ class SEOClient extends C2AbstractClient
     parent::__construct($factory, $connector);
   }
 
+  /**
+   * Get widget information to improve SEO with Communify.
+   *
+   * @param $ssid
+   * @param $data
+   * @return SEOResponse
+   */
   public function widget($ssid, $data)
   {
     $data['url']  = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";

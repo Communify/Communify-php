@@ -18,6 +18,10 @@ namespace Communify\SEO;
 
 use Communify\C2\abstracts\C2AbstractFactorizable;
 
+/**
+ * Class SEOEngine
+ * @package Communify\SEO
+ */
 class SEOEngine extends C2AbstractFactorizable
 {
 
@@ -40,6 +44,8 @@ class SEOEngine extends C2AbstractFactorizable
   }
 
   /**
+   * Render HTML from template to improve SEO.
+   *
    * @param $context
    * @return string
    */

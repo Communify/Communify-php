@@ -20,7 +20,10 @@ use Communify\C2\abstracts\C2AbstractConnector;
 use Communify\C2\C2Credential;
 use Guzzle\Http\Client;
 
-
+/**
+ * Class SEOConnector
+ * @package Communify\SEO
+ */
 class SEOConnector extends C2AbstractConnector
 {
 
@@ -42,6 +45,12 @@ class SEOConnector extends C2AbstractConnector
     parent::__construct($factory, $client);
   }
 
+  /**
+   * Get all topic information to return a SEOResponse.
+   *
+   * @param C2Credential $credential
+   * @return SEOResponse
+   */
   public function getTopicInfo(C2Credential $credential)
   {
     $url = $credential->getUrl();

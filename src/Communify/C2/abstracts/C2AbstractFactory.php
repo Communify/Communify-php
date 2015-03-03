@@ -18,6 +18,10 @@ namespace Communify\C2\abstracts;
 use Communify\C2\interfaces\IC2Factory;
 use Guzzle\Http\Client;
 
+/**
+ * Class C2AbstractFactory
+ * @package Communify\C2\abstracts
+ */
 abstract class C2AbstractFactory extends C2AbstractFactorizable implements IC2Factory
 {
 

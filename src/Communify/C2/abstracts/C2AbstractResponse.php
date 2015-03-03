@@ -19,6 +19,10 @@ use Communify\C2\C2Validator;
 use Communify\C2\interfaces\IC2Response;
 use Guzzle\Http\Message\Response;
 
+/**
+ * Class C2AbstractResponse
+ * @package Communify\C2\abstracts
+ */
 abstract class C2AbstractResponse extends C2AbstractFactorizable implements IC2Response
 {
 

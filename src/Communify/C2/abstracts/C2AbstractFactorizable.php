@@ -17,6 +17,10 @@ namespace Communify\C2\abstracts;
 
 use Communify\C2\interfaces\IC2Factorizable;
 
+/**
+ * Class C2AbstractFactorizable
+ * @package Communify\C2\abstracts
+ */
 abstract class C2AbstractFactorizable implements IC2Factorizable
 {
 

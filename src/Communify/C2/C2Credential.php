@@ -20,6 +20,7 @@ use Communify\C2\abstracts\C2AbstractFactorizable;
 /**
  * Class C2Credential
  * @package Communify\C2
+ * @method C2Credential static factory
  */
 class C2Credential extends C2AbstractFactorizable
 {
@@ -50,8 +51,6 @@ class C2Credential extends C2AbstractFactorizable
    */
   public function set($ssid, $data)
   {
-
-
 
     if( isset($data['communify_url']) )
     {

@@ -41,6 +41,9 @@ class SEOFactoryTest extends \PHPUnit_Framework_TestCase
   {
     return array(
       array('response', 'SEOResponse'),
+      array('languageParser', 'parsers\SEOLanguage'),
+      array('topicParser', 'parsers\SEOTopic'),
+      array('opinionParser', 'parsers\SEOOpinion'),
     );
   }
 

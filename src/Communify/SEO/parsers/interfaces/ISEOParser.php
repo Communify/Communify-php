@@ -14,15 +14,21 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\C2;
-
-use Communify\C2\interfaces\IC2Exception;
+namespace Communify\SEO\parsers\interfaces;
 
 /**
- * Class C2Exception
- * @package Communify\C2
+ * Interface ISEOParser
+ * @package Communify\SEO\parsers\interfaces
  */
-class C2Exception extends \Exception implements IC2Exception
+interface ISEOParser
 {
+
+  /**
+   * Get information from array result.
+   *
+   * @param $data
+   * @return mixed
+   */
+  public function get($data);
 
 }

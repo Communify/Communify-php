@@ -44,6 +44,8 @@ class SEOResponse extends C2AbstractResponse
   private $context;
 
   /**
+   * Constructor with injection dependencies.
+   *
    * @param C2Validator $validator
    * @param SEOEngine $template
    * @param SEOFactory $factory

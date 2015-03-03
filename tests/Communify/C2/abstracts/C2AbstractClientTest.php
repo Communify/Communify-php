@@ -17,7 +17,6 @@ namespace tests\Communify\C2\abstracts;
 
 use Communify\C2\abstracts\C2AbstractClient;
 use Communify\C2\abstracts\C2AbstractConnector;
-use Communify\C2\C2Factory;
 
 class DummyClient extends C2AbstractClient
 {
@@ -30,7 +29,7 @@ class DummyConnectorForTesting extends C2AbstractConnector
 }
 
 /**
- * @covers \Communify\C2\abstracts\C2AbstractResponse
+ * @covers Communify\C2\abstracts\C2AbstractClient
  */
 class C2AbstractClientTest extends \PHPUnit_Framework_TestCase
 {

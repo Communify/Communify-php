@@ -17,7 +17,14 @@
 namespace Communify\SEO;
 
 use Communify\C2\C2Factory;
+use Communify\SEO\parsers\SEOLanguage;
+use Communify\SEO\parsers\SEOOpinion;
+use Communify\SEO\parsers\SEOTopic;
 
+/**
+ * Class SEOFactory
+ * @package Communify\SEO
+ */
 class SEOFactory extends C2Factory
 {
 
@@ -32,6 +39,8 @@ class SEOFactory extends C2Factory
   }
 
   /**
+   * Create SEOParser object.
+   *
    * @param $result
    * @return SEOParser
    * @throws SEOException
@@ -39,6 +48,30 @@ class SEOFactory extends C2Factory
   public function parser($result)
   {
     return SEOParser::factory($result);
+  }
+
+  /**
+   * @return SEOLanguage
+   */
+  public function languageParser()
+  {
+    return SEOLanguage::factory();
+  }
+
+  /**
+   * @return SEOTopic
+   */
+  public function topicParser()
+  {
+    return SEOTopic::factory();
+  }
+
+  /**
+   * @return SEOOpinion
+   */
+  public function opinionParser()
+  {
+    return SEOOpinion::factory();
   }
 
 }

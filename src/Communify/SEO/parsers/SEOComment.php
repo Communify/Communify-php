@@ -14,26 +14,33 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\C2;
+namespace Communify\SEO\parsers;
+
+
 use Communify\C2\abstracts\C2AbstractFactorizable;
+use Communify\SEO\parsers\interfaces\ISEOParser;
 
 /**
- * Class C2Encryptor
- * @package Communify\C2
- * @method C2Encryptor static factory
+ * Class SEOComment
+ * @package Communify\SEO\parsers
  */
-class C2Encryptor extends C2AbstractFactorizable
+class SEOComment extends C2AbstractFactorizable implements ISEOParser
 {
 
   /**
-   * Return a base64 encoded from a json encoded value.
+   * Get comment information from array result.
    *
-   * @param $value
-   * @return string
+   * @param $comment
+   * @return array
    */
-  public function execute($value)
+  public function get($comment)
   {
-    return base64_encode(json_encode($value));
+    return array(
+      'author_img'    => $comment['user']['file_url'],
+      'comment_text'  => $comment['msg'],
+      'reply_date'    => date('d/m/Y', $comment['epoch']),
+      'user_name'     => $comment['user']['name'].' '.$comment['user']['surname'],
+    );
   }
 
-} 
+}

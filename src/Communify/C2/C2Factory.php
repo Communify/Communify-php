@@ -21,6 +21,7 @@ use Communify\C2\abstracts\C2AbstractFactory;
 /**
  * Class S2OFactory
  * @package Communify\S2O
+ * @method
  */
 class C2Factory extends C2AbstractFactory
 {
