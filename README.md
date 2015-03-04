@@ -18,19 +18,37 @@ downloading a single zip or phar file from our [latest release][latest-release].
 
 ## Examples
 
-### Single Sign On
+### Single Sign On (S2O)
 
 ```php
 
     <?php 
-        $ssid = 'COMMUNIFY ACCOUNT SSID';
+        $ssid = '[COMMUNIFY ACCOUNT SSID]';
         $data = array(
-            'email'     		=> 'USER EMAIL',
-            'name'      		=> 'USER NAME',
-            'surname'   		=> 'USER SURNAME',
+            'communify_url' 	=> 'http://[ENV NAME].yourcommunify.com/api/[ENV NAME]',
+            'email'     		=> '[USER EMAIL]',
+            'name'      		=> '[USER NAME]',
+            'surname'   		=> '[USER SURNAME]',
             ...
         );
         echo \Communify\S2O\S2OClient::factory()->login($ssid, $data)->metas();
+    ?>
+
+```
+
+### Search Engine Optimization (SEO)
+
+```php
+
+    <?php 
+        $ssid = '[COMMUNIFY ACCOUNT SSID]';
+        $data = array(
+            'communify_url' 	=> 'http://[ENV NAME].pitucommunify.com/api/[ENV NAME]',
+            'limit'             => '10',
+            'order_by'          => 'date'
+        );
+        
+        echo \Communify\SEO\SEOClient::factory()->widget($ssid, $data)->html();
     ?>
 
 ```
