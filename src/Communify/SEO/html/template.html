@@ -1,22 +1,23 @@
-<div class="widget-content">
+<noscript>
+    <div class="widget-content">
 
-    <article class="widget-topic">
+        <article class="widget-topic">
 
-        <h3 class="widget-topic-title">{{topic_title}}</h3>
-        {{# topic_img}}
+            <h3 class="widget-topic-title">{{topic_title}}</h3>
+            {{# topic_img}}
             <img width="100" src="{{topic_img}}" alt="{{lang.photo_about_topicTitle}}" />
-        {{/ topic_img}}
+            {{/ topic_img}}
 
-        {{# allow_ratings}}
+            {{# allow_ratings}}
             <p>{{review_average}} / 5 <small>{{ lang.based_on_numOpinions }}</small></p>
-        {{/ allow_ratings}}
+            {{/ allow_ratings}}
 
-        <p>{{topic_description}}</p>
-        <footer class="widget-topic-footer">
-            <small>{{lang.by_topicAuthor}}</small>
-        </footer>
+            <p>{{topic_description}}</p>
+            <footer class="widget-topic-footer">
+                <small>{{lang.by_topicAuthor}}</small>
+            </footer>
 
-        {{# allow_ratings}}
+            {{# allow_ratings}}
             <!-- Google Rich Snippets for topic -->
             <div itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
                 <meta itemprop="average" content="{{review_average}}">
@@ -24,14 +25,14 @@
                 <meta itemprop="votes" content="{{num_opinions}}">
             </div>
             <!-- end Google Rich Snippets for topic -->
-        {{/ allow_ratings}}
+            {{/ allow_ratings}}
 
-    </article>
+        </article>
 
-    <section class="widget-opinions">
-        <h4 class="widget-opinions-total">{{num_opinions}} {{lang.opinions}}</h4>
-        <ul>
-            {{# opinions}}
+        <section class="widget-opinions">
+            <h4 class="widget-opinions-total">{{num_opinions}} {{lang.opinions}}</h4>
+            <ul>
+                {{# opinions}}
                 <li>
                     <img width="40" height="40" src="{{reviewer_img}}">
                     <p>
@@ -39,7 +40,7 @@
                         <time>{{opinion_date}}</time>
                     </p>
                     {{# allow_ratings}}
-                        <p class="widget-rating">{{reviewer_rating}}</p>
+                    <p class="widget-rating">{{reviewer_rating}}</p>
                     {{/ allow_ratings}}
                     <p>{{reviewer_review}}</p>
                     <div class="widget-votes">
@@ -51,14 +52,14 @@
                         <ul>
                             <!-- Comment element * N -->
                             {{# comments}}
-                                <li>
-                                    <img width="35" height="35" src="{{author_img}}">
-                                    <p>
-                                        <strong>{{user_name}}</strong>
-                                        <time>{{reply_date}}</time>
-                                    </p>
-                                    <p>{{comment_text}}</p>
-                                </li>
+                            <li>
+                                <img width="35" height="35" src="{{author_img}}">
+                                <p>
+                                    <strong>{{user_name}}</strong>
+                                    <time>{{reply_date}}</time>
+                                </p>
+                                <p>{{comment_text}}</p>
+                            </li>
                             {{/ comments}}
                         </ul>
                     </div>
@@ -74,11 +75,12 @@
                     <!-- end Google Rich Snippets for review -->
                     {{/ allow_ratings}}
                 </li>
-            {{/ opinions}}
-        </ul>
-    </section>
-    <footer class="widget-footer">
-        <span>{{lang.powered_by}} </span>
-        <a target="_blank" title="{{lang.increase_sales}}" href="http://communify.com">communify</a>
-    </footer>
-</div>
+                {{/ opinions}}
+            </ul>
+        </section>
+        <footer class="widget-footer">
+            <span>{{lang.powered_by}} </span>
+            <a target="_blank" title="{{lang.increase_sales}}" href="http://communify.com">communify</a>
+        </footer>
+    </div>
+</noscript>
