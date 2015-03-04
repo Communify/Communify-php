@@ -22,17 +22,15 @@ downloading a single zip or phar file from our [latest release][latest-release].
 
 ```php
 
-    <?php 
-        $ssid = '[COMMUNIFY ACCOUNT SSID]';
-        $data = array(
-            'communify_url' 	=> 'http://[ENV NAME].yourcommunify.com/api/[ENV NAME]',
-            'email'     		=> '[USER EMAIL]',
-            'name'      		=> '[USER NAME]',
-            'surname'   		=> '[USER SURNAME]',
-            ...
-        );
-        echo \Communify\S2O\S2OClient::factory()->login($ssid, $data)->metas();
-    ?>
+    $ssid = '[COMMUNIFY ACCOUNT SSID]';
+    $data = array(
+        'communify_url' 	=> 'http://[ENV NAME].yourcommunify.com/api/[ENV NAME]',
+        'email'     		=> '[USER EMAIL]',
+        'name'      		=> '[USER NAME]',
+        'surname'   		=> '[USER SURNAME]',
+        ...
+    );
+    echo \Communify\S2O\S2OClient::factory()->login($ssid, $data)->metas();
 
 ```
 
@@ -40,15 +38,13 @@ downloading a single zip or phar file from our [latest release][latest-release].
 
 ```php
 
-    <?php 
-        $ssid = '[COMMUNIFY ACCOUNT SSID]';
-        $data = array(
-            'communify_url' 	=> 'http://[ENV NAME].pitucommunify.com/api/[ENV NAME]',
-            'limit'             => '10',
-            'order_by'          => 'date'
-        );
-        
-        echo \Communify\SEO\SEOClient::factory()->widget($ssid, $data)->html();
-    ?>
+    $ssid = '[COMMUNIFY ACCOUNT SSID]';
+    $data = array(
+        'communify_url' 	=> 'http://[ENV NAME].pitucommunify.com/api/[ENV NAME]',
+        'limit'             => '10',
+        'order_by'          => 'date'
+    );
+    
+    echo \Communify\SEO\SEOClient::factory()->widget($ssid, $data)->html();
 
 ```
