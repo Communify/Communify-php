@@ -1,4 +1,5 @@
-# Communify SDK for PHP
+# Communify SDK for PHP [![Build Status](http://ci.yourcommunify.com:8111/app/rest/builds/buildType:id:Master_SDK/statusIcon)]
+(http://ci.yourcommunify.com:8111/viewType.html?buildTypeId=Master_SDK&guest=1)
 
 The **Communify SDK for PHP** enables PHP developers to use [Communify Web Services][communify]
 in their PHP code. You can get started in
