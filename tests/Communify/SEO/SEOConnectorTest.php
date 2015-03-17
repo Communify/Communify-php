@@ -101,7 +101,7 @@ class SEOConnectorTest extends \PHPUnit_Framework_TestCase
 
     $this->client->expects($timesCreateRequest)
       ->method('createRequest')
-      ->with('POST', $url.'/'.SEOConnector::GET_SITE_INFO_API_METHOD, null, $expectedData)
+      ->with(SEOConnector::POST_METHOD, $url.'/'.SEOConnector::GET_SITE_INFO_API_METHOD, null, $expectedData)
       ->will($this->returnValue($request));
 
     $this->client->expects($timesSend)

@@ -54,7 +54,7 @@ class SEOConnector extends C2AbstractConnector
   public function getTopicInfo(C2Credential $credential)
   {
     $url = $credential->getUrl();
-    $request = $this->client->createRequest('POST', $url.'/'.self::GET_SITE_INFO_API_METHOD, null, $credential->get());
+    $request = $this->client->createRequest(self::POST_METHOD, $url.'/'.self::GET_SITE_INFO_API_METHOD, null, $credential->get());
     $response = $this->client->send($request);
     $seoResponse = $this->factory->response();
     $seoResponse->set($response);
