@@ -66,11 +66,10 @@ class C3ClientTest extends \PHPUnit_Framework_TestCase
    public function getCreateNewInstanceNoAvailableInstanceThrowExceptionData()
    {
      return array(
-       array($this->any(), $this->any(), $this->any(), $this->any()),
-       array($this->once(), $this->any(), $this->any(), $this->any()),
-       array($this->any(), $this->once(), $this->any(), $this->any()),
-       array($this->any(), $this->any(), $this->once(), $this->any()),
-       array($this->any(), $this->any(), $this->any(), $this->once()),
+       array($this->any(), $this->any(), $this->any()),
+       array($this->once(), $this->any(), $this->any()),
+       array($this->any(), $this->once(), $this->any()),
+       array($this->any(), $this->any(), $this->once()),
      );
    }
    
@@ -84,11 +83,11 @@ class C3ClientTest extends \PHPUnit_Framework_TestCase
     * @expectedExceptionMessage C3 Error: Can't create this community.
     * @expectedExceptionCode 104
    */
-   public function test_createNewInstance_called_noAvailableInstance_throwException($timesCredential, $timesSet, $timesCall, $timesGetValue)
+   public function test_createNewInstance_called_noAvailableInstance_throwException($timesCredential, $timesCall, $timesGetValue)
    {
      $ssid = 'dummy ssid';
      $data = array('dummy data');
-     $this->configureCommonCreateNewInstance($timesCredential, $timesSet, $timesCall, $timesGetValue, $ssid, $data, false);
+     $this->configureCommonCreateNewInstance($timesCredential, $timesCall, $timesGetValue, $ssid, $data, false);
      $this->sut->createNewInstance($ssid, $data);
    }
 
@@ -98,10 +97,9 @@ class C3ClientTest extends \PHPUnit_Framework_TestCase
   public function getCreateNewInstanceData()
   {
     return array(
-      array($this->any(), $this->any(), $this->any()),
-      array($this->once(), $this->any(), $this->any()),
-      array($this->any(), $this->once(), $this->any()),
-      array($this->any(), $this->any(), $this->once()),
+      array($this->any(), $this->any()),
+      array($this->once(), $this->any()),
+      array($this->any(), $this->once()),
     );
   }
 
@@ -112,12 +110,12 @@ class C3ClientTest extends \PHPUnit_Framework_TestCase
   * should: correct
    * @dataProvider getCreateNewInstanceData
   */
-  public function test_createNewInstance_called__correct($timesCredential, $timesSet, $timesGetValue)
+  public function test_createNewInstance_called__correct($timesCredential, $timesGetValue)
   {
     $ssid = 'dummy ssid';
     $data = array('dummy data');
     $expected = 'dummy expected value';
-    $credential = $this->configureCommonCreateNewInstance($timesCredential, $timesSet, $this->at(0), $timesGetValue, $ssid, $data, true);
+    $credential = $this->configureCommonCreateNewInstance($timesCredential, $this->at(0), $timesGetValue, $ssid, $data, true);
     $this->configureConnectorCall($this->at(1), C3Connector::CREATE_NEW_ENVIRONMENT_API_METHOD, $credential, $expected);
     $actual = $this->sut->createNewInstance($ssid, $data);
     $this->assertEquals($expected, $actual);
@@ -125,7 +123,6 @@ class C3ClientTest extends \PHPUnit_Framework_TestCase
 
   /**
    * @param $timesCredential
-   * @param $timesSet
    * @param $timesCall
    * @param $timesGetValue
    * @param $ssid
@@ -133,17 +130,15 @@ class C3ClientTest extends \PHPUnit_Framework_TestCase
    * @param $value
    * @return \PHPUnit_Framework_MockObject_MockObject
    */
-  private function configureCommonCreateNewInstance($timesCredential, $timesSet, $timesCall, $timesGetValue, $ssid, $data, $value)
+  private function configureCommonCreateNewInstance($timesCredential, $timesCall, $timesGetValue, $ssid, $data, $value)
   {
     $credential = $this->getMock('Communify\C2\C2Credential');
     $checkResponse = $this->getMock('Communify\C3\C3Response');
 
     $this->factory->expects($timesCredential)
       ->method('credential')
+      ->with($ssid, $data)
       ->will($this->returnValue($credential));
-    $credential->expects($timesSet)
-      ->method('set')
-      ->with($ssid, $data);
     $this->configureConnectorCall($timesCall, C3Connector::CHECK_NEW_ENVIRONMENT_API_METHOD, $credential, $checkResponse);
     $checkResponse->expects($timesGetValue)
       ->method('getValue')

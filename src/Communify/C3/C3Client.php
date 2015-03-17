@@ -59,8 +59,7 @@ class C3Client extends C2AbstractClient
    */
   public function createNewInstance($ssid, $data)
   {
-    $credential = $this->factory->credential();
-    $credential->set($ssid, $data);
+    $credential = $this->factory->credential($ssid, $data);
 
     /** @var C3Response $checkResponse */
     $checkResponse = $this->connector->call(C3Connector::POST_METHOD, C3Connector::CHECK_NEW_ENVIRONMENT_API_METHOD, $credential, $this->factory);

@@ -21,6 +21,7 @@ class DummyFactory extends C2AbstractFactory
 {
   public function connector(){}
   public function response(){}
+  public function credential($ssid, $data){}
 }
 
 /**

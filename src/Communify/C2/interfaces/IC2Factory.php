@@ -32,6 +32,13 @@ interface IC2Factory
   public function httpClient();
 
   /**
+   * @param $ssid
+   * @param $data
+   * @return IC2Factory
+   */
+  public function credential($ssid, $data);
+
+  /**
    * @return IC2Connector
    */
   public function connector();

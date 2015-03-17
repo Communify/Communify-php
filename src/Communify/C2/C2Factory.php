@@ -26,16 +26,17 @@ use Communify\C2\abstracts\C2AbstractFactory;
 class C2Factory extends C2AbstractFactory
 {
 
-
-
   /**
    * Create C2Credential.
    *
    * @return C2Credential
    */
-  public function credential()
+  public function credential($ssid, $data)
   {
-    return C2Credential::factory();
+    /** @var C2Credential $credential */
+    $credential = C2Credential::factory();
+    $credential->set($ssid, $data);
+    return $credential;
   }
 
   /**
