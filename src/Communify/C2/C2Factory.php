@@ -26,6 +26,8 @@ use Communify\C2\abstracts\C2AbstractFactory;
 class C2Factory extends C2AbstractFactory
 {
 
+
+
   /**
    * Create C2Credential.
    *
@@ -64,6 +66,22 @@ class C2Factory extends C2AbstractFactory
   public function meta($name, $content)
   {
     return C2Meta::factory($name, $content);
+  }
+
+  /**
+   * @throws C2Exception
+   */
+  public function connector()
+  {
+    throw new C2Exception(self::INVALID_IMPL_MSG, self::INVALID_IMPL_CODE);
+  }
+
+  /**
+   * @throws C2Exception
+   */
+  public function response()
+  {
+    throw new C2Exception(self::INVALID_IMPL_MSG, self::INVALID_IMPL_CODE);
   }
 
 }

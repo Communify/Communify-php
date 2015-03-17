@@ -13,33 +13,25 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-namespace tests\Communify\C2\abstracts;
 
-use Communify\C2\abstracts\C2AbstractFactory;
-
-class DummyFactory extends C2AbstractFactory
-{
-  public function connector(){}
-  public function response(){}
-}
+namespace Communify\C2\interfaces;
 
 /**
- * @covers \Communify\C2\abstracts\C2AbstractFactory
+ * Interface IC2Factory
+ * @package Communify\C2\interfaces
  */
-class C2AbstractFactoryTest extends \PHPUnit_Framework_TestCase
+interface IC2Connector
 {
 
+  const POST_METHOD = 'POST';
+  const GET_METHOD  = 'GET';
+
   /**
-  * method: httpClient
-  * when: called
-  * with:
-  * should: correct
-  */
-  public function test_httpClient_called__correct()
-  {
-    $sut = new DummyFactory();
-    $actual = $sut->httpClient();
-    $this->assertEquals(get_class($actual), 'Guzzle\Http\Client');
-  }
+   * @param $method
+   * @param $apiMethod
+   * @param IC2Credential $credential
+   * @return IC2Response
+   */
+  public function call($method, $apiMethod, IC2Credential $credential);
 
 }

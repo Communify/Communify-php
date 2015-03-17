@@ -23,6 +23,22 @@ namespace Communify\C2\interfaces;
 interface IC2Factory
 {
 
+  const INVALID_IMPL_CODE  = 103;
+  const INVALID_IMPL_MSG    = 'C2Factory not implements this method. Extend it.';
+
+  /**
+   * @return mixed
+   */
   public function httpClient();
+
+  /**
+   * @return IC2Connector
+   */
+  public function connector();
+
+  /**
+   * @return IC2Response
+   */
+  public function response();
 
 }

@@ -15,14 +15,17 @@
  */
 namespace Communify\C2\abstracts;
 
+use Communify\C2\interfaces\IC2Connector;
+use Communify\C2\interfaces\IC2Credential;
 use Communify\C2\interfaces\IC2Factory;
+use Communify\C2\interfaces\IC2Response;
 use Guzzle\Http\Client;
 
 /**
  * Class C2AbstractConnector
  * @package Communify\C2\abstracts
  */
-abstract class C2AbstractConnector extends C2AbstractFactorizable
+abstract class C2AbstractConnector extends C2AbstractFactorizable implements IC2Connector
 {
 
   /**
@@ -49,6 +52,22 @@ abstract class C2AbstractConnector extends C2AbstractFactorizable
     }
     $this->factory = $factory;
     $this->client = $client;
+  }
+
+  /**
+   * @param $method
+   * @param $apiMethod
+   * @param IC2Credential $credential
+   * @return IC2Response
+   */
+  public function call($method, $apiMethod, IC2Credential $credential)
+  {
+    $url = $credential->getUrl();
+    $request = $this->client->createRequest($method, $url.'/'.$apiMethod, null, $credential->get());
+    $response = $this->client->send($request);
+    $c2Response = $this->factory->response();
+    $c2Response->set($response);
+    return $c2Response;
   }
 
 }

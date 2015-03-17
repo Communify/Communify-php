@@ -13,33 +13,27 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-namespace tests\Communify\C2\abstracts;
 
-use Communify\C2\abstracts\C2AbstractFactory;
-
-class DummyFactory extends C2AbstractFactory
-{
-  public function connector(){}
-  public function response(){}
-}
+namespace tests\Communify\C3;
+use Communify\C3\C3Connector;
 
 /**
- * @covers \Communify\C2\abstracts\C2AbstractFactory
+ * @covers Communify\C3\C3Connector
  */
-class C2AbstractFactoryTest extends \PHPUnit_Framework_TestCase
+class C3ConnectorTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
-  * method: httpClient
+  * method: constructor
   * when: called
-  * with:
+  * with: noInjection
   * should: correct
   */
-  public function test_httpClient_called__correct()
+  public function test_constructor_called_noInjection_correct()
   {
-    $sut = new DummyFactory();
-    $actual = $sut->httpClient();
-    $this->assertEquals(get_class($actual), 'Guzzle\Http\Client');
+    $sut = new C3Connector();
+    $this->assertAttributeInstanceOf('Communify\C3\C3Factory', 'factory', $sut);
+    $this->assertAttributeInstanceOf('Guzzle\Http\Client', 'client', $sut);
   }
 
 }

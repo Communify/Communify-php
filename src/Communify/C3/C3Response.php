@@ -13,33 +13,45 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-namespace tests\Communify\C2\abstracts;
 
-use Communify\C2\abstracts\C2AbstractFactory;
+namespace Communify\C3;
 
-class DummyFactory extends C2AbstractFactory
-{
-  public function connector(){}
-  public function response(){}
-}
+use Communify\C2\abstracts\C2AbstractResponse;
+use Communify\C2\C2Exception;
+use Guzzle\Http\Message\Response;
 
 /**
- * @covers \Communify\C2\abstracts\C2AbstractFactory
+ * Class C3Response
+ * @package Communify\C3
  */
-class C2AbstractFactoryTest extends \PHPUnit_Framework_TestCase
+class C3Response extends C2AbstractResponse
 {
 
+  private $value;
+
   /**
-  * method: httpClient
-  * when: called
-  * with:
-  * should: correct
-  */
-  public function test_httpClient_called__correct()
+   * @param Response $response
+   */
+  public function set(Response $response)
   {
-    $sut = new DummyFactory();
-    $actual = $sut->httpClient();
-    $this->assertEquals(get_class($actual), 'Guzzle\Http\Client');
+    try
+    {
+      $result = $response->json();
+      $this->validator->checkData($result);
+      $this->value = $result['data'];
+    }
+    catch(C2Exception $e)
+    {
+      $this->value = null;
+    }
   }
 
-}
+  /**
+   * @return mixed
+   */
+  public function getValue()
+  {
+    return $this->value;
+  }
+
+} 

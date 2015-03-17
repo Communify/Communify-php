@@ -1,37 +1,42 @@
 {
-    "name": "communify/communify-php",
-    "description": "Communify PHP integration package.",
-    "version": "1.0.1",
-    "keywords": ["communify", "communify-php"],
-    "homepage": "https://github.com/communify/communify-php",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Communify web team",
-            "email": "pitu@communify.com",
-            "homepage": "http://communify.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.0",
-        "guzzle/guzzle": "~3.7",
-        "mustache/mustache": "~2.5"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "4.3"
-    },
-    "config": {
-        "bin-dir": "bin/"
-    },
-    "autoload": {
-        "psr-0" : {
-            "Communify" : "src"
-        }
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/Communify/Communify-php"
-        }
-    ]
+  "name": "communify/communify-php",
+  "description": "Communify PHP integration package.",
+  "version": "1.0.1",
+  "keywords": ["communify", "communify-php"],
+  "homepage": "https://github.com/communify/communify-php",
+  "type": "library",
+  "license": "Apache-2.0",
+  "authors": [
+      {
+          "name": "Communify web team",
+          "email": "pitu@communify.com",
+          "homepage": "http://communify.com"
+      }
+  ],
+  "support": {
+    "forum": "http://communify.com",
+    "issues": "http://communify.com/contact/"
+  },
+  "require": {
+      "php": ">=5.3.0",
+      "guzzle/guzzle": "~3.7",
+      "mustache/mustache": "~2.5"
+  },
+  "require-dev": {
+      "phpunit/phpunit": "4.3"
+  },
+  "config": {
+      "bin-dir": "bin/"
+  },
+  "autoload": {
+      "psr-0" : {
+          "Communify" : "src"
+      }
+  },
+  "repositories": [
+      {
+          "type": "git",
+          "url": "https://github.com/Communify/Communify-php"
+      }
+  ]
 }

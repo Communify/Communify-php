@@ -71,4 +71,30 @@ class C2FactoryTest extends \PHPUnit_Framework_TestCase
     $this->assertInstanceOf('Communify\C2\C2Meta', $actual);
   }
 
+  /**
+  * dataProvider getInvalidMethodsData
+  */
+  public function getInvalidMethodsData()
+  {
+    return array(
+      array('connector'),
+      array('response'),
+    );
+  }
+
+  /**
+  * method: invalidMethods
+  * when: called
+  * with:
+  * should: throwExceptions
+   * @dataProvider getInvalidMethodsData
+   * @expectedException \Communify\C2\C2Exception
+   * @expectedExceptionCode 103
+   * @expectedExceptionMessage C2Factory not implements this method. Extend it.
+  */
+  public function test_invalidMethods_called__throwExceptions($method)
+  {
+    $this->sut->$method();
+  }
+
 }
