@@ -31,9 +31,12 @@ class C2Factory extends C2AbstractFactory
    *
    * @return C2Credential
    */
-  public function credential()
+  public function credential($ssid, $data)
   {
-    return C2Credential::factory();
+    /** @var C2Credential $credential */
+    $credential = C2Credential::factory();
+    $credential->set($ssid, $data);
+    return $credential;
   }
 
   /**
@@ -64,6 +67,22 @@ class C2Factory extends C2AbstractFactory
   public function meta($name, $content)
   {
     return C2Meta::factory($name, $content);
+  }
+
+  /**
+   * @throws C2Exception
+   */
+  public function connector()
+  {
+    throw new C2Exception(self::INVALID_IMPL_MSG, self::INVALID_IMPL_CODE);
+  }
+
+  /**
+   * @throws C2Exception
+   */
+  public function response()
+  {
+    throw new C2Exception(self::INVALID_IMPL_MSG, self::INVALID_IMPL_CODE);
   }
 
 }

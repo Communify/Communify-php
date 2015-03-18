@@ -14,38 +14,35 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\C2\interfaces;
+namespace Communify\C3;
+
+use Communify\C2\C2Factory;
 
 /**
- * Interface IC2Factory
- * @package Communify\C2\interfaces
+ * Class C3Factory
+ * @package Communify\C3
  */
-interface IC2Factory
+class C3Factory extends C2Factory
 {
 
-  const INVALID_IMPL_CODE  = 103;
-  const INVALID_IMPL_MSG    = 'C2Factory not implements this method. Extend it.';
+  /**
+   * Create C3Connector.
+   *
+   * @return C3Connector
+   */
+  public function connector()
+  {
+    return C3Connector::factory();
+  }
 
   /**
-   * @return mixed
+   * Create C3Response.
+   *
+   * @return C3Response
    */
-  public function httpClient();
-
-  /**
-   * @param $ssid
-   * @param $data
-   * @return IC2Factory
-   */
-  public function credential($ssid, $data);
-
-  /**
-   * @return IC2Connector
-   */
-  public function connector();
-
-  /**
-   * @return IC2Response
-   */
-  public function response();
+  public function response()
+  {
+    return C3Response::factory();
+  }
 
 }

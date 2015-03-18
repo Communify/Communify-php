@@ -19,7 +19,9 @@ use Communify\C2\abstracts\C2AbstractFactory;
 
 class DummyFactory extends C2AbstractFactory
 {
-
+  public function connector(){}
+  public function response(){}
+  public function credential($ssid, $data){}
 }
 
 /**

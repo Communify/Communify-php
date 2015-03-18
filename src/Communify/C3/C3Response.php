@@ -14,38 +14,44 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\C2\interfaces;
+namespace Communify\C3;
+
+use Communify\C2\abstracts\C2AbstractResponse;
+use Communify\C2\C2Exception;
+use Guzzle\Http\Message\Response;
 
 /**
- * Interface IC2Factory
- * @package Communify\C2\interfaces
+ * Class C3Response
+ * @package Communify\C3
  */
-interface IC2Factory
+class C3Response extends C2AbstractResponse
 {
 
-  const INVALID_IMPL_CODE  = 103;
-  const INVALID_IMPL_MSG    = 'C2Factory not implements this method. Extend it.';
+  private $value;
+
+  /**
+   * @param Response $response
+   */
+  public function set(Response $response)
+  {
+    try
+    {
+      $result = $response->json();
+      $this->validator->checkData($result);
+      $this->value = $result['data'];
+    }
+    catch(C2Exception $e)
+    {
+      $this->value = null;
+    }
+  }
 
   /**
    * @return mixed
    */
-  public function httpClient();
+  public function getValue()
+  {
+    return $this->value;
+  }
 
-  /**
-   * @param $ssid
-   * @param $data
-   * @return IC2Factory
-   */
-  public function credential($ssid, $data);
-
-  /**
-   * @return IC2Connector
-   */
-  public function connector();
-
-  /**
-   * @return IC2Response
-   */
-  public function response();
-
-}
+} 

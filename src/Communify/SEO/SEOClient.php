@@ -58,8 +58,7 @@ class SEOClient extends C2AbstractClient
   public function widget($ssid, $data)
   {
     $data['url']  = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $credential = $this->factory->credential();
-    $credential->set($ssid, $data);
+    $credential = $this->factory->credential($ssid, $data);
     return $this->connector->getTopicInfo($credential);
   }
 

@@ -28,6 +28,9 @@ interface IC2Response
   const STATUS_OK   = 'ok';
   const STATUS_KO   = 'ko';
 
+  /**
+   * @param Response $response
+   */
   public function set(Response $response);
 
 }

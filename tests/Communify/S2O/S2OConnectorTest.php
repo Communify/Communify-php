@@ -126,7 +126,7 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
       ->will($this->returnValue($credentialData));
     $this->client->expects($timesCreateRequest)
       ->method('createRequest')
-      ->with('POST', $url.'/'.S2OConnector::SINGLE_SIGN_ON_API_METHOD, null, $credentialData)
+      ->with(S2OConnector::POST_METHOD, $url.'/'.S2OConnector::SINGLE_SIGN_ON_API_METHOD, null, $credentialData)
       ->will($this->returnValue($request));
     $this->client->expects($timesSend)
       ->method('send')

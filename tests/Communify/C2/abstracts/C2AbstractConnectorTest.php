@@ -17,6 +17,8 @@ namespace tests\Communify\C2\abstracts;
 
 use Communify\C2\abstracts\C2AbstractConnector;
 use Communify\C2\abstracts\C2AbstractFactory;
+use Communify\C2\interfaces\IC2Response;
+use Guzzle\Http\Message\Response;
 
 class DummyConnector extends C2AbstractConnector
 {
@@ -25,7 +27,14 @@ class DummyConnector extends C2AbstractConnector
 
 class DummyFactoryImpl extends C2AbstractFactory
 {
+  public function connector(){}
+  public function response(){}
+  public function credential($ssid, $data){}
+}
 
+class DummyResponseImpl implements IC2Response
+{
+  public function set(Response $response){}
 }
 
 /**
@@ -103,6 +112,70 @@ class C2AbstractConnectorTest extends \PHPUnit_Framework_TestCase
   {
     $this->assertAttributeEquals($this->client, 'client', $sut);
     $this->assertAttributeEquals($this->factory, 'factory', $sut);
+  }
+
+  /**
+  * dataProvider getCallData
+  */
+  public function getCallData()
+  {
+    return array(
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
+    );
+  }
+
+  /**
+  * method: call
+  * when: called
+  * with:
+  * should: correct
+   * @dataProvider getCallData
+  */
+  public function test_call_called__correct($timesGetUrl, $timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet)
+  {
+    $url = 'dummy url';
+    $method = 'dummy method';
+    $apiMethod = 'dummy api method';
+    $credentialGet = array('dummy credential array');
+    $credential = $this->getMock('Communify\C2\C2Credential');
+    $request = $this->getMockBuilder('Guzzle\Http\Message\Request')->disableOriginalConstructor()->getMock();
+    $response = $this->getMockBuilder('Guzzle\Http\Message\Response')->disableOriginalConstructor()->getMock();
+    $c2Response = $this->getMock('tests\Communify\C2\abstracts\DummyResponseImpl');
+
+    $credential->expects($timesGetUrl)
+      ->method('getUrl')
+      ->will($this->returnValue($url));
+
+    $credential->expects($timesGet)
+      ->method('get')
+      ->will($this->returnValue($credentialGet));
+
+    $this->client->expects($timesCreateRequest)
+      ->method('createRequest')
+      ->with($method, $url.'/'.$apiMethod, null, $credentialGet)
+      ->will($this->returnValue($request));
+
+    $this->client->expects($timesSend)
+      ->method('send')
+      ->with($request)
+      ->will($this->returnValue($response));
+
+    $this->factory->expects($timesResponse)
+      ->method('response')
+      ->will($this->returnValue($c2Response));
+
+    $c2Response->expects($timesSet)
+      ->method('set')
+      ->with($response);
+
+    $actual = $this->configureSut()->call($method, $apiMethod, $credential);
+    $this->assertEquals($c2Response, $actual);
   }
 
 }

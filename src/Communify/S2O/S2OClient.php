@@ -67,8 +67,7 @@ class S2OClient extends C2AbstractClient
       'info'  => $data,
       'communify_url' => $url
     );
-    $credential = $this->factory->credential();
-    $credential->set($ssid, $info);
+    $credential = $this->factory->credential($ssid, $info);
     return $this->connector->login($credential);
   }
 

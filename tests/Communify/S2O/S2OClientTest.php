@@ -65,15 +65,13 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
   public function getLoginData()
   {
     return array(
-      array(array('dummy' => 'value'), array('dummy' => 'value'), null, $this->any(), $this->any(), $this->any()),
-      array(array('dummy' => 'value'), array('dummy' => 'value'), null, $this->once(), $this->any(), $this->any()),
-      array(array('dummy' => 'value'), array('dummy' => 'value'), null, $this->any(), $this->once(), $this->any()),
-      array(array('dummy' => 'value'), array('dummy' => 'value'), null, $this->any(), $this->any(), $this->once()),
+      array(array('dummy' => 'value'), array('dummy' => 'value'), null, $this->any(), $this->any()),
+      array(array('dummy' => 'value'), array('dummy' => 'value'), null, $this->once(), $this->any()),
+      array(array('dummy' => 'value'), array('dummy' => 'value'), null, $this->any(), $this->once()),
 
-      array(array('dummy' => 'value', 'communify_url' => 'dummy url'), array('dummy' => 'value'), 'dummy url', $this->any(), $this->any(), $this->any()),
-      array(array('dummy' => 'value', 'communify_url' => 'dummy url'), array('dummy' => 'value'), 'dummy url', $this->once(), $this->any(), $this->any()),
-      array(array('dummy' => 'value', 'communify_url' => 'dummy url'), array('dummy' => 'value'), 'dummy url', $this->any(), $this->once(), $this->any()),
-      array(array('dummy' => 'value', 'communify_url' => 'dummy url'), array('dummy' => 'value'), 'dummy url', $this->any(), $this->any(), $this->once()),
+      array(array('dummy' => 'value', 'communify_url' => 'dummy url'), array('dummy' => 'value'), 'dummy url', $this->any(), $this->any()),
+      array(array('dummy' => 'value', 'communify_url' => 'dummy url'), array('dummy' => 'value'), 'dummy url', $this->once(), $this->any()),
+      array(array('dummy' => 'value', 'communify_url' => 'dummy url'), array('dummy' => 'value'), 'dummy url', $this->any(), $this->once()),
     );
   }
 
@@ -84,7 +82,7 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
   * should: correct
    * @dataProvider getLoginData
   */
-  public function test_login_called__correct($data, $expectedData, $url, $timesCredential, $timesSet, $timesLogin)
+  public function test_login_called__correct($data, $expectedData, $url, $timesCredential, $timesLogin)
   {
 
     $ssid = 'dummy ssid';
@@ -97,10 +95,8 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
     $credential = $this->getMock('Communify\C2\C2Credential');
     $this->factory->expects($timesCredential)
       ->method('credential')
+      ->with($ssid, $info)
       ->will($this->returnValue($credential));
-    $credential->expects($timesSet)
-      ->method('set')
-      ->with($ssid, $info);
     $this->connector->expects($timesLogin)
       ->method('login')
       ->with($credential)

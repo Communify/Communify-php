@@ -65,10 +65,9 @@ class SEOClientTest extends \PHPUnit_Framework_TestCase
   public function getWidgetData()
   {
     return array(
-      array($this->any(), $this->any(), $this->any()),
-      array($this->once(), $this->any(), $this->any()),
-      array($this->any(), $this->once(), $this->any()),
-      array($this->any(), $this->any(), $this->once()),
+      array($this->any(), $this->any()),
+      array($this->once(), $this->any()),
+      array($this->any(), $this->once()),
     );
   }
 
@@ -79,7 +78,7 @@ class SEOClientTest extends \PHPUnit_Framework_TestCase
   * should: correct
    * @dataProvider getWidgetData
   */
-  public function test_widget_called__correct($timesCredential, $timesSet, $timesGetSite)
+  public function test_widget_called__correct($timesCredential, $timesGetSite)
   {
     $_SERVER['HTTP_HOST'] = 'dummy host';
     $_SERVER['REQUEST_URI'] = 'dummy uri';
@@ -93,10 +92,8 @@ class SEOClientTest extends \PHPUnit_Framework_TestCase
 
     $this->factory->expects($timesCredential)
       ->method('credential')
+      ->with($ssid, $expectedData)
       ->will($this->returnValue($credential));
-    $credential->expects($timesSet)
-      ->method('set')
-      ->with($ssid, $expectedData);
     $this->connector->expects($timesGetSite)
       ->method('getTopicInfo')
       ->with($credential)

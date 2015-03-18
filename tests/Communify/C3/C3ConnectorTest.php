@@ -14,38 +14,26 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\C2\interfaces;
+namespace tests\Communify\C3;
+use Communify\C3\C3Connector;
 
 /**
- * Interface IC2Factory
- * @package Communify\C2\interfaces
+ * @covers Communify\C3\C3Connector
  */
-interface IC2Factory
+class C3ConnectorTest extends \PHPUnit_Framework_TestCase
 {
 
-  const INVALID_IMPL_CODE  = 103;
-  const INVALID_IMPL_MSG    = 'C2Factory not implements this method. Extend it.';
-
   /**
-   * @return mixed
-   */
-  public function httpClient();
-
-  /**
-   * @param $ssid
-   * @param $data
-   * @return IC2Factory
-   */
-  public function credential($ssid, $data);
-
-  /**
-   * @return IC2Connector
-   */
-  public function connector();
-
-  /**
-   * @return IC2Response
-   */
-  public function response();
+  * method: constructor
+  * when: called
+  * with: noInjection
+  * should: correct
+  */
+  public function test_constructor_called_noInjection_correct()
+  {
+    $sut = new C3Connector();
+    $this->assertAttributeInstanceOf('Communify\C3\C3Factory', 'factory', $sut);
+    $this->assertAttributeInstanceOf('Guzzle\Http\Client', 'client', $sut);
+  }
 
 }

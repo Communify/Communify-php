@@ -20,32 +20,16 @@ namespace Communify\C2\interfaces;
  * Interface IC2Factory
  * @package Communify\C2\interfaces
  */
-interface IC2Factory
+interface IC2Credential
 {
 
-  const INVALID_IMPL_CODE  = 103;
-  const INVALID_IMPL_MSG    = 'C2Factory not implements this method. Extend it.';
 
-  /**
-   * @return mixed
-   */
-  public function httpClient();
+  public function set($ssid, $data);
 
-  /**
-   * @param $ssid
-   * @param $data
-   * @return IC2Factory
-   */
-  public function credential($ssid, $data);
+  public function get();
 
-  /**
-   * @return IC2Connector
-   */
-  public function connector();
+  public function getData();
 
-  /**
-   * @return IC2Response
-   */
-  public function response();
+  public function getUrl();
 
 }

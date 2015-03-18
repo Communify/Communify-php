@@ -35,12 +35,32 @@ class C2FactoryTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
+  * method: credential
+  * when: called
+  * with:
+  * should: correct
+  */
+  public function test_credential_called__correct()
+  {
+    $ssid = 'dummy ssid';
+    $data = array(
+      'dummy' => 'value'
+    );
+    $expectedData = array(
+      'dummy' => 'value',
+      'ssid'  => $ssid
+    );
+    $actual = $this->sut->credential($ssid, $data);
+    $this->assertInstanceOf('Communify\C2\C2Credential', $actual);
+    $this->assertEquals($actual->getData(), $expectedData);
+  }
+
+  /**
   * dataProvider getC2MethodsData
   */
   public function getC2MethodsData()
   {
     return array(
-      array('credential', 'C2Credential'),
       array('encryptor', 'C2Encryptor'),
       array('metaIterator', 'C2MetaIterator'),
     );
@@ -69,6 +89,32 @@ class C2FactoryTest extends \PHPUnit_Framework_TestCase
   {
     $actual = $this->sut->meta('dummy name', 'dummy content');
     $this->assertInstanceOf('Communify\C2\C2Meta', $actual);
+  }
+
+  /**
+  * dataProvider getInvalidMethodsData
+  */
+  public function getInvalidMethodsData()
+  {
+    return array(
+      array('connector'),
+      array('response'),
+    );
+  }
+
+  /**
+  * method: invalidMethods
+  * when: called
+  * with:
+  * should: throwExceptions
+   * @dataProvider getInvalidMethodsData
+   * @expectedException \Communify\C2\C2Exception
+   * @expectedExceptionCode 103
+   * @expectedExceptionMessage C2Factory not implements this method. Extend it.
+  */
+  public function test_invalidMethods_called__throwExceptions($method)
+  {
+    $this->sut->$method();
   }
 
 }
