@@ -236,6 +236,59 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
+  * method: get
+  * when: called
+  * with: emptyArray
+  * should: returnEmptyArray
+  */
+  public function test_get_called_emptyArray_returnEmptyArray()
+  {
+    $actual = $this->sut->get();
+    $this->assertEquals(array(), $actual);
+  }
+
+  /**
+  * dataProvider getData
+  */
+  public function getData()
+  {
+    return array(
+      array($this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->once(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->once(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->once(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->once()),
+    );
+  }
+
+  /**
+  * method: get
+  * when: called
+  * with: notEmptyArray
+  * should: correctReturn
+   * @dataProvider getData
+  */
+  public function test_get_called_notEmptyArray_correctReturn($timesName1, $timesContent1, $timesName2, $timesContent2)
+  {
+    $name1 = 'dummy name 1';
+    $content1 = 'dummy name 1';
+    $name2 = 'dummy name 2';
+    $content2 = 'dummy content 2';
+    $meta1 = $this->getMetaMock();
+    $meta2 = $this->getMetaMock();
+    $metas = array($meta1, $meta2);
+    $expected = array(
+      $name1 => $content1,
+      $name2 => $content2
+    );
+    $this->configureGetNameAndContent($meta1, $timesName1, $name1, $timesContent1, $content1);
+    $this->configureGetNameAndContent($meta2, $timesName2, $name2, $timesContent2, $content2);
+    $this->sut->setMetas($metas);
+    $actual = $this->sut->get();
+    $this->assertEquals($expected, $actual);
+  }
+
+  /**
    * @param $meta1
    * @param $timesHtml
    * @param $html1
@@ -309,6 +362,23 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
     $this->configureCheckData($timesCheckData, $data, $this->throwException($exception));
     $this->configureMetasPush($timesPush, $error, $msg);
     $this->sut->set($response);
+  }
+
+  /**
+   * @param $meta1
+   * @param $timesName
+   * @param $name
+   * @param $timesContent
+   * @param $content
+   */
+  private function configureGetNameAndContent($meta1, $timesName, $name, $timesContent, $content)
+  {
+    $meta1->expects($timesName)
+      ->method('getName')
+      ->will($this->returnValue($name));
+    $meta1->expects($timesContent)
+      ->method('getContent')
+      ->will($this->returnValue($content));
   }
 
 }
