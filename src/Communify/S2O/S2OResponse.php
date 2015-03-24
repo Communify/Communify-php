@@ -105,6 +105,20 @@ class S2OResponse extends C2AbstractResponse
   }
 
   /**
+   * @return array
+   */
+  public function get()
+  {
+    $result = array();
+    foreach($this->metas as $meta)
+    {
+      $result[$meta->getName()] = $meta->getContent();
+    }
+
+    return $result;
+  }
+
+  /**
    * Set S2OMeta's array.
    *
    * @param C2Meta[] $metas
