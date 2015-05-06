@@ -60,8 +60,7 @@ class SEOTopicTest extends \PHPUnit_Framework_TestCase
     $title = 'dummy title';
     $averageRatings = 'dummy average ratings';
     $allowRatings = true;
-    $topic = $this->configureTopic($ideas, $name, $surname, $description, $fileUrl, $title);
-    $topic['average_ratings'] = $averageRatings;
+    $topic = $this->configureTopic($ideas, $name, $surname, $description, $fileUrl, $title, $averageRatings);
     $expected = $this->configureExpectedGet($allowRatings, $ideas, $averageRatings, $name, $surname, $description, $fileUrl, $title);
     $this->executeGetAndAssertResult($topic, $allowRatings, $expected);
   }
@@ -104,15 +103,17 @@ class SEOTopicTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * @param $ideas
-   * @param $name
-   * @param $surname
-   * @param $description
-   * @param $fileUrl
-   * @param $title
+   * @param      $ideas
+   * @param      $name
+   * @param      $surname
+   * @param      $description
+   * @param      $fileUrl
+   * @param      $title
+   * @param null $avgRatings
+   *
    * @return array
    */
-  private function configureTopic($ideas, $name, $surname, $description, $fileUrl, $title)
+  private function configureTopic($ideas, $name, $surname, $description, $fileUrl, $title, $avgRatings = null)
   {
     $topic = array(
       'ideas' => $ideas,
@@ -126,6 +127,12 @@ class SEOTopicTest extends \PHPUnit_Framework_TestCase
         'title' => $title
       )
     );
+
+    if($avgRatings)
+    {
+      $topic['site']['average_ratings'] = $avgRatings;
+    }
+
     return $topic;
   }
 
