@@ -37,11 +37,13 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
    */
   private $sut;
 
+  private $url = 'dummy url';
+
   public function setUp()
   {
     $this->validator = $this->getMock('Communify\C2\C2Validator');
     $this->metas = $this->getMock('Communify\C2\C2MetaIterator');
-    $this->sut = new S2OResponse($this->validator, $this->metas);
+    $this->sut = new S2OResponse($this->validator, $this->metas, $this->url);
   }
 
   /**
@@ -55,6 +57,8 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
     $sut = new S2OResponse();
     $this->assertAttributeInstanceOf('Communify\C2\C2Validator', 'validator', $sut);
     $this->assertAttributeInstanceOf('Communify\C2\C2MetaIterator', 'metas', $sut);
+    $this->assertAttributeEmpty('url', $sut);
+    $this->assertAttributeEquals(false, 'error', $sut);
   }
 
   /**
@@ -224,15 +228,37 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   {
     $html1 = 'dummy html 1';
     $html2 = 'dummy html 2';
+    $scripts = '<script src="dummy url/bower_components/scriptjs/dist/script.min.js"></script><script id="cfy-s2o-script" data-url="dummy url" src="dummy url/views/widget/s2o/bootstrap.js"></script>';
+    $expected = ''.$html1.$html2.$scripts;
+    $this->configureExecuteAndAssertCommonMethodsNotEmpty($timesHtml1, $timesHtml2, $html1, $html2, $expected);
+  }
+
+  /**
+  * dataProvider getMetasWithErrorData
+  */
+  public function getMetasWithErrorData()
+  {
+    return array(
+      array($this->any(), $this->any()),
+      array($this->once(), $this->any()),
+      array($this->any(), $this->once()),
+    );
+  }
+
+  /**
+  * method: metas
+  * when: called
+  * with: metasArrayWithError
+  * should: returnCorrectString
+   * @dataProvider getMetasWithErrorData
+  */
+  public function test_metas_called_metasArrayWithError_returnCorrectString($timesHtml1, $timesHtml2)
+  {
+    $html1 = 'dummy html 1';
+    $html2 = 'dummy html 2';
     $expected = ''.$html1.$html2;
-    $meta1 = $this->getMetaMock();
-    $meta2 = $this->getMetaMock();
-    $metas = array($meta1, $meta2);
-    $this->configureMetaGetHtml($meta1, $timesHtml1, $html1);
-    $this->configureMetaGetHtml($meta2, $timesHtml2, $html2);
-    $this->sut->setMetas($metas);
-    $actual = $this->sut->metas();
-    $this->assertEquals($expected, $actual);
+    $this->sut->setError(true);
+    $this->configureExecuteAndAssertCommonMethodsNotEmpty($timesHtml1, $timesHtml2, $html1, $html2, $expected);
   }
 
   /**
@@ -362,6 +388,7 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
     $this->configureCheckData($timesCheckData, $data, $this->throwException($exception));
     $this->configureMetasPush($timesPush, $error, $msg);
     $this->sut->set($response);
+    $this->assertAttributeEquals(true, 'error', $this->sut);
   }
 
   /**
@@ -379,6 +406,37 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
     $meta1->expects($timesContent)
       ->method('getContent')
       ->will($this->returnValue($content));
+  }
+
+  /**
+   * @param $timesHtml1
+   * @param $timesHtml2
+   * @param $html1
+   * @param $html2
+   * @param $expected
+   */
+  private function configureExecuteAndAssertCommonMethodsNotEmpty($timesHtml1, $timesHtml2, $html1, $html2, $expected)
+  {
+    $meta1 = $this->getMetaMock();
+    $meta2 = $this->getMetaMock();
+    $metas = array($meta1, $meta2);
+    $this->configureMetaGetHtml($meta1, $timesHtml1, $html1);
+    $this->configureMetaGetHtml($meta2, $timesHtml2, $html2);
+    $this->sut->setMetas($metas);
+    $actual = $this->sut->metas();
+    $this->assertEquals($expected, $actual);
+  }
+
+  /**
+  * method: setUrl
+  * when: called
+  * with: correctUrl
+  * should: correctReturn
+  */
+  public function test_setUrl_called_correctUrl_correctReturn()
+  {
+    $this->sut->setUrl('http://env.yourcommunify.com/api/env');
+    $this->assertAttributeEquals('http://env.yourcommunify.com', 'url', $this->sut);
   }
 
 }

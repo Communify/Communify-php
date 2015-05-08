@@ -37,12 +37,23 @@ class S2OResponse extends C2AbstractResponse
   private $metas;
 
   /**
+   * @var String
+   */
+  private $url;
+
+  /**
+   * @var bool
+   */
+  private $error;
+
+  /**
    * Create S2OValidator.
    *
    * @param C2Validator $validator
    * @param C2MetaIterator $metas
+   * @param null $url
    */
-  function __construct(C2Validator $validator = null, C2MetaIterator $metas = null)
+  function __construct(C2Validator $validator = null, C2MetaIterator $metas = null, $url = null)
   {
 
     if($metas == null)
@@ -51,6 +62,13 @@ class S2OResponse extends C2AbstractResponse
     }
 
     $this->metas = $metas;
+    $this->url = null;
+    $this->error = false;
+
+    if($url != null)
+    {
+      $this->url = $url;
+    }
 
     parent::__construct($validator);
   }
@@ -86,6 +104,7 @@ class S2OResponse extends C2AbstractResponse
           break;
       }
       $this->metas->push($error, $msg);
+      $this->error = true;
     }
   }
 
@@ -101,6 +120,13 @@ class S2OResponse extends C2AbstractResponse
     {
       $html .= $meta->getHtml();
     }
+
+    if($html != '' && !$this->error)
+    {
+      $html .= '<script src="'.$this->url.'/bower_components/scriptjs/dist/script.min.js"></script>';
+      $html .= '<script id="cfy-s2o-script" data-url="'.$this->url.'" src="'.$this->url.'/views/widget/s2o/bootstrap.js"></script>';
+    }
+
     return $html;
   }
 
@@ -126,6 +152,29 @@ class S2OResponse extends C2AbstractResponse
   public function setMetas($metas)
   {
     $this->metas = $metas;
+  }
+
+  /**
+   * Set url attribute. Expected to be as: http://[env].yourcommunify.com/api/[env]
+   * Save url as: http://[env].yourcommunify.com
+   *
+   * @param String $url
+   */
+  public function setUrl($url)
+  {
+    $urlArray = explode('/', $url);
+    $n = count($urlArray);
+    unset($urlArray[$n - 1]);
+    unset($urlArray[$n - 2]);
+    $this->url = implode('/', $urlArray);
+  }
+
+  /**
+   * @param boolean $error
+   */
+  public function setError($error)
+  {
+    $this->error = $error;
   }
 
 } 
