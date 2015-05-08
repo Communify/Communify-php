@@ -35,7 +35,7 @@ class SEOTopic extends C2AbstractFactorizable implements ISEOParser
     return array(
       'allow_ratings'       => $allowRatings,
       'num_opinions'        => $topic['ideas'],
-      'review_average'      => $allowRatings ? $topic['average_ratings'] : '',
+      'review_average'      => $allowRatings ? $topic['site']['average_ratings'] : '',
       'topic_author'        => $topic['site']['user']['name'].' '.$topic['site']['user']['surname'],
       'topic_description'   => $topic['site']['description'],
       'topic_img'           => $topic['site']['file_url'],
