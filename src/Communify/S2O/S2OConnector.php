@@ -60,6 +60,7 @@ class S2OConnector extends C2AbstractConnector
 
     $s2OResponse = $this->factory->response();
     $s2OResponse->set($response);
+    $s2OResponse->setUrl($url);
     return $s2OResponse;
   }
 

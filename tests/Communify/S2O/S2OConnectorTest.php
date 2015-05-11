@@ -65,13 +65,14 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
   public function getLoginData()
   {
     return array(
-      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
-      array($this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
-      array($this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
-      array($this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
-      array($this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
-      array($this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
-      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
     );
   }
 
@@ -82,10 +83,10 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
   * should: correctInnerCalls
    * @dataProvider getLoginData
   */
-  public function test_login_called__correctInnerCalls($timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet, $timesGetUrl)
+  public function test_login_called__correctInnerCalls($timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $timesSetUrl)
   {
     $s2OResponse = $this->getMock('Communify\S2O\S2OResponse');
-    $this->configureAndExecuteLogin($timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $s2OResponse);
+    $this->configureAndExecuteLogin($timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $timesSetUrl, $s2OResponse);
   }
 
   /**
@@ -97,7 +98,7 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
   public function test_login_called__correctReturn()
   {
     $s2OResponse = $this->getMock('Communify\S2O\S2OResponse');
-    $actual = $this->configureAndExecuteLogin($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $s2OResponse);
+    $actual = $this->configureAndExecuteLogin($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $s2OResponse);
     $this->assertEquals($s2OResponse, $actual);
   }
 
@@ -111,7 +112,7 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
    * @param $timesGetUrl
    * @return \Communify\S2O\S2OResponse
    */
-  private function configureAndExecuteLogin($timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $s2OResponse)
+  private function configureAndExecuteLogin($timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $timesSetUrl, $s2OResponse)
   {
     $url = 'dummy url value';
     $request = 'dummy request object';
@@ -138,6 +139,9 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
     $s2OResponse->expects($timesSet)
       ->method('set')
       ->with($response);
+    $s2OResponse->expects($timesSetUrl)
+      ->method('setUrl')
+      ->with($url);
     return $this->sut->login($credential);
   }
 
