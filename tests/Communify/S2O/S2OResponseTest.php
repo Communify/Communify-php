@@ -228,7 +228,7 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   {
     $html1 = 'dummy html 1';
     $html2 = 'dummy html 2';
-    $scripts = '<script src="dummy url/bower_components/scriptjs/dist/script.min.js"></script><script id="cfy-s2o-script" data-url="dummy url" src="dummy url/views/widget/s2o/bootstrap.js"></script>';
+    $scripts = '<script id="cfy-s2o-script" data-url="'.$this->url.'" src="'.$this->url.'/views/widget/s2o/s2o.min.js"></script>';
     $expected = ''.$html1.$html2.$scripts;
     $this->configureExecuteAndAssertCommonMethodsNotEmpty($timesHtml1, $timesHtml2, $html1, $html2, $expected);
   }
