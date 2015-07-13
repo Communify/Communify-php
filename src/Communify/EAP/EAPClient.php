@@ -46,13 +46,13 @@ class EAPClient extends C2AbstractClient
   }
 
   /**
-   * @param $ssid
+   * @param $accountId
    * @param $data
    * @return mixed
    */
-  public function setOrder($ssid, $data)
+  public function setOrder($accountId, $data)
   {
-    $credential = $this->factory->credential($ssid, $data);
+    $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->setOrder($credential);
   }
 

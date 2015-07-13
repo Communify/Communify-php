@@ -48,9 +48,10 @@ class C2Credential extends C2AbstractFactorizable implements IC2Credential
    * Create credential from option. On develop use communify_url and remove it from credential.
    *
    * @param $ssid
+   * @param $accountId
    * @param $data
    */
-  public function set($ssid, $data)
+  public function set($ssid, $accountId, $data)
   {
 
     if( isset($data['communify_url']) )
@@ -60,7 +61,8 @@ class C2Credential extends C2AbstractFactorizable implements IC2Credential
     }
 
     $basic = array(
-      'ssid'  => $ssid
+      'account_id'  => $accountId,
+      'ssid'        => $ssid,
     );
 
     $this->data = array_merge($basic, $data);

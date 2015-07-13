@@ -25,6 +25,10 @@ use Communify\C2\interfaces\IC2Factory;
 abstract class C2AbstractClient extends C2AbstractFactorizable
 {
 
+  const ENV_SSID = 'x5dc03571714zwtkbn8c09r29h19ac11';
+  const WEB_SSID = '0e54f6bb4c0be6dc9c492b52b4748272';
+  const BACKOFFICE_SSID = 'b52b0e9c492454f6bb4c0be68272dc74';
+
   /**
    * @var C2AbstractConnector
    */

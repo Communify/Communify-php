@@ -50,11 +50,11 @@ class S2OClient extends C2AbstractClient
   /**
    * Makes single sign on possible.
    *
-   * @param $ssid
+   * @param $accountId
    * @param $data
    * @return S2OResponse
    */
-  public function login($ssid, $data)
+  public function login($accountId, $data)
   {
     $url = null;
     if(isset($data['communify_url']))
@@ -67,7 +67,7 @@ class S2OClient extends C2AbstractClient
       'info'  => $data,
       'communify_url' => $url
     );
-    $credential = $this->factory->credential($ssid, $info);
+    $credential = $this->factory->credential(self::WEB_SSID, $accountId, $info);
     return $this->connector->login($credential);
   }
 
