@@ -43,14 +43,16 @@ class C2FactoryTest extends \PHPUnit_Framework_TestCase
   public function test_credential_called__correct()
   {
     $ssid = 'dummy ssid';
+    $accountId = 'dummy account id';
     $data = array(
       'dummy' => 'value'
     );
     $expectedData = array(
-      'dummy' => 'value',
-      'ssid'  => $ssid
+      'account_id'  => $accountId,
+      'dummy'       => 'value',
+      'ssid'        => $ssid
     );
-    $actual = $this->sut->credential($ssid, $data);
+    $actual = $this->sut->credential($ssid, $accountId, $data);
     $this->assertInstanceOf('Communify\C2\C2Credential', $actual);
     $this->assertEquals($actual->getData(), $expectedData);
   }

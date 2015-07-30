@@ -29,7 +29,7 @@ class DummyFactoryImpl extends C2AbstractFactory
 {
   public function connector(){}
   public function response(){}
-  public function credential($ssid, $data){}
+  public function credential($ssid, $accountId, $data){}
 }
 
 class DummyResponseImpl implements IC2Response

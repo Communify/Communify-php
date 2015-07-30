@@ -52,14 +52,14 @@ class C3Client extends C2AbstractClient
   }
 
   /**
-   * @param $ssid
+   * @param $accountId
    * @param $data
    * @return C3Response
    * @throws C2Exception
    */
-  public function createNewInstance($ssid, $data)
+  public function createNewInstance($accountId, $data)
   {
-    $credential = $this->factory->credential($ssid, $data);
+    $credential = $this->factory->credential(self::ENV_SSID, $accountId, $data);
 
     /** @var C3Response $checkResponse */
     $checkResponse = $this->connector->call(C3Connector::POST_METHOD, C3Connector::CHECK_NEW_ENVIRONMENT_API_METHOD, $credential, $this->factory);

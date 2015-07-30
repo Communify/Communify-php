@@ -43,10 +43,11 @@ class C2CredentialTest extends \PHPUnit_Framework_TestCase
   public function test_set_called_withoutCommunifyUrl_correct()
   {
     $ssid = 'dummy ssid';
+    $accountId = 'dummy account id';
     $url = 'https://communify.com/api';
     $data = array('dummy' => 'value');
-    $expectedData = $this->generateExpectedData($ssid, $data);
-    $this->executeAndAssertSet($ssid, $data, $expectedData, $url);
+    $expected = $this->generateExpectedData($ssid, $accountId, $data);
+    $this->executeAndAssertSet($ssid, $accountId, $data, $expected, $url);
   }
 
   /**
@@ -58,11 +59,12 @@ class C2CredentialTest extends \PHPUnit_Framework_TestCase
   public function test_set_called_witCommunifyUrl_correct()
   {
     $ssid = 'dummy ssid';
+    $accountId = 'dummy account id';
     $url = 'dummy url';
     $data = array('dummy' => 'value', 'communify_url' => $url);
     $usedData = array('dummy' => 'value');
-    $expected = $this->generateExpectedData($ssid, $usedData);
-    $this->executeAndAssertSet($ssid, $data, $expected, $url);
+    $expected = $this->generateExpectedData($ssid, $accountId, $usedData);
+    $this->executeAndAssertSet($ssid, $accountId, $data, $expected, $url);
   }
 
   /**
@@ -74,9 +76,10 @@ class C2CredentialTest extends \PHPUnit_Framework_TestCase
   public function test_get_called__correct()
   {
     $ssid = 'dummy ssid';
+    $accountId = 'dummy account id';
     $data = array('dummy' => 'value');
-    $expected = $this->generateExpectedData($ssid, $data);
-    $this->sut->set($ssid, $data);
+    $expected = $this->generateExpectedData($ssid, $accountId, $data);
+    $this->sut->set($ssid, $accountId, $data);
     $this->assertEquals(json_encode($expected), $this->sut->get());
   }
 
@@ -85,20 +88,21 @@ class C2CredentialTest extends \PHPUnit_Framework_TestCase
    * @param $data
    * @return array
    */
-  protected function generateExpectedData($ssid, $data)
+  protected function generateExpectedData($ssid, $accountId, $data)
   {
-    return array_merge(array('ssid' => $ssid), $data);
+    return array_merge(array('account_id' => $accountId, 'ssid' => $ssid), $data);
   }
 
   /**
    * @param $ssid
+   * @param $accountId
    * @param $data
    * @param $expectedData
    * @param $url
    */
-  protected function executeAndAssertSet($ssid, $data, $expectedData, $url)
+  protected function executeAndAssertSet($ssid, $accountId, $data, $expectedData, $url)
   {
-    $this->sut->set($ssid, $data);
+    $this->sut->set($ssid, $accountId, $data);
     $this->assertAttributeEquals($expectedData, 'data', $this->sut);
     $this->assertAttributeEquals($url, 'url', $this->sut);
   }

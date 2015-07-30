@@ -31,11 +31,11 @@ class C2Factory extends C2AbstractFactory
    *
    * @return C2Credential
    */
-  public function credential($ssid, $data)
+  public function credential($ssid, $accountId, $data)
   {
     /** @var C2Credential $credential */
     $credential = C2Credential::factory();
-    $credential->set($ssid, $data);
+    $credential->set($ssid, $accountId, $data);
     return $credential;
   }
 

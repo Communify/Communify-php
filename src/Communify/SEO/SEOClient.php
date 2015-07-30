@@ -51,14 +51,14 @@ class SEOClient extends C2AbstractClient
   /**
    * Get widget information to improve SEO with Communify.
    *
-   * @param $ssid
+   * @param $accountId
    * @param $data
    * @return SEOResponse
    */
-  public function widget($ssid, $data)
+  public function widget($accountId, $data)
   {
     $data['url']  = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $credential = $this->factory->credential($ssid, $data);
+    $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->getTopicInfo($credential);
   }
 

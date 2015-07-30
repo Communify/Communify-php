@@ -33,10 +33,11 @@ interface IC2Factory
 
   /**
    * @param $ssid
+   * @param $accountId
    * @param $data
    * @return IC2Factory
    */
-  public function credential($ssid, $data);
+  public function credential($ssid, $accountId, $data);
 
   /**
    * @return IC2Connector

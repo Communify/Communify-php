@@ -24,7 +24,7 @@ interface IC2Credential
 {
 
 
-  public function set($ssid, $data);
+  public function set($ssid, $accountId, $data);
 
   public function get();
 
