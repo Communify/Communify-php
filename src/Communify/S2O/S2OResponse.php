@@ -123,9 +123,9 @@ class S2OResponse extends C2AbstractResponse
 
     if($html != '' && !$this->error)
     {
-      $html .= '<script src="'.$this->url.'/bower_components/scriptjs/dist/script.min.js"></script>';
-      $html .= '<script id="cfy-s2o-script" data-url="'.$this->url.'" src="'.$this->url.'/views/widget/s2o/bootstrap.js"></script>';
-      //$html .= '<script id="cfy-s2o-script" data-url="'.$this->url.'" src="'.$this->url.'/views/widget/s2o/s2o.min.js"></script>';
+      //$html .= '<script src="'.$this->url.'/bower_components/scriptjs/dist/script.min.js"></script>';
+      //$html .= '<script id="cfy-s2o-script" data-url="'.$this->url.'" src="'.$this->url.'/views/widget/s2o/bootstrap.js"></script>';
+      $html .= '<script id="cfy-s2o-script" data-url="'.$this->url.'" src="'.$this->url.'/views/widget/s2o/s2o.min.js"></script>';
     }
 
     return $html;
