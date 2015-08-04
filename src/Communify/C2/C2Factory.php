@@ -26,6 +26,8 @@ use Communify\C2\abstracts\C2AbstractFactory;
 class C2Factory extends C2AbstractFactory
 {
 
+  const COMMUNIFY_API_URL = 'http://yourcommunify.com/api/';
+
   /**
    * Create C2Credential.
    *
@@ -33,6 +35,11 @@ class C2Factory extends C2AbstractFactory
    */
   public function credential($ssid, $accountId, $data)
   {
+    if(!isset($data['communify_url']))
+    {
+      $data['communify_url'] = self::COMMUNIFY_API_URL;
+    }
+
     /** @var C2Credential $credential */
     $credential = C2Credential::factory();
     $credential->set($ssid, $accountId, $data);
