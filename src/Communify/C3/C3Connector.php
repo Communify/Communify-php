@@ -29,6 +29,7 @@ class C3Connector extends C2AbstractConnector
 
   const CHECK_NEW_ENVIRONMENT_API_METHOD  = 'environment/environment/checkEnvironmentAvailability';
   const CREATE_NEW_ENVIRONMENT_API_METHOD = 'environment/environment/createNewEnvironment';
+  const UNINSTALL_PLATFORM_INTEGRATION    = 'backoffice/backoffice/uninstallIntegration';
 
   /**
    * Constructor with dependency injection.

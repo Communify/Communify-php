@@ -132,7 +132,7 @@ class C3ClientTest extends \PHPUnit_Framework_TestCase
    */
   private function configureCommonCreateNewInstance($timesCredential, $timesCall, $timesGetValue, $accountId, $data, $value)
   {
-    $credential = $this->getMock('Communify\C2\C2Credential');
+    $credential    = $this->getCredentialMock();
     $checkResponse = $this->getMock('Communify\C3\C3Response');
 
     $this->factory->expects($timesCredential)
@@ -157,8 +157,56 @@ class C3ClientTest extends \PHPUnit_Framework_TestCase
   {
     $this->connector->expects($timesCall)
       ->method('call')
-      ->with(C3Connector::POST_METHOD, $apiMethod, $credential, $this->factory)
+      ->with(C3Connector::POST_METHOD, $apiMethod, $credential)
       ->will($this->returnValue($checkResponse));
+  }
+
+  /**
+  * dataProvider getUninstallData
+  */
+  public function getUninstallData()
+  {
+    return array(
+      array($this->any(), $this->any()),
+      array($this->once(), $this->any()),
+      array($this->any(), $this->once()),
+    );
+  }
+
+  /**
+  * method: uninstall
+  * when: called
+  * with:
+  * should: correct
+   * @dataProvider getUninstallData
+  */
+  public function test_uninstall_called__correct($timesCredential, $timesCall)
+  {
+    $platform = 'dummy platform';
+    $accountId = 'dummy account id';
+    $expected = 'dummy expected value';
+    $data = array('platform'  => $platform);
+    $credential = $this->getCredentialMock();
+    $this->factory->expects($timesCredential)
+      ->method('credential')
+      ->with(C3Client::BACKOFFICE_SSID, $accountId, $data)
+      ->will($this->returnValue($credential));
+    $this->connector->expects($timesCall)
+      ->method('call')
+      ->with(C3Connector::POST_METHOD, C3Connector::UNINSTALL_PLATFORM_INTEGRATION, $credential)
+      ->will($this->returnValue($expected));
+    $actual = $this->sut->uninstall($accountId, $platform);
+    $this->assertEquals($expected, $actual);
+  }
+
+  /**
+   * @return \PHPUnit_Framework_MockObject_MockObject
+   */
+  private function getCredentialMock()
+  {
+    $credential = $this->getMock('Communify\C2\C2Credential');
+
+    return $credential;
   }
 
 }
