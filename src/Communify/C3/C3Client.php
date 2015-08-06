@@ -62,13 +62,26 @@ class C3Client extends C2AbstractClient
     $credential = $this->factory->credential(self::ENV_SSID, $accountId, $data);
 
     /** @var C3Response $checkResponse */
-    $checkResponse = $this->connector->call(C3Connector::POST_METHOD, C3Connector::CHECK_NEW_ENVIRONMENT_API_METHOD, $credential, $this->factory);
+    $checkResponse = $this->connector->call(C3Connector::POST_METHOD, C3Connector::CHECK_NEW_ENVIRONMENT_API_METHOD, $credential);
     if(!$checkResponse->getValue())
     {
       throw new C2Exception(self::CREATE_NEW_INSTANCE_ERROR_MSG, self::CREATE_NEW_INSTANCE_ERROR_CODE);
     }
 
-    return $this->connector->call(C3Connector::POST_METHOD, C3Connector::CREATE_NEW_ENVIRONMENT_API_METHOD, $credential, $this->factory);
+    return $this->connector->call(C3Connector::POST_METHOD, C3Connector::CREATE_NEW_ENVIRONMENT_API_METHOD, $credential);
+  }
+
+  /**
+   * @param $accountId
+   * @param $platform
+   *
+   * @return C3Response
+   */
+  public function uninstall($accountId, $platform)
+  {
+    $data = array('platform' => $platform);
+    $credential = $this->factory->credential(self::BACKOFFICE_SSID, $accountId, $data);
+    return $this->connector->call(C3Connector::POST_METHOD, C3Connector::UNINSTALL_PLATFORM_INTEGRATION, $credential);
   }
 
 } 
