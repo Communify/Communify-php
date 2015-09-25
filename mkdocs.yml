@@ -3,4 +3,4 @@ site_url: http://www.communify.com
 repo_url: https://github.com/Communify/Communify-php
 
 pages:
-- Home: 'index.md'
+- Communify API: 'index.md'
