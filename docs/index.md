@@ -35,7 +35,7 @@ Go to settings/Integration to get it:
 ### 2.4. Install the SDK
 #### 2.4.1. Using composer
 Modify composer.json:
-````
+```
 {
     "require": {
         "communify/communify-php": "dev-master",
