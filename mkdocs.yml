@@ -1,6 +1,4 @@
-site_name: Communify API Documentation
-site_url: http://www.communify.com
-repo_url: https://github.com/Communify/Communify-php
+site_name: Communify API
 
 pages:
-- Communify API: 'index.md'
+- Communify API: index.md
