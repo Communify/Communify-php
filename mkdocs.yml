@@ -1,2 +1,6 @@
+site_name: Communify API Documentation
+site_url: http:((www.communify.com
+repo_url: https://www.google.com
+
 pages:
 - Home: 'index.md'
