@@ -52,7 +52,8 @@ Add communify_sdk folder at project, and include autload.php to use Communify SD
         'email'     		=> '[USER EMAIL]',
         'name'      		=> '[USER NAME]',
         'surname'   		=> '[USER SURNAME]',
-        'file_url'          => '[USER IMAGE URL]',
+        'file_url'          => '[USER PROFILE IMAGE URL]',
+        'background_url'    => '[USER BACKGROUND IMAGE URL]',
         'language_id'       => '[LANG ID]'
     );
     echo \Communify\S2O\S2OClient::factory()->login($ssid, $data)->metas();
