@@ -9,6 +9,8 @@
 1. **General Steps**
     1. Get the Account ID
     2. Install the SDK
+    3. Integrate the widget
+
 2. **[Install Single Sign On (S2O)](/s2o/)**
     1. S2O on web project
     2. S2O on Wordpress
@@ -69,4 +71,16 @@ Execute composer update via console to save all changes.
 
 [Download SDK](https://s3-us-west-2.amazonaws.com/communify-ops/releases/master/communify_sdk.zip) and add **sdk** folder at your project.   
 Then, include autload.php via PHP to use Communify SDK at the files that need to connect with Communify SDK.
+
+---
+
+## 3. Integrate the widget
+
+You need to paste this code to integrate the widget into the web project:
+
+    <div id="communify-widget-id" data-account-slug="[ACCOUNT-SLUG]" data-account-id="[ACCOUNT-ID]"><div ui-view class="communify-widget"></div></div>
+    
+If you want to integrate the widget with **Content ID**, you need to add this code at `head`: 
+    
+    <meta name="content_id" content="[CONTENT-ID]">
 
