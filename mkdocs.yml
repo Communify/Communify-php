@@ -1,4 +1,9 @@
-site_name: Communify API
+site_name: Communify SDK Documentation
 
 pages:
-- Communify API: index.md
+- Getting started: index.md
+- Single Sign On (S2O): s2o.md
+- Search Engine Optimization (SEO): seo.md
+- Email After Purchase (EAP): eap.md
+
+theme: readthedocs
