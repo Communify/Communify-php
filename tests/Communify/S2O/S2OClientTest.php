@@ -85,7 +85,7 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
   public function test_login_called__correct($data, $expectedData, $url, $timesCredential, $timesLogin)
   {
 
-    $ssid = 'dummy ssid';
+    $accountId = 'dummy account id';
     $info = array(
       'info'          => $expectedData,
       'communify_url' => $url
@@ -95,13 +95,13 @@ class S2OClientTest extends \PHPUnit_Framework_TestCase
     $credential = $this->getMock('Communify\C2\C2Credential');
     $this->factory->expects($timesCredential)
       ->method('credential')
-      ->with($ssid, $info)
+      ->with(S2OClient::WEB_SSID, $accountId, $info)
       ->will($this->returnValue($credential));
     $this->connector->expects($timesLogin)
       ->method('login')
       ->with($credential)
       ->will($this->returnValue($expected));
-    $actual = $this->sut->login($ssid, $data);
+    $actual = $this->sut->login($accountId, $data);
     $this->assertEquals($expected, $actual);
   }
 

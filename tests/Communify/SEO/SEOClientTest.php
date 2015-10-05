@@ -84,7 +84,7 @@ class SEOClientTest extends \PHPUnit_Framework_TestCase
     $_SERVER['REQUEST_URI'] = 'dummy uri';
 
     $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $ssid = 'dummy ssid';
+    $accountId = 'dummy account id';
     $expected = 'dummy expected value';
     $data = array('dummy' => 'value');
     $expectedData = array('dummy' => 'value', 'url' => $url);
@@ -92,13 +92,13 @@ class SEOClientTest extends \PHPUnit_Framework_TestCase
 
     $this->factory->expects($timesCredential)
       ->method('credential')
-      ->with($ssid, $expectedData)
+      ->with(SEOClient::WEB_SSID, $accountId, $expectedData)
       ->will($this->returnValue($credential));
     $this->connector->expects($timesGetSite)
       ->method('getTopicInfo')
       ->with($credential)
       ->will($this->returnValue($expected));
-    $actual = $this->sut->widget($ssid, $data);
+    $actual = $this->sut->widget($accountId, $data);
     $this->assertEquals($expected, $actual);
   }
 

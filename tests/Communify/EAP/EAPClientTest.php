@@ -81,19 +81,19 @@ class EAPClientTest extends \PHPUnit_Framework_TestCase
   */
   public function test_setOrder_called__correct($timesCredential, $timesSetOrder)
   {
-    $ssid = 'dummy ssid value';
+    $accountId = 'dummy account id';
     $data = 'dummy data value';
     $expected = 'dummy expected value';
     $credential = $this->getMock('Communify\C2\C2Credential');
     $this->factory->expects($timesCredential)
       ->method('credential')
-      ->with($ssid, $data)
+      ->with(EAPClient::WEB_SSID, $accountId, $data)
       ->will($this->returnValue($credential));
     $this->connector->expects($timesSetOrder)
       ->method('setOrder')
       ->with($credential)
       ->will($this->returnValue($expected));
-    $actual = $this->sut->setOrder($ssid, $data);
+    $actual = $this->sut->setOrder($accountId, $data);
     $this->assertEquals($expected, $actual);
   }
 

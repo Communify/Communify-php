@@ -35,6 +35,39 @@ class C2FactoryTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
+  * dataProvider getCredentialData
+  */
+  public function getCredentialData()
+  {
+    return array(
+      array(array('dummy' => 'value'), C2Factory::COMMUNIFY_API_URL),
+      array(array('dummy' => 'value', 'communify_url' => 'dummy communify url'), 'dummy communify url'),
+    );
+  }
+
+  /**
+  * method: credential
+  * when: called
+  * with: communifyUrlCases
+  * should: correct
+   * @dataProvider getCredentialData
+  */
+  public function test_credential_called_communifyUrlCases_correct($data, $url)
+  {
+    $ssid = 'dummy ssid';
+    $accountId = 'dummy account id';
+    $expectedData = array(
+      'account_id'  => $accountId,
+      'dummy'       => 'value',
+      'ssid'        => $ssid
+    );
+    $actual = $this->sut->credential($ssid, $accountId, $data);
+    $this->assertInstanceOf('Communify\C2\C2Credential', $actual);
+    $this->assertEquals($actual->getData(), $expectedData);
+    $this->assertEquals($actual->getUrl(), $url);
+  }
+
+  /**
   * method: credential
   * when: called
   * with:
@@ -42,17 +75,7 @@ class C2FactoryTest extends \PHPUnit_Framework_TestCase
   */
   public function test_credential_called__correct()
   {
-    $ssid = 'dummy ssid';
-    $data = array(
-      'dummy' => 'value'
-    );
-    $expectedData = array(
-      'dummy' => 'value',
-      'ssid'  => $ssid
-    );
-    $actual = $this->sut->credential($ssid, $data);
-    $this->assertInstanceOf('Communify\C2\C2Credential', $actual);
-    $this->assertEquals($actual->getData(), $expectedData);
+
   }
 
   /**
