@@ -5,5 +5,7 @@ pages:
 - Single Sign On (S2O): s2o.md
 - Search Engine Optimization (SEO): seo.md
 - Email After Purchase (EAP): eap.md
+- Custom CSS: custom-css.md
+- Content ID: content-id.md
 
 theme: readthedocs
