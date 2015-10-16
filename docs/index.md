@@ -1,8 +1,9 @@
 ![alt text][logo]
 [logo]: communify-logo.png
+
 # Getting started with Communify SDK 
 
-`INTRODUCTION TEXT TODO`
+`INTRODUCTION TEXT TODO` 
 
 ### Index
 
@@ -15,7 +16,13 @@
     1. S2O on web project
     2. S2O on Wordpress
 3. **[Install Search Engine Optimization (SEO)](/seo/)**
+    1. SEO integration
 4. **[Install Email After Purchase (EAP)](/eap/)**
+    1. EAP integration
+5. **[Custom CSS](/custom-css/)**
+6. **[Content ID](/content-id/)**
+    1. Basic integration
+    2. Shopify integration
 
 ---
 
