@@ -1,8 +1,9 @@
 ![alt text][logo]
 [logo]: communify-logo.png
+
 # Getting started with Communify SDK 
 
-`INTRODUCTION TEXT TODO`
+`INTRODUCTION TEXT TODO` 
 
 ### Index
 
