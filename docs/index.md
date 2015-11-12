@@ -96,7 +96,9 @@ If you want to integrate the widget with **Content ID**, you need to add this co
     
     <meta name="content_id" content="[CONTENT-ID]">
     
-#### Wordpress site
+<!-- #### Wordpress site
 
-You need to copy your `<div>` code and Communify script inside wp_footer(). then, you need to trigger wp_footer() as an action in Wordpress functions.php file.
+You need to copy your `<div>` code and Communify script inside wp_footer(). then, you need to trigger wp_footer() as an action in Wordpress functions.php file.   
+
+You can get your `<div>` code from your Communify community at Integration section. -->
 
