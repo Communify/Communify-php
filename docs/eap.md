@@ -5,6 +5,8 @@
 Els Email After Purchase s'hauràn d'utilitzar sempre que es vulgui portar un control de les comandes que es realitzen a 
 la web. Aquests EAP crearan EAP Requests que es podran gestionar des de la comunitat de Communify.
 
+[How to install Communify SDK](/#2-install-the-sdk)
+
 ## 1. Email After Purchase integration
 
 Per a generar EAP Requests cal utilitzar el següent codi, per exemple:  
