@@ -7,6 +7,8 @@ seu contingut (Descripció, foto, opinions/idees).
 Aquesta versió HTML estarà encapsulada dins de tags `<noscript>` per evitar que es mostri per pantalla. Només els bots 
 podran accedir a la lectura d'aquest tag.
 
+[How to install Communify SDK](/#2-install-the-sdk)
+
 **Required array fields:**
 
 * url: `string`

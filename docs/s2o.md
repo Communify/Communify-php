@@ -13,6 +13,8 @@ El que es necessita per a que la configuració del S2O funcioni és:
 El codi que es necessitarà requereix de l'emplenament d'un array de dades. Aquí hi ha la relació de dades d'aquest array
 que posteriorment s'explicarà com utilitzar.
 
+[How to install Communify SDK](/#2-install-the-sdk)
+
 **Required array fields:**
 
 * email: `string`

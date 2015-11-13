@@ -71,18 +71,23 @@ If you don't have any "require" parameters; you can copy and paste this example:
         "communify/communify-php": "dev-master",
     }
 
-
 Execute composer update via console to save all changes.
+
+    ./composer.phar update    
 
 #### 2. Install Communify SDK without using Composer
 
 [Download SDK](https://s3-us-west-2.amazonaws.com/communify-ops/releases/master/communify_sdk.zip) and add **sdk** folder at your project.   
+
 Then, include autload.php via PHP to use Communify SDK at the files that need to connect with Communify SDK.
+
+    include('[ROUTE_TO_AUTOLOAD]'.'/autoload.php');
 
 ---
 
 ## 3. Integrate the widget
 
+#### Custom web
 You need to paste this code to integrate the widget into the web project:
 
     <div id="communify-widget-id" data-account-slug="[ACCOUNT-SLUG]" data-account-id="[ACCOUNT-ID]"><div ui-view class="communify-widget"></div></div>
@@ -90,4 +95,10 @@ You need to paste this code to integrate the widget into the web project:
 If you want to integrate the widget with **Content ID**, you need to add this code at `head`: 
     
     <meta name="content_id" content="[CONTENT-ID]">
+    
+<!-- #### Wordpress site
+
+You need to copy your `<div>` code and Communify script inside wp_footer(). then, you need to trigger wp_footer() as an action in Wordpress functions.php file.   
+
+You can get your `<div>` code from your Communify community at Integration section. -->
 
