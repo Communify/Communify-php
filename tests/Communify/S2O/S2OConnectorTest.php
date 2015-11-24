@@ -121,7 +121,7 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
   private function configureAndExecuteLogin($timesGet, $timesCreateRequest, $timesIsSecureSsl, $timesSetDefaultOption, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $timesSetUrl, $s2OResponse)
   {
     $url            = 'dummy url value';
-    $dummySecure    =
+    $dummySecure    = 'dummy secure';
     $request        = 'dummy request object';
     $credentialData = array('dummy credential data');
     $credential = $this->getMock('Communify\C2\C2Credential');
