@@ -59,7 +59,8 @@ Use this code. Metas have to been rendered at <head></head> tag.
         'email'     		=> '[USER EMAIL]',
         'name'      		=> '[USER NAME]',
         'surname'   		=> '[USER SURNAME]',
-        'file_url'          => '[USER IMAGE URL]',
+        'file_url'          => '[USER PROFILE IMAGE URL]',
+        'background_url'    => '[USER BACKGROUND IMAGE URL]',
         'language_id'       => '[LANG ID]'
     );
     echo \Communify\S2O\S2OClient::factory()->login($accountId, $data)->metas();
