@@ -65,14 +65,16 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
   public function getLoginData()
   {
     return array(
-      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
-      array($this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
-      array($this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
-      array($this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
-      array($this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
-      array($this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
-      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
-      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
     );
   }
 
@@ -83,10 +85,10 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
   * should: correctInnerCalls
    * @dataProvider getLoginData
   */
-  public function test_login_called__correctInnerCalls($timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $timesSetUrl)
+  public function test_login_called__correctInnerCalls($timesGet, $timesCreateRequest, $timesIsSecureSsl, $timesSetDefaultOption, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $timesSetUrl)
   {
     $s2OResponse = $this->getMock('Communify\S2O\S2OResponse');
-    $this->configureAndExecuteLogin($timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $timesSetUrl, $s2OResponse);
+    $this->configureAndExecuteLogin($timesGet, $timesCreateRequest, $timesIsSecureSsl, $timesSetDefaultOption, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $timesSetUrl, $s2OResponse);
   }
 
   /**
@@ -98,50 +100,71 @@ class S2OConnectorTest extends \PHPUnit_Framework_TestCase
   public function test_login_called__correctReturn()
   {
     $s2OResponse = $this->getMock('Communify\S2O\S2OResponse');
-    $actual = $this->configureAndExecuteLogin($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $s2OResponse);
+    $actual = $this->configureAndExecuteLogin($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $s2OResponse);
     $this->assertEquals($s2OResponse, $actual);
   }
 
   /**
    * @param $timesGet
    * @param $timesCreateRequest
+   * @param $timesIsSecureSsl
+   * @param $timesSetDefaultOption
    * @param $timesSend
    * @param $timesResponse
    * @param $timesSet
-   * @param $s2OResponse
    * @param $timesGetUrl
+   * @param $timesSetUrl
+   * @param $s2OResponse
+   *
    * @return \Communify\S2O\S2OResponse
    */
-  private function configureAndExecuteLogin($timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $timesSetUrl, $s2OResponse)
+  private function configureAndExecuteLogin($timesGet, $timesCreateRequest, $timesIsSecureSsl, $timesSetDefaultOption, $timesSend, $timesResponse, $timesSet, $timesGetUrl, $timesSetUrl, $s2OResponse)
   {
-    $url = 'dummy url value';
-    $request = 'dummy request object';
+    $url            = 'dummy url value';
+    $dummySecure    = 'dummy secure';
+    $request        = 'dummy request object';
     $credentialData = array('dummy credential data');
     $credential = $this->getMock('Communify\C2\C2Credential');
     $response = $this->getMockBuilder('Guzzle\Http\Message\Response')->disableOriginalConstructor()->getMock();
+
     $credential->expects($timesGetUrl)
       ->method('getUrl')
       ->will($this->returnValue($url));
+
     $credential->expects($timesGet)
       ->method('get')
       ->will($this->returnValue($credentialData));
+
     $this->client->expects($timesCreateRequest)
       ->method('createRequest')
       ->with(S2OConnector::POST_METHOD, $url.'/'.S2OConnector::SINGLE_SIGN_ON_API_METHOD, null, $credentialData)
       ->will($this->returnValue($request));
+
+    $credential->expects($timesIsSecureSsl)
+      ->method('isSecureSsl')
+      ->will($this->returnValue($dummySecure));
+
+    $this->client->expects($timesSetDefaultOption)
+      ->method('setDefaultOption')
+      ->with('verify', $dummySecure);
+
     $this->client->expects($timesSend)
       ->method('send')
       ->with($request)
       ->will($this->returnValue($response));
+
     $this->factory->expects($timesResponse)
       ->method('response')
       ->will($this->returnValue($s2OResponse));
+
     $s2OResponse->expects($timesSet)
       ->method('set')
       ->with($response);
+
     $s2OResponse->expects($timesSetUrl)
       ->method('setUrl')
       ->with($url);
+
     return $this->sut->login($credential);
   }
 

@@ -44,10 +44,11 @@ class C2CredentialTest extends \PHPUnit_Framework_TestCase
   {
     $ssid = 'dummy ssid';
     $accountId = 'dummy account id';
-    $url = 'https://communify.com/api';
+    $url = 'https://yourcommunify.com/api/';
+    $secureSsl = true;
     $data = array('dummy' => 'value');
     $expected = $this->generateExpectedData($ssid, $accountId, $data);
-    $this->executeAndAssertSet($ssid, $accountId, $data, $expected, $url);
+    $this->executeAndAssertSet($ssid, $accountId, $data, $expected, $url, $secureSsl);
   }
 
   /**
@@ -61,10 +62,11 @@ class C2CredentialTest extends \PHPUnit_Framework_TestCase
     $ssid = 'dummy ssid';
     $accountId = 'dummy account id';
     $url = 'dummy url';
+    $secureSsl = false;
     $data = array('dummy' => 'value', 'communify_url' => $url);
     $usedData = array('dummy' => 'value');
     $expected = $this->generateExpectedData($ssid, $accountId, $usedData);
-    $this->executeAndAssertSet($ssid, $accountId, $data, $expected, $url);
+    $this->executeAndAssertSet($ssid, $accountId, $data, $expected, $url, $secureSsl);
   }
 
   /**
@@ -99,12 +101,14 @@ class C2CredentialTest extends \PHPUnit_Framework_TestCase
    * @param $data
    * @param $expectedData
    * @param $url
+   * @param $secureSsl
    */
-  protected function executeAndAssertSet($ssid, $accountId, $data, $expectedData, $url)
+  protected function executeAndAssertSet($ssid, $accountId, $data, $expectedData, $url, $secureSsl)
   {
     $this->sut->set($ssid, $accountId, $data);
     $this->assertAttributeEquals($expectedData, 'data', $this->sut);
     $this->assertAttributeEquals($url, 'url', $this->sut);
+    $this->assertAttributeEquals($secureSsl, 'secureSsl', $this->sut);
   }
 
 }

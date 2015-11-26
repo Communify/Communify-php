@@ -56,6 +56,7 @@ class S2OConnector extends C2AbstractConnector
   {
     $url = $credential->getUrl();
     $request = $this->client->createRequest(self::POST_METHOD, $url.'/'.self::SINGLE_SIGN_ON_API_METHOD, null, $credential->get());
+    $this->client->setDefaultOption('verify', $credential->isSecureSsl());
     $response = $this->client->send($request);
 
     $s2OResponse = $this->factory->response();

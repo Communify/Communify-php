@@ -15,6 +15,7 @@
  */
 
 namespace Communify\C2;
+
 use Communify\C2\abstracts\C2AbstractFactorizable;
 use Communify\C2\interfaces\IC2Credential;
 
@@ -25,6 +26,8 @@ use Communify\C2\interfaces\IC2Credential;
  */
 class C2Credential extends C2AbstractFactorizable implements IC2Credential
 {
+
+  const COMMUNIFY_API_URL = 'https://yourcommunify.com/api/';
 
   /**
    * @var array
@@ -37,11 +40,17 @@ class C2Credential extends C2AbstractFactorizable implements IC2Credential
   private $url;
 
   /**
+   * @var bool
+   */
+  private $secureSsl;
+
+  /**
    * Init url with production server. To test on develop add communify_url option.
    */
   function __construct()
   {
-    $this->url = 'https://communify.com/api';
+    $this->url        = self::COMMUNIFY_API_URL;
+    $this->secureSsl  = true;
   }
 
   /**
@@ -57,6 +66,7 @@ class C2Credential extends C2AbstractFactorizable implements IC2Credential
     if( isset($data['communify_url']) )
     {
       $this->url = $data['communify_url'];
+      $this->secureSsl = false;
       unset($data['communify_url']);
     }
 
@@ -97,5 +107,15 @@ class C2Credential extends C2AbstractFactorizable implements IC2Credential
   {
     return $this->url;
   }
+
+  /**
+   * @return boolean
+   */
+  public function isSecureSsl()
+  {
+    return $this->secureSsl;
+  }
+
+
 
 }

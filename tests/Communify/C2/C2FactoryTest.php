@@ -35,27 +35,21 @@ class C2FactoryTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * dataProvider getCredentialData
-  */
-  public function getCredentialData()
-  {
-    return array(
-      array(array('dummy' => 'value'), C2Factory::COMMUNIFY_API_URL),
-      array(array('dummy' => 'value', 'communify_url' => 'dummy communify url'), 'dummy communify url'),
-    );
-  }
-
-  /**
   * method: credential
   * when: called
   * with: communifyUrlCases
   * should: correct
-   * @dataProvider getCredentialData
   */
-  public function test_credential_called_communifyUrlCases_correct($data, $url)
+  public function test_credential_called_communifyUrlCases_correct()
   {
-    $ssid = 'dummy ssid';
-    $accountId = 'dummy account id';
+    $data         = array(
+      'dummy'         => 'value',
+      'communify_url' => 'dummy communify url'
+    );
+    $secureSsl    = false;
+    $url          = 'dummy communify url';
+    $ssid         = 'dummy ssid';
+    $accountId    = 'dummy account id';
     $expectedData = array(
       'account_id'  => $accountId,
       'dummy'       => 'value',
@@ -65,6 +59,7 @@ class C2FactoryTest extends \PHPUnit_Framework_TestCase
     $this->assertInstanceOf('Communify\C2\C2Credential', $actual);
     $this->assertEquals($actual->getData(), $expectedData);
     $this->assertEquals($actual->getUrl(), $url);
+    $this->assertEquals($actual->isSecureSsl(), $secureSsl);
   }
 
   /**
