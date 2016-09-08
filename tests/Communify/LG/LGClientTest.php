@@ -86,4 +86,45 @@ class LGClientTest extends \PHPUnit_Framework_TestCase
     $actual = $this->configureSut()->generateLead($accountId, $data);
     $this->assertEquals($expected, $actual);
   }
+
+  /**
+  * dataProvider getLeadInfoCorrectData
+  */
+  public function getLeadInfoCorrectData()
+  {
+    return array(
+      array( $this->any(), $this->any() ),
+      array( $this->once(), $this->any() ),
+      array( $this->any(), $this->once() ),
+    );
+  }
+
+  /**
+  * method: getLeadInfo
+  * when: called
+  * with:
+  * should: correct
+   * @dataProvider getLeadInfoCorrectData
+  */
+  public function test_getLeadInfo_called__correct( $timesCredential, $timesGetLeadInfo )
+  {
+    $accountId = 'dummy account id';
+    $data = 'dummy data value';
+    $expected = 'dummy expected value';
+    $credential = $this->getMock(C2Credential::class);
+
+    $this->factory->expects( $timesCredential )
+      ->method( 'credential' )
+      ->with( LGClient::WEB_SSID, $accountId, $data )
+      ->will( $this->returnValue( $credential ) );
+
+    $this->connector->expects( $timesGetLeadInfo )
+      ->method( 'getLeadInfo' )
+      ->with( $credential )
+      ->will( $this->returnValue( $expected ) );
+
+    $actual = $this->configureSut()->getLeadInfo( $accountId, $data );
+
+    $this->assertEquals( $expected, $actual );
+  }
 }

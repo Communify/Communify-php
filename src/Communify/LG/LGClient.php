@@ -54,4 +54,17 @@ class LGClient extends C2AbstractClient
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->generateLead($credential);
   }
+
+
+  /**
+   * @param $accountId
+   * @param $data
+   *
+   * @return mixed
+   */
+  public function getLeadInfo($accountId, $data)
+  {
+    $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
+    return $this->connector->getLeadInfo($credential);
+  }
 }
