@@ -112,4 +112,67 @@ class LGConnectorTest extends \PHPUnit_Framework_TestCase
     $actual = $this->sut->generateLead($credential);
     $this->assertEquals($eapResponse, $actual);
   }
+
+  /**
+  * dataProvider getLeadInfoCorrectData
+  */
+  public function getLeadInfoCorrectData()
+  {
+    return array(
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+      array($this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
+    );
+  }
+
+  /**
+  * method: getLeadInfo
+  * when: called
+  * with:
+  * should: correctInnerCalls
+   * @dataProvider getLeadInfoCorrectData
+  */
+  public function test_getLeadInfo_called__correctInnerCalls( $timesGetUrl, $timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet )
+  {
+    $url = 'dummy url';
+    $request = 'dummy request';
+    $response = $this->getMockBuilder(GuzzleResponse::class)->disableOriginalConstructor()->getMock();
+    $credential = $this->getMock(C2Credential::class);
+    $credentialContent = 'dummy credential content';
+    $lgResponse = $this->getMock(LGResponse::class);
+
+    $credential->expects( $timesGetUrl )
+      ->method( 'getUrl' )
+      ->will( $this->returnValue( $url ) );
+
+    $credential->expects( $timesGet )
+      ->method( 'get' )
+      ->will( $this->returnValue( $credentialContent ) );
+
+    $this->client->expects($timesCreateRequest)
+      ->method('createRequest')
+      ->with(LGConnector::POST_METHOD, $url.LGConnector::GET_LEAD_INFO_METHOD, null, $credentialContent)
+      ->will($this->returnValue($request));
+
+    $this->client->expects($timesSend)
+      ->method('send')
+      ->with($request)
+      ->will($this->returnValue($response));
+
+    $this->factory->expects($timesResponse)
+      ->method('response')
+      ->will($this->returnValue($lgResponse));
+
+    $lgResponse->expects($timesSet)
+      ->method('set')
+      ->with($response);
+
+    $actual = $this->sut->getLeadInfo($credential);
+    $this->assertEquals($lgResponse, $actual);
+
+  }
 }
