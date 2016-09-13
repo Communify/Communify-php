@@ -46,80 +46,62 @@ class LGClientTest extends \PHPUnit_Framework_TestCase
     $this->assertAttributeInstanceOf(LGConnector::class, 'connector', $sut);
   }
 
-
   /**
-   * dataProvider getGenerateLeadCorrectData
-   */
-  public function getGenerateLeadCorrectData()
-  {
-    return array(
-      array($this->any(), $this->any()),
-      array($this->once(), $this->any()),
-      array($this->any(), $this->once()),
-    );
-  }
-
-  /**
-   * method: generateLead
-   * when: called
-   * with:
-   * should: correct
-   * @dataProvider getGenerateLeadCorrectData
-   */
-  public function test_generateLead_called__correct($timesCredential, $timesSetOrder)
-  {
-    $accountId = 'dummy account id';
-    $data = 'dummy data value';
-    $expected = 'dummy expected value';
-
-    $credential = $this->configureCredential( LGClient::WEB_SSID, $accountId, $data, $timesCredential );
-
-    $this->connector->expects($timesSetOrder)
-      ->method('generateLead')
-      ->with($credential)
-      ->will($this->returnValue($expected));
-
-    $actual = $this->configureSut()->generateLead($accountId, $data);
-    $this->assertEquals($expected, $actual);
-  }
-
-  /**
-  * dataProvider getLeadInfoCorrectData
+  * dataProvider getClientCallsCorrectData
   */
-  public function getLeadInfoCorrectData()
+  public function getClientCallsCorrectData()
   {
     return array(
-      array( $this->any(), $this->any() ),
-      array( $this->once(), $this->any() ),
-      array( $this->any(), $this->once() ),
+      array( 'generateLead', 'generateLead', $this->any(), $this->any() ),
+      array( 'generateLead', 'generateLead', $this->once(), $this->any() ),
+      array( 'generateLead', 'generateLead', $this->any(), $this->once() ),
+
+      array( 'getLeadInfo', 'getLeadInfo', $this->any(), $this->any() ),
+      array( 'getLeadInfo', 'getLeadInfo', $this->once(), $this->any() ),
+      array( 'getLeadInfo', 'getLeadInfo', $this->any(), $this->once() ),
+
+      array( 'getUserInfo', 'getUserInfo', $this->any(), $this->any() ),
+      array( 'getUserInfo', 'getUserInfo', $this->once(), $this->any() ),
+      array( 'getUserInfo', 'getUserInfo', $this->any(), $this->once() ),
     );
   }
 
   /**
-  * method: getLeadInfo
+  * method: clientCalls
   * when: called
   * with:
-  * should: correct
-   * @dataProvider getLeadInfoCorrectData
+  * should: correctInnerCalls
+   * @dataProvider getClientCallsCorrectData
   */
-  public function test_getLeadInfo_called__correct( $timesCredential, $timesGetLeadInfo )
+  public function test_clientCalls_called__correctInnerCalls($functionName, $functionToCall, $timesCredential, $timesConnectorCall)
+  {
+    $this->configureCalls( $functionName, $functionToCall, $timesCredential, $timesConnectorCall );
+  }
+
+  /**
+   * @param $functionName
+   * @param $functionToCall
+   * @param $timesConnectorCall
+   * @param $timesCredential
+   */
+  private function configureCalls($functionName, $functionToCall, $timesConnectorCall, $timesCredential)
   {
     $accountId = 'dummy account id';
     $data = 'dummy data value';
     $expected = 'dummy expected value';
+    $ssid = LGClient::WEB_SSID;
 
-    $credential = $this->configureCredential( LGClient::WEB_SSID, $accountId, $data, $timesCredential );
+    $credential = $this->configureCredential( $ssid, $accountId, $data, $timesCredential );
 
-    $this->connector->expects( $timesGetLeadInfo )
-      ->method( 'getLeadInfo' )
-      ->with( $credential )
-      ->will( $this->returnValue( $expected ) );
+    $this->connector->expects( $timesConnectorCall )
+        ->method( $functionToCall )
+        ->with( $credential )
+        ->will( $this->returnValue( $expected ) );
 
-    $actual = $this->configureSut()->getLeadInfo( $accountId, $data );
+    $actual = $this->configureSut()->$functionName( $accountId, $data );
 
     $this->assertEquals( $expected, $actual );
   }
-
 
   /**
    * @param $ssid
@@ -129,14 +111,14 @@ class LGClientTest extends \PHPUnit_Framework_TestCase
    *
    * @return \PHPUnit_Framework_MockObject_MockObject
    */
-  public function configureCredential( $ssid, $accountId, $data, $timesCredential )
+  private function configureCredential( $ssid, $accountId, $data, $timesCredential )
   {
     $credential = $this->getMock(C2Credential::class);
 
     $this->factory->expects( $timesCredential )
-      ->method( 'credential' )
-      ->with( $ssid, $accountId, $data )
-      ->will( $this->returnValue( $credential ) );
+        ->method( 'credential' )
+        ->with( $ssid, $accountId, $data )
+        ->will( $this->returnValue( $credential ) );
 
     return $credential;
   }

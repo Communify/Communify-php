@@ -22,8 +22,10 @@ use Guzzle\Http\Client;
 
 class LGConnector extends C2AbstractConnector
 {
-  const LEAD_GENERATION_METHOD = 'user/authentication/generateLead';
-  const GET_LEAD_INFO_METHOD = 'user/authentication/getLeadInfo';
+  const LEAD_GENERATION_METHOD  = 'user/authentication/generateLead';
+  const GET_LEAD_INFO_METHOD    = 'user/authentication/getLeadInfo';
+  const GET_USER_INFO_METHOD    = 'user/public/getUserInfo';
+
 
   /**
    * Constructor with dependency injection.
@@ -68,5 +70,20 @@ class LGConnector extends C2AbstractConnector
     $leadInfoResponse = $this->factory->response();
     $leadInfoResponse->set($response);
     return $leadInfoResponse;
+  }
+
+  /**
+   * @param C2Credential $credential
+   *
+   * @return LGResponse
+   */
+  public function getUserInfo(C2Credential $credential)
+  {
+    $url = $credential->getUrl();
+    $request = $this->client->createRequest(self::POST_METHOD, $url.self::GET_USER_INFO_METHOD, null, $credential->get());
+    $response = $this->client->send($request);
+    $userInfoResponse = $this->factory->response();
+    $userInfoResponse->set($response);
+    return $userInfoResponse;
   }
 }
