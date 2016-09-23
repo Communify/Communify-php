@@ -16,31 +16,50 @@
 
 namespace Communify\SEO\parsers;
 
-
 use Communify\C2\abstracts\C2AbstractFactorizable;
+use Communify\SEO\engines\SEOLeadsEngine;
 use Communify\SEO\parsers\interfaces\ISEOParser;
 
-class SEOTopic extends C2AbstractFactorizable implements ISEOParser
+/**
+ * Class SEOLeadsTopic
+ * @package Communify\SEO\parsers
+ */
+class SEOLeadsTopic extends C2AbstractFactorizable implements ISEOParser
 {
+
+  /**
+   * @var SEOLeadsEngine
+   */
+  private $engine;
+
+
+  /**
+   * SEOLeadsTopic constructor.
+   *
+   * @param SEOLeadsEngine|null $engine
+   */
+  function __construct(SEOLeadsEngine $engine = null)
+  {
+    if($engine == null)
+    {
+      $engine = SEOLeadsEngine::factory();
+    }
+
+    $this->engine = $engine;
+
+  }
+
+
 
   /**
    * Get topic information from array result.
    *
    * @param $topic
-   * @param bool $allowRatings
    * @return array
    */
-  public function get($topic, $allowRatings = false)
+  public function get($topic)
   {
-    return array(
-      'allow_ratings'       => $allowRatings,
-      'num_opinions'        => $topic['ideas'],
-      'review_average'      => $allowRatings ? $topic['site']['average_ratings'] : '',
-      'topic_author'        => $topic['site']['user']['name'].' '.$topic['site']['user']['surname'],
-      'topic_description'   => $topic['site']['description'],
-      'topic_img'           => $topic['site']['file_url'],
-      'topic_title'         => $topic['site']['title'],
-    );
+    return $this->engine->render($topic['json']['json']);
   }
 
 }

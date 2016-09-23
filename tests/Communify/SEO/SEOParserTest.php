@@ -16,8 +16,13 @@
 
 namespace tests\Communify\SEO;
 
+use Communify\SEO\parsers\SEOEnrichedTopic;
+use Communify\SEO\parsers\SEOLanguage;
+use Communify\SEO\parsers\SEOLeadsTopic;
+use Communify\SEO\parsers\SEOUserConversationTopic;
 use Communify\SEO\SEOFactory;
 use Communify\SEO\SEOParser;
+use Communify\SEO\parsers\SEOTopic;
 
 /**
  * @covers Communify\SEO\SEOParser
@@ -32,7 +37,7 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
 
   public function setUp()
   {
-    $this->factory = $this->getMock('Communify\SEO\SEOFactory');
+    $this->factory = $this->getMock(SEOFactory::class);
   }
 
   /**
@@ -43,6 +48,13 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
    */
   protected function configureSut($result, $allowRatings = null)
   {
+    $languageParser = $this->getMock(SEOLanguage::class);
+    $this->configureFactoryMethod('languageParser', $languageParser, $this->at(0));
+
+    $languageParser->expects($this->any())
+      ->method('get')
+      ->will($this->returnValue(array('language_id' => 'ca')));
+
     return SEOParser::factory($result, $allowRatings, $this->factory);
   }
 
@@ -66,11 +78,24 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
   */
   public function test_constructor_called__correct($allowRatings)
   {
-    $expected = 'dummy result value';
-    $sut = new SEOParser($expected, $allowRatings);
-    $this->assertAttributeEquals($expected, 'result', $sut);
+    $result = [
+      'data'  => [
+        'sites' => [
+          ['site'  => [
+            'allow_ratings' => $allowRatings,
+            'type_configuration' => ['id' => 'dummy']
+          ]
+          ]
+        ],
+        'public_configurations' => [
+          ['id' => 'language_id' , 'value' => 'ca']
+        ]
+      ]
+    ];
+    $sut = new SEOParser($result, $allowRatings);
+    $this->assertAttributeEquals($result, 'result', $sut);
     $this->assertAttributeEquals($allowRatings, 'allowRatings', $sut);
-    $this->assertAttributeInstanceOf('Communify\SEO\SEOFactory', 'factory', $sut);
+    $this->assertAttributeInstanceOf(SEOFactory::class, 'factory', $sut);
   }
 
   /**
@@ -184,13 +209,7 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
   public function getLangData()
   {
     return array(
-      array(true, $this->any(), $this->any()),
-      array(true, $this->once(), $this->any()),
-      array(true, $this->any(), $this->once()),
-
-      array(false, $this->any(), $this->any()),
-      array(false, $this->once(), $this->any()),
-      array(false, $this->any(), $this->once()),
+      array(true, $this->any(), $this->any())
     );
   }
 
@@ -204,17 +223,28 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
   public function test_getLang_called__correct($allowRatings, $timesFactory, $timesGet)
   {
     $expected = array('dummy expected value');
-    $expectedArray = array('dummy' => 'data');
-    $result = array(
-      'data'  => array(
-        'topic' => array(
-          'public_configurations' => $expectedArray
-        )
-      )
-    );
-    $languageParser = $this->getMock('Communify\SEO\parsers\SEOLanguage');
+    $expectedArray = [
+      ['id' => 'language_id' , 'value' => 'ca']
+    ];
+    $result = [
+      'data'  => [
+        'sites' => [
+          ['site'  => [
+            'allow_ratings' => $allowRatings,
+            'type_configuration' => ['id' => 'dummy']
+          ]
+          ]
+        ],
+        'public_configurations' => [
+          ['id' => 'language_id' , 'value' => 'ca']
+        ]
+      ]
+    ];
+    $languageParser = $this->getMock(SEOLanguage::class);
+
     $this->configureFactoryMethod('languageParser', $languageParser, $timesFactory);
     $this->configureParserGet($timesGet, $languageParser, $expectedArray, $expected);
+
     $actual = $this->configureSut($result, $allowRatings)->getLang();
     $this->assertEquals($expected, $actual);
   }
@@ -225,119 +255,55 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
   public function getTopicData()
   {
     return array(
-      array(true, $this->any(), $this->any()),
-      array(true, $this->once(), $this->any()),
-      array(true, $this->any(), $this->once()),
+      array(2, 'userConversationTopicParser', SEOUserConversationTopic::class, $this->any(), $this->any()),
+      array(2, 'userConversationTopicParser', SEOUserConversationTopic::class, $this->once(), $this->any()),
+      array(2, 'userConversationTopicParser', SEOUserConversationTopic::class, $this->any(), $this->once()),
 
-      array(false, $this->any(), $this->any()),
-      array(false, $this->once(), $this->any()),
-      array(false, $this->any(), $this->once()),
+      array(3, 'leadsTopicParser', SEOLeadsTopic::class, $this->any(), $this->any()),
+      array(3, 'leadsTopicParser', SEOLeadsTopic::class, $this->once(), $this->any()),
+      array(3, 'leadsTopicParser', SEOLeadsTopic::class, $this->any(), $this->once()),
+
+      array(5, 'enrichedTopicParser', SEOEnrichedTopic::class, $this->any(), $this->any()),
+      array(5, 'enrichedTopicParser', SEOEnrichedTopic::class, $this->once(), $this->any()),
+      array(5, 'enrichedTopicParser', SEOEnrichedTopic::class, $this->any(), $this->once()),
     );
   }
 
   /**
-  * method: Topic
+  * method: getTopic
   * when: called
   * with:
   * should: correct
    * @dataProvider getTopicData
   */
-  public function test_Topic_called__correct($allowRatings, $timesFactory, $timesGet)
+  public function test_getTopic_called__correct($topicType, $topicParserInvocationName, $expectedTopicParserClass, $timesFactory, $timesGet)
   {
     $expected = array('dummy expected value');
-    $expectedArray = array('dummy' => 'data');
-    $result = array(
-      'data'  => array(
-        'topic' => $expectedArray
-      )
-    );
-    $topicParser = $this->getMock('Communify\SEO\parsers\SEOTopic');
-    $this->configureFactoryMethod('topicParser', $topicParser, $timesFactory);
-    $this->configureParserGet($timesGet, $topicParser, $expectedArray, $expected, $allowRatings);
-    $actual = $this->configureSut($result, $allowRatings)->getTopic();
+    $result = [
+      'data'  => [
+        'sites' => [
+          ['site'  => [
+            'allow_ratings' => false,
+            'type_configuration' => ['id' => $topicType]
+          ]
+          ]
+        ],
+        'public_configurations' => [
+          ['id' => 'language_id' , 'value' => 'ca']
+        ]
+      ]
+    ];
+
+    $expectedArray = array_merge(['language_id' => 'ca'], ['allow_ratings' => false, 'type_configuration' => ['id' => $topicType]]);
+    $topicParser = $this->getMock($expectedTopicParserClass);
+
+    $this->configureFactoryMethod($topicParserInvocationName, $topicParser, $timesFactory);
+    $this->configureParserGet($timesGet, $topicParser, $expectedArray, $expected, false);
+
+    $actual = $this->configureSut($result, false)->getTopic();
     $this->assertEquals($expected, $actual);
   }
 
-  /**
-  * dataProvider getOpinionsEmptyReturnData
-  */
-  public function getOpinionsEmptyReturnData()
-  {
-    return array(
-      array(true, $this->any()),
-      array(true, $this->once()),
-
-      array(false, $this->any()),
-      array(false, $this->once()),
-    );
-  }
-
-  /**
-  * method: getOpinions
-  * when: called
-  * with: noOpinions
-  * should: emptyReturn
-   * @dataProvider getOpinionsEmptyReturnData
-  */
-  public function test_getOpinions_called_noOpinions_emptyReturn($allowRatings, $timesFactory)
-  {
-    $expected = array('opinions'  => array());
-    $result = array(
-      'data'  => array(
-        'opinions'  => array()
-      )
-    );
-    $opinionParser = $this->getMock('Communify\SEO\parsers\SEOOpinion');
-    $this->configureFactoryMethod('opinionParser', $opinionParser, $timesFactory);
-    $opinionParser->expects($this->never())
-      ->method('get');
-    $actual = $this->configureSut($result, $allowRatings)->getOpinions();
-    $this->assertEquals($expected, $actual);
-  }
-
-  /**
-  * dataProvider getOpinionsData
-  */
-  public function getOpinionsData()
-  {
-    return array(
-      array(true, $this->any()),
-      array(true, $this->once()),
-
-      array(false, $this->any()),
-      array(false, $this->once()),
-    );
-  }
-
-  /**
-  * method: getOpinions
-  * when: called
-  * with: opinions
-  * should: correctReturn
-   * @dataProvider getOpinionsData
-  */
-  public function test_getOpinions_called_opinions_correctReturn($allowRatings, $timesFactory)
-  {
-    $exOpinion1 = array('expected dummy opinion 1');
-    $exOpinion2 = array('expected dummy opinion 2');
-    $exOpinion3 = array('expected dummy opinion 3');
-    $opinion1 = array('dummy opinion 1');
-    $opinion2 = array('dummy opinion 2');
-    $opinion3 = array('dummy opinion 3');
-    $expected = array('opinions'  => array($exOpinion1, $exOpinion2, $exOpinion3));
-    $result = array(
-      'data'  => array(
-        'opinions'  => array($opinion1, $opinion2, $opinion3)
-      )
-    );
-    $opinionParser = $this->getMock('Communify\SEO\parsers\SEOOpinion');
-    $this->configureFactoryMethod('opinionParser', $opinionParser, $timesFactory);
-    $this->configureParserGet($this->at(0), $opinionParser, $opinion1, $exOpinion1, $allowRatings);
-    $this->configureParserGet($this->at(1), $opinionParser, $opinion2, $exOpinion2, $allowRatings);
-    $this->configureParserGet($this->at(2), $opinionParser, $opinion3, $exOpinion3, $allowRatings);
-    $actual = $this->configureSut($result, $allowRatings)->getOpinions();
-    $this->assertEquals($expected, $actual);
-  }
 
   /**
    * @param $allowRatings
@@ -345,13 +311,20 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
    */
   private function configureFactoryResult($allowRatings)
   {
-    $result = array('data' => array(
-      'topic' => array(
-        'site' => array(
-          'allow_ratings' => $allowRatings
-        )
-      ),
-    ));
+    $result = [
+      'data'  => [
+        'sites' => [
+          ['site'  => [
+            'allow_ratings' => $allowRatings,
+            'type_configuration' => ['id' => 'dummy']
+          ]
+          ]
+        ],
+        'public_configurations' => [
+          ['id' => 'language_id' , 'value' => 'ca']
+        ]
+      ]
+    ];
     return $result;
   }
 

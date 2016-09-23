@@ -17,6 +17,9 @@
 namespace tests\Communify\SEO;
 
 use Communify\SEO\SEOClient;
+use Communify\SEO\SEOFactory;
+use Communify\SEO\SEOConnector;
+use Communify\C2\C2Credential;
 
 /**
  * @covers Communify\SEO\SEOClient
@@ -41,8 +44,8 @@ class SEOClientTest extends \PHPUnit_Framework_TestCase
 
   public function setUp()
   {
-    $this->factory = $this->getMock('Communify\SEO\SEOFactory');
-    $this->connector = $this->getMock('Communify\SEO\SEOConnector');
+    $this->factory = $this->getMock(SEOFactory::class);
+    $this->connector = $this->getMock(SEOConnector::class);
     $this->sut = new SEOClient($this->factory, $this->connector);
   }
 
@@ -55,8 +58,8 @@ class SEOClientTest extends \PHPUnit_Framework_TestCase
   public function test_constructor_called_noParameters_defaultObjectAttrs()
   {
     $sut = new SEOClient();
-    $this->assertAttributeInstanceOf('Communify\SEO\SEOFactory', 'factory', $sut);
-    $this->assertAttributeInstanceOf('Communify\SEO\SEOConnector', 'connector', $sut);
+    $this->assertAttributeInstanceOf(SEOFactory::class, 'factory', $sut);
+    $this->assertAttributeInstanceOf(SEOConnector::class, 'connector', $sut);
   }
 
   /**
@@ -86,18 +89,20 @@ class SEOClientTest extends \PHPUnit_Framework_TestCase
     $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $accountId = 'dummy account id';
     $expected = 'dummy expected value';
-    $data = array('dummy' => 'value');
-    $expectedData = array('dummy' => 'value', 'url' => $url);
-    $credential = $this->getMock('Communify\C2\C2Credential');
+    $data = array('content_id' => 'dummy');
+    $expectedData = array('content_id' => 'dummy', 'url' => $url);
+    $credential = $this->getMock(C2Credential::class);
 
     $this->factory->expects($timesCredential)
       ->method('credential')
       ->with(SEOClient::WEB_SSID, $accountId, $expectedData)
       ->will($this->returnValue($credential));
+
     $this->connector->expects($timesGetSite)
       ->method('getTopicInfo')
       ->with($credential)
       ->will($this->returnValue($expected));
+
     $actual = $this->sut->widget($accountId, $data);
     $this->assertEquals($expected, $actual);
   }

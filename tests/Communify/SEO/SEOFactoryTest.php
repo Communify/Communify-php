@@ -16,6 +16,15 @@
 
 namespace tests\Communify\SEO;
 
+use Communify\SEO\engines\helpers\AmazonHelper;
+use Communify\SEO\engines\helpers\CtaHelper;
+use Communify\SEO\engines\helpers\FormHelper;
+use Communify\SEO\engines\helpers\GmapsHelper;
+use Communify\SEO\engines\helpers\HtmlHelper;
+use Communify\SEO\engines\helpers\ImageHelper;
+use Communify\SEO\engines\helpers\PaypalHelper;
+use Communify\SEO\engines\helpers\TextHelper;
+use Communify\SEO\engines\helpers\VideoHelper;
 use Communify\SEO\SEOFactory;
 
 /**
@@ -42,8 +51,9 @@ class SEOFactoryTest extends \PHPUnit_Framework_TestCase
     return array(
       array('response', 'SEOResponse'),
       array('languageParser', 'parsers\SEOLanguage'),
-      array('topicParser', 'parsers\SEOTopic'),
-      array('opinionParser', 'parsers\SEOOpinion'),
+      array('userConversationTopicParser', 'parsers\SEOUserConversationTopic'),
+      array('leadsTopicParser', 'parsers\SEOLeadsTopic'),
+      array('enrichedTopicParser', 'parsers\SEOEnrichedTopic'),
     );
   }
 
@@ -80,15 +90,20 @@ class SEOFactoryTest extends \PHPUnit_Framework_TestCase
   */
   public function test_parser_called__correct($allowRatings)
   {
-    $result = array(
-      'data'  => array(
-        'topic' => array(
-          'site'  => array(
-            'allow_ratings' => $allowRatings
-          )
-        )
-      )
-    );
+    $result = [
+      'data'  => [
+        'sites' => [
+            ['site'  => [
+              'allow_ratings' => $allowRatings,
+              'type_configuration' => ['id' => 'dummy']
+            ]
+          ]
+        ],
+        'public_configurations' => [
+          ['id' => 'language_id' , 'value' => 'ca']
+        ]
+      ]
+    ];
     $actual = $this->sut->parser($result);
     $this->assert('SEOParser', $actual);
     $this->assertAttributeEquals($result, 'result', $actual);
@@ -102,6 +117,56 @@ class SEOFactoryTest extends \PHPUnit_Framework_TestCase
   protected function assert($class, $actual)
   {
     $this->assertInstanceOf('Communify\SEO\\' . $class, $actual);
+  }
+
+
+  /**
+  * method: createHelper
+  * when: called
+  * with: invalidClass
+  * should: throw
+   * @expectedException \Exception
+   * @expectedExceptionCode 201
+   * @expectedExceptionMessage Cannot create helper: Invalid class
+  */
+  public function test_createHelper_called_invalidClass_throw()
+  {
+    $class = 'nonExistingClass';
+
+    $this->sut->createHelper($class);
+  }
+
+
+  /**
+  * dataProvider getCreateHelperCorrectData
+  */
+  public function getCreateHelperCorrectData()
+  {
+    return array(
+      array(TextHelper::class),
+      array(AmazonHelper::class),
+      array(CtaHelper::class),
+      array(FormHelper::class),
+      array(GmapsHelper::class),
+      array(HtmlHelper::class),
+      array(ImageHelper::class),
+      array(PaypalHelper::class),
+      array(VideoHelper::class),
+    );
+  }
+
+  /**
+  * method: createHelper
+  * when: called
+  * with:
+  * should: correct
+   * @dataProvider getCreateHelperCorrectData
+  */
+  public function test_createHelper_called__correct($class)
+  {
+    $result = $this->sut->createHelper($class);
+
+    $this->assertInstanceOf($class, $result);
   }
 
 }
