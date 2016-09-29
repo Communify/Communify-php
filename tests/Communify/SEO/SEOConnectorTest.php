@@ -17,6 +17,11 @@
 namespace tests\Communify\SEO;
 
 use Communify\SEO\SEOConnector;
+use Communify\SEO\SEOFactory;
+use Guzzle\Http\Client as GuzzleClient;
+use Communify\C2\C2Credential;
+use Guzzle\Http\Message\Response as GuzzleResponse;
+use Communify\SEO\SEOResponse;
 
 /**
  * @covers Communify\SEO\SEOConnector
@@ -41,8 +46,8 @@ class SEOConnectorTest extends \PHPUnit_Framework_TestCase
 
   public function setUp()
   {
-    $this->factory = $this->getMock('Communify\SEO\SEOFactory');
-    $this->client = $this->getMock('Guzzle\Http\Client');
+    $this->factory = $this->getMock(SEOFactory::class);
+    $this->client = $this->getMock(GuzzleClient::class);
     $this->sut = new SEOConnector($this->factory, $this->client);
   }
 
@@ -55,8 +60,8 @@ class SEOConnectorTest extends \PHPUnit_Framework_TestCase
   public function test_constructor_called_noParameters_defaultObjectAttrs()
   {
     $sut = new SEOConnector();
-    $this->assertAttributeInstanceOf('Communify\SEO\SEOFactory', 'factory', $sut);
-    $this->assertAttributeInstanceOf('Guzzle\Http\Client', 'client', $sut);
+    $this->assertAttributeInstanceOf(SEOFactory::class, 'factory', $sut);
+    $this->assertAttributeInstanceOf(GuzzleClient::class, 'client', $sut);
   }
   
   /**
@@ -87,9 +92,10 @@ class SEOConnectorTest extends \PHPUnit_Framework_TestCase
     $url = 'dummy url';
     $expectedData = 'dummy expected data';
     $request = 'dummy request';
-    $credential = $this->getMock('Communify\C2\C2Credential');
-    $response = $this->getMockBuilder('Guzzle\Http\Message\Response')->disableOriginalConstructor()->getMock();
-    $seoResponse = $this->getMock('Communify\SEO\SEOResponse');
+    $credential = $this->getMock(C2Credential::class);
+    $response = $this->getMockBuilder(GuzzleResponse::class)->disableOriginalConstructor()->getMock();
+    $seoResponse = $this->getMock(SEOResponse::class);
+    $expectedResult = 'dummy result';
 
     $credential->expects($timesGetUrl)
       ->method('getUrl')
@@ -101,7 +107,7 @@ class SEOConnectorTest extends \PHPUnit_Framework_TestCase
 
     $this->client->expects($timesCreateRequest)
       ->method('createRequest')
-      ->with(SEOConnector::POST_METHOD, $url.'/'.SEOConnector::GET_SITE_INFO_API_METHOD, null, $expectedData)
+      ->with(SEOConnector::POST_METHOD, $url.'/'.SEOConnector::GET_SITE_API_METHOD, null, $expectedData)
       ->will($this->returnValue($request));
 
     $this->client->expects($timesSend)
@@ -115,11 +121,11 @@ class SEOConnectorTest extends \PHPUnit_Framework_TestCase
 
     $seoResponse->expects($timesSet)
       ->method('set')
-      ->with($response);
+      ->with($response)
+      ->will($this->returnValue($expectedResult));
 
     $actual = $this->sut->getTopicInfo($credential);
-
-    $this->assertEquals($seoResponse, $actual);
+    $this->assertEquals($expectedResult, $actual);
   }
 
 }

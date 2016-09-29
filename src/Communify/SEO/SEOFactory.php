@@ -17,9 +17,11 @@
 namespace Communify\SEO;
 
 use Communify\C2\C2Factory;
+use Communify\SEO\parsers\SEOEnrichedTopic;
 use Communify\SEO\parsers\SEOLanguage;
 use Communify\SEO\parsers\SEOOpinion;
-use Communify\SEO\parsers\SEOTopic;
+use Communify\SEO\parsers\SEOUserConversationTopic;
+use Communify\SEO\parsers\SEOLeadsTopic;
 
 /**
  * Class SEOFactory
@@ -59,19 +61,48 @@ class SEOFactory extends C2Factory
   }
 
   /**
-   * @return SEOTopic
+   * @return SEOUserConversationTopic
    */
-  public function topicParser()
+  public function userConversationTopicParser()
   {
-    return SEOTopic::factory();
+    return SEOUserConversationTopic::factory();
   }
 
+
   /**
-   * @return SEOOpinion
+   * @return SEOLeadsTopic
    */
-  public function opinionParser()
+  public function leadsTopicParser()
   {
-    return SEOOpinion::factory();
+    return SEOLeadsTopic::factory();
+  }
+
+
+  /**
+   * @return SEOLeadsTopic
+   */
+  public function enrichedTopicParser()
+  {
+    return SEOEnrichedTopic::factory();
+  }
+
+
+  /**
+   * @param $class
+   *
+   * @return mixed
+   * @throws \Exception
+   */
+  public function createHelper($class)
+  {
+    if(class_exists($class))
+    {
+      return $class::factory();
+    }
+    else
+    {
+      throw new \Exception('Cannot create helper: Invalid class', 201);
+    }
   }
 
 }

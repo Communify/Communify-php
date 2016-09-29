@@ -14,15 +14,16 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\SEO;
+namespace Communify\SEO\engines;
 
 use Communify\C2\abstracts\C2AbstractFactorizable;
+use Communify\SEO\engines\helpers\interfaces\IPrintableObject;
 
 /**
- * Class SEOEngine
- * @package Communify\SEO
+ * Class SEOEnrichedEngine
+ * @package Communify\SEO\engines
  */
-class SEOEngine extends C2AbstractFactorizable
+class SEOEnrichedEngine extends C2AbstractFactorizable
 {
 
   /**
@@ -46,16 +47,22 @@ class SEOEngine extends C2AbstractFactorizable
   /**
    * Render HTML from template to improve SEO.
    *
-   * @param $context
+   * @param $topic
+   *
    * @return string
    */
-  public function render($context)
+  public function render($topic)
   {
-    $lang = include(dirname(__FILE__).'/lang/'.$context['language'].'.php');
-    $contextLang = array_merge($lang, $context);
-    $template = file_get_contents(dirname(__FILE__).'/html/template.html');
-    $html = $this->mustache->render($template, $contextLang);
-    return $this->mustache->render($html, $context);
+    $varsArray = [
+      'enriched_link' => $topic['cta_link']
+    ];
+    $template = file_get_contents(dirname(__FILE__).'/../html/enriched_template.html');
+
+    $finalHtml = '<noscript>';
+    $finalHtml .= $this->mustache->render($template, $varsArray);
+    $finalHtml .= '</noscript>';
+
+    return $finalHtml;
   }
 
 }

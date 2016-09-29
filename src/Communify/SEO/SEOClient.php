@@ -53,11 +53,18 @@ class SEOClient extends C2AbstractClient
    *
    * @param $accountId
    * @param $data
-   * @return SEOResponse
+   *
+   * @return mixed
+   * @throws \Exception
    */
   public function widget($accountId, $data)
   {
     $data['url']  = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+    if( !isset($data['content_id']) || $data['content_id'] == '')
+    {
+      throw new \Exception('Required contend_id param');
+    }
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->getTopicInfo($credential);
   }

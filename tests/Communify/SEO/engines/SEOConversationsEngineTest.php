@@ -16,12 +16,12 @@
 
 namespace tests\Communify\SEO;
 
-use Communify\SEO\SEOEngine;
+use Communify\SEO\engines\SEOConversationsEngine;
 
 /**
  * @covers Communify\SEO\SEOEngine
  */
-class SEOEngineTest extends \PHPUnit_Framework_TestCase
+class SEOConversationsEngineTest extends \PHPUnit_Framework_TestCase
 {
 
   /**
@@ -30,14 +30,14 @@ class SEOEngineTest extends \PHPUnit_Framework_TestCase
   private $mustache;
 
   /**
-   * @var SEOEngine
+   * @var SEOConversationsEngine
    */
   private $sut;
 
   public function setUp()
   {
-    $this->mustache = $this->getMock('\Mustache_Engine');
-    $this->sut = new SEOEngine($this->mustache);
+    $this->mustache = $this->getMock(\Mustache_Engine::class);
+    $this->sut = new SEOConversationsEngine($this->mustache);
   }
 
   /**
@@ -48,8 +48,8 @@ class SEOEngineTest extends \PHPUnit_Framework_TestCase
   */
   public function test_constructor_called__correct()
   {
-    $sut = new SEOEngine();
-    $this->assertAttributeInstanceOf('\Mustache_Engine', 'mustache', $sut);
+    $sut = new SEOConversationsEngine();
+    $this->assertAttributeInstanceOf(\Mustache_Engine::class, 'mustache', $sut);
   }
 
   /**
@@ -76,9 +76,9 @@ class SEOEngineTest extends \PHPUnit_Framework_TestCase
     $html = 'dummy html';
     $expected = 'dummy expected';
     $context = array('dummy'  => 'value', 'language' => $lang);
-    $lang = include(dirname(__FILE__).'/../../../src/Communify/SEO/lang/'.$lang.'.php');
+    $lang = include(dirname(__FILE__).'/../../../../src/Communify/SEO/lang/'.$lang.'.php');
     $contextLang = array_merge($lang, $context);
-    $template = file_get_contents(dirname(__FILE__).'/../../../src/Communify/SEO/html/template.html');
+    $template = file_get_contents(dirname(__FILE__).'/../../../../src/Communify/SEO/html/template.html');
     $this->configureRender($this->at(0), $template, $contextLang, $html);
     $this->configureRender($this->at(1), $html, $context, $expected);
     $actual = $this->sut->render($context);

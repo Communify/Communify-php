@@ -1,0 +1,42 @@
+<form>
+    {{# element_elements_distance}}
+    <style>
+        .widget-lead-form .form-group {
+        margin-bottom: {{element_elements_distance}}
+        }
+    </style>
+    {{/ element_elements_distance}}
+
+    <div class="widget-lead-form">
+
+        <!-- Name field -->
+        <div class="form-group">
+            {{# element_name_label}}
+                <label>{{element_name_label}}</label>
+            {{/ element_name_label}}
+            {{# element_name_placeholder}}
+            <input type="text" placeholder="{{element_name_placeholder}}" class="form-control"/>
+            {{/ element_name_placeholder}}
+        </div>
+
+        <!-- Surname field -->
+        <div class="form-group">
+            {{# element_surname_label}}
+            <label>{{element_surname_label}}</label>
+            {{/ element_surname_label}}
+            {{# element_surname_placeholder}}
+            <input type="text" placeholder="{{element_surname_placeholder}}" class="form-control"/>
+            {{/ element_surname_placeholder}}
+        </div>
+
+        <!-- Email field -->
+        <div class="form-group">
+            {{# element_email_label}}
+            <label>{{element_email_label}}</label>
+            {{/ element_email_label}}
+            {{# element_email_placeholder}}
+            <input type="text" placeholder="{{element_email_placeholder}}" class="form-control"/>
+            {{/ element_email_placeholder}}
+        </div>
+    </div>
+</form>

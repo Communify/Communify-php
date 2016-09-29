@@ -34,11 +34,6 @@ class SEOResponse extends C2AbstractResponse
   private $factory;
 
   /**
-   * @var SEOEngine
-   */
-  private $engine;
-
-  /**
    * @var array
    */
   private $context;
@@ -46,11 +41,10 @@ class SEOResponse extends C2AbstractResponse
   /**
    * Constructor with injection dependencies.
    *
-   * @param C2Validator $validator
-   * @param SEOEngine $template
-   * @param SEOFactory $factory
+   * @param C2Validator             $validator
+   * @param SEOFactory              $factory
    */
-  function __construct(C2Validator $validator = null, SEOEngine $template = null, SEOFactory $factory = null)
+  function __construct(C2Validator $validator = null, SEOFactory $factory = null)
   {
 
     if($factory == null)
@@ -58,22 +52,16 @@ class SEOResponse extends C2AbstractResponse
       $factory = SEOFactory::factory();
     }
 
-    if($template == null)
-    {
-      $template = SEOEngine::factory();
-    }
-
     $this->factory = $factory;
-    $this->engine = $template;
 
     parent::__construct($validator);
 
   }
 
   /**
-   * Set Guzzle Response data to S2OResponse as elements on S2OMetaIterator.
-   *
    * @param Response $response
+   *
+   * @return array
    */
   public function set(Response $response)
   {
@@ -82,21 +70,15 @@ class SEOResponse extends C2AbstractResponse
       $result = $response->json();
       $this->validator->checkData($result);
       $parser = $this->factory->parser($result);
-      $this->context = array_merge($parser->getTopic(), $parser->getOpinions(), $parser->getLang());
+      $html =  $parser->getTopic();
+      return $html;
     }
     catch(C2Exception $e)
     {
-      $this->context = null;
+      return '';
     }
   }
 
-  /**
-   * @return string
-   */
-  public function html()
-  {
-    return $this->context == null ? '' : $this->engine->render($this->context);
-  }
 
   /**
    * @param mixed $context

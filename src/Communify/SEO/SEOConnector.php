@@ -27,7 +27,7 @@ use Guzzle\Http\Client;
 class SEOConnector extends C2AbstractConnector
 {
 
-  const GET_SITE_INFO_API_METHOD = 'user/public/getSiteInfo';
+  const GET_SITE_API_METHOD = 'user/public/getCfyInfo';
 
   /**
    * Constructor with dependency injection.
@@ -54,11 +54,12 @@ class SEOConnector extends C2AbstractConnector
   public function getTopicInfo(C2Credential $credential)
   {
     $url = $credential->getUrl();
-    $request = $this->client->createRequest(self::POST_METHOD, $url.'/'.self::GET_SITE_INFO_API_METHOD, null, $credential->get());
+    $request = $this->client->createRequest(self::POST_METHOD, $url.'/'.self::GET_SITE_API_METHOD, null, $credential->get());
     $response = $this->client->send($request);
+
+    /** @var SEOResponse $seoResponse */
     $seoResponse = $this->factory->response();
-    $seoResponse->set($response);
-    return $seoResponse;
+    return  $seoResponse->set($response);
   }
 
 }

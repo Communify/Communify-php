@@ -4,6 +4,7 @@
         <article class="widget-topic">
 
             <h3 class="widget-topic-title">{{topic_title}}</h3>
+            <h3 class="widget-topic-name">{{topic_name}}</h3>
             {{# topic_img}}
             <img width="100" src="{{topic_img}}" alt="{{lang.photo_about_topicTitle}}" />
             {{/ topic_img}}
@@ -23,61 +24,13 @@
                 <meta itemprop="average" content="{{review_average}}">
                 <meta itemprop="count" content="{{num_opinions}}">
                 <meta itemprop="votes" content="{{num_opinions}}">
+                <meta itemprop="topicname" content="{{topic_name}}">
             </div>
             <!-- end Google Rich Snippets for topic -->
             {{/ allow_ratings}}
 
         </article>
 
-        <section class="widget-opinions">
-            <h4 class="widget-opinions-total">{{num_opinions}} {{lang.opinions}}</h4>
-            <ul>
-                {{# opinions}}
-                <li>
-                    <img width="40" height="40" src="{{reviewer_img}}">
-                    <p>
-                        <strong>{{reviewer_name}}</strong>
-                        <time>{{opinion_date}}</time>
-                    </p>
-                    {{# allow_ratings}}
-                    <p class="widget-rating">{{reviewer_rating}}</p>
-                    {{/ allow_ratings}}
-                    <p>{{reviewer_review}}</p>
-                    <div class="widget-votes">
-                        <span>{{lang.positive_votes_numPositive}}</span>
-                        <span>{{lang.negative_votes_numPositive}}</span>
-                    </div>
-                    <div class="widget-comments">
-                        <h5>{{num_comments}} {{lang.comments}}</h5>
-                        <ul>
-                            <!-- Comment element * N -->
-                            {{# comments}}
-                            <li>
-                                <img width="35" height="35" src="{{author_img}}">
-                                <p>
-                                    <strong>{{user_name}}</strong>
-                                    <time>{{reply_date}}</time>
-                                </p>
-                                <p>{{comment_text}}</p>
-                            </li>
-                            {{/ comments}}
-                        </ul>
-                    </div>
-                    {{# allow_ratings}}
-                    <!-- Google Rich Snippets for review -->
-                    <div itemscope itemtype="http://data-vocabulary.org/Review">
-                        <meta itemprop="itemreviewed" content="{{topic_title}}">
-                        <meta itemprop="reviewer" content="{{reviewer_name}}">
-                        <meta itemprop="dtreviewed" content="2015-01-06">
-                        <meta itemprop="rating" content="{{reviewer_rating}}" />
-                        <meta itemprop="description" content="{{reviewer_review}}" />
-                    </div>
-                    <!-- end Google Rich Snippets for review -->
-                    {{/ allow_ratings}}
-                </li>
-                {{/ opinions}}
-            </ul>
-        </section>
         <footer class="widget-footer">
             <span>{{lang.powered_by}} </span>
             <a target="_blank" title="{{lang.increase_sales}}" href="http://communify.com">communify</a>

@@ -26,6 +26,11 @@ use Communify\C2\abstracts\C2AbstractFactorizable;
 class SEOParser extends C2AbstractFactorizable
 {
 
+  private static $factoryGeneratorFunction = [ 1 => 'userConversationTopicParser',
+                                          2 => 'userConversationTopicParser',
+                                          3 => 'leadsTopicParser',
+                                          5 => 'enrichedTopicParser'];
+
   /**
    * @var array
    */
@@ -42,11 +47,25 @@ class SEOParser extends C2AbstractFactorizable
   private $factory;
 
   /**
+   * @var array
+   */
+  private $topic;
+
+
+  /**
+   * @var int
+   */
+  private $topicTypeId;
+
+
+
+
+  /**
    * @param $result
    * @param $allowRatings
    * @param SEOFactory $factory
    */
-  function __construct($result, $allowRatings, SEOFactory $factory = null)
+  function __construct($result, $allowRatings = null, SEOFactory $factory = null)
   {
 
     if($factory == null)
@@ -57,6 +76,9 @@ class SEOParser extends C2AbstractFactorizable
     $this->result = $result;
     $this->allowRatings = $allowRatings;
     $this->factory = $factory;
+    $this->topic = $this->result['data']['sites'][0]['site'];
+    $this->topicTypeId = $this->topic['type_configuration']['id'];
+    $this->topic = array_merge($this->topic, $this->getLang());
   }
 
   /**
@@ -75,9 +97,8 @@ class SEOParser extends C2AbstractFactorizable
 
     if($allowRatings === null)
     {
-      $allowRatings = (bool) $result['data']['topic']['site']['allow_ratings'];
+      $allowRatings = (bool) $result['data']['sites'][0]['site']['allow_ratings'];
     }
-
     return new SEOParser($result, $allowRatings, $factory);
   }
 
@@ -88,7 +109,7 @@ class SEOParser extends C2AbstractFactorizable
    */
   public function getLang()
   {
-    return $this->factory->languageParser()->get($this->result['data']['topic']['public_configurations']);
+    return $this->factory->languageParser()->get($this->result['data']['public_configurations']);
   }
 
   /**
@@ -98,25 +119,9 @@ class SEOParser extends C2AbstractFactorizable
    */
   public function getTopic()
   {
-    return $this->factory->topicParser()->get($this->result['data']['topic'], $this->allowRatings);
+    $parser = self::$factoryGeneratorFunction[$this->topicTypeId];
+    return $this->factory->$parser()->get($this->topic, $this->allowRatings);
   }
 
-  /**
-   * Get opinions information
-   *
-   * @return array
-   */
-  public function getOpinions()
-  {
-    $opinions = array('opinions' => array());
-
-    $opinionParser = $this->factory->opinionParser();
-    foreach($this->result['data']['opinions'] as $opinion)
-    {
-      $opinions['opinions'][] = $opinionParser->get($opinion, $this->allowRatings);
-    }
-
-    return $opinions;
-  }
 
 }

@@ -14,33 +14,36 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\SEO\parsers;
-
-
+namespace Communify\SEO\engines\helpers\abstracts;
 use Communify\C2\abstracts\C2AbstractFactorizable;
-use Communify\SEO\parsers\interfaces\ISEOParser;
 
 /**
- * Class SEOComment
- * @package Communify\SEO\parsers
+ * Class AbstractPrintableObject
+ * @package Communify\SEO\engines\helpers\abstracts
  */
-class SEOComment extends C2AbstractFactorizable implements ISEOParser
+abstract class AbstractPrintableObject extends C2AbstractFactorizable
 {
 
   /**
-   * Get comment information from array result.
-   *
-   * @param $comment
-   * @return array
+   * @var string
    */
-  public function get($comment)
+  protected $partialTemplateName;
+
+  /**
+   * AbstractPrintableObject constructor.
+   */
+  function __construct()
   {
-    return array(
-      'author_img'    => $comment['user']['file_url'],
-      'comment_text'  => $comment['msg'],
-      'reply_date'    => date('d/m/Y', $comment['epoch']),
-      'user_name'     => $comment['user']['name'].' '.$comment['user']['surname'],
-    );
+    $this->partialTemplateName = '';
+  }
+
+
+  /**
+   * @return string
+   */
+  public function getPartialFile()
+  {
+    return file_get_contents(dirname(__FILE__).'/../../../html/partials/'.$this->partialTemplateName.'.html');
   }
 
 }
