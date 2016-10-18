@@ -44,10 +44,10 @@ class CtaHelper extends AbstractPrintableObject implements IPrintableObject
   {
 
     $valuesArray = [
-      'element_class'         =>  $elementArray['attrs']['class'] ? $elementArray['attrs']['class'] : false,
-      'element_style'         =>  $elementArray['attrs']['style'] ? $elementArray['attrs']['style'] : '',
-      'element_html'          =>  $elementArray['attrs']['cta_html'] ? $elementArray['attrs']['cta_html'] : false,
-      'element_text'          =>  $elementArray['attrs']['text'] ? htmlentities($elementArray['attrs']['text']) : false,
+      'element_class'  =>  (array_key_exists('class', $elementArray['attrs']) && $elementArray['attrs']['class']) ? $elementArray['attrs']['class'] : false,
+      'element_style'  =>  (array_key_exists('style', $elementArray['attrs']) && $elementArray['attrs']['style']) ? $elementArray['attrs']['style'] : '',
+      'element_html'   =>  (array_key_exists('cta_html', $elementArray['attrs']) && $elementArray['attrs']['cta_html']) ? $elementArray['attrs']['cta_html'] : false,
+      'element_text'   =>  (array_key_exists('text', $elementArray['attrs']) && $elementArray['attrs']['text']) ? htmlentities($elementArray['attrs']['text']) : false,
     ];
 
     $template = $this->getPartialFile();

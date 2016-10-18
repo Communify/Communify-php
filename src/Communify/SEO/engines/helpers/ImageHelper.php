@@ -44,12 +44,12 @@ class ImageHelper extends AbstractPrintableObject implements IPrintableObject
   {
 
     $valuesArray = [
-      'element_custom_styles' => $elementArray['attrs']['customStyles'] ? $elementArray['attrs']['customStyles'] : '',
-      'element_styles'        =>  $elementArray['attrs']['styles'] ? $elementArray['attrs']['styles'] : '',
-      'element_width'         =>  $elementArray['attrs']['width'] ? $elementArray['attrs']['width'] : '',
-      'element_height'        =>  $elementArray['attrs']['height'] ? $elementArray['attrs']['height'] : '',
-      'element_class'         =>  $elementArray['attrs']['class'] ? $elementArray['attrs']['class'] : 'img-responsive',
-      'element_src'           =>  $elementArray['attrs']['src'] ? $elementArray['attrs']['src'] : '/assets/images/placeholder.png',
+      'element_custom_styles' => (array_key_exists('customStyles', $elementArray['attrs']) && $elementArray['attrs']['customStyles']) ? $elementArray['attrs']['customStyles'] : '',
+      'element_styles'        =>  (array_key_exists('styles', $elementArray['attrs']) && $elementArray['attrs']['styles']) ? $elementArray['attrs']['styles'] : '',
+      'element_width'         =>  (array_key_exists('width', $elementArray['attrs']) && $elementArray['attrs']['width']) ? $elementArray['attrs']['width'] : '',
+      'element_height'        =>  (array_key_exists('height', $elementArray['attrs']) && $elementArray['attrs']['height']) ? $elementArray['attrs']['height'] : '',
+      'element_class'         =>  (array_key_exists('class', $elementArray['attrs']) && $elementArray['attrs']['class']) ? $elementArray['attrs']['class'] : 'img-responsive',
+      'element_src'           =>  (array_key_exists('src', $elementArray['attrs']) && $elementArray['attrs']['src']) ? $elementArray['attrs']['src'] : '/assets/images/placeholder.png',
     ];
 
     $template = $this->getPartialFile();

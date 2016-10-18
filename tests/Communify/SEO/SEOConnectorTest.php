@@ -89,7 +89,7 @@ class SEOConnectorTest extends \PHPUnit_Framework_TestCase
   */
   public function test_getTopicInfo_called__correct($timesGetUrl, $timesGet, $timesCreateRequest, $timesSend, $timesResponse, $timesSet)
   {
-    $url = 'dummy url';
+    $url = 'dummy url/';
     $expectedData = 'dummy expected data';
     $request = 'dummy request';
     $credential = $this->getMock(C2Credential::class);
@@ -107,7 +107,7 @@ class SEOConnectorTest extends \PHPUnit_Framework_TestCase
 
     $this->client->expects($timesCreateRequest)
       ->method('createRequest')
-      ->with(SEOConnector::POST_METHOD, $url.'/'.SEOConnector::GET_SITE_API_METHOD, null, $expectedData)
+      ->with(SEOConnector::POST_METHOD, $url.SEOConnector::GET_SITE_API_METHOD, null, $expectedData)
       ->will($this->returnValue($request));
 
     $this->client->expects($timesSend)

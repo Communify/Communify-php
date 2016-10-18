@@ -42,7 +42,6 @@ class FormHelper extends AbstractPrintableObject implements IPrintableObject
   {
 
     $valuesArray = [
-      'element_elements_distance'   => $elementArray['attrs']['form']['elementsDistance'] ? $elementArray['attrs']['form']['elementsDistance'] : false,
       'element_name_label'          => $elementArray['attrs']['form']['name']['label'] ? htmlentities($elementArray['attrs']['form']['name']['label'])  : false,
       'element_name_placeholder'    => $elementArray['attrs']['form']['name']['placeholder'] ? htmlentities($elementArray['attrs']['form']['name']['placeholder'])  : false,
       'element_surname_label'       => $elementArray['attrs']['form']['surname']['label'] ? htmlentities($elementArray['attrs']['form']['surname']['label'])  : false,
