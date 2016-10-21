@@ -44,9 +44,9 @@ class VideoHelper extends AbstractPrintableObject implements IPrintableObject
   {
 
     $valuesArray = [
-      'element_custom_styles' => $elementArray['attrs']['customStyles'] ? $elementArray['attrs']['customStyles'] : '',
-      'element_style'         =>  $elementArray['attrs']['style'] ? $elementArray['attrs']['style'] : '',
-      'element_src'           =>  $elementArray['attrs']['src'] ? $elementArray['attrs']['src'] : false,
+      'element_custom_styles' => (array_key_exists('customStyles', $elementArray['attrs']) && $elementArray['attrs']['customStyles']) ? $elementArray['attrs']['customStyles'] : '',
+      'element_style'         => (array_key_exists('style', $elementArray['attrs']) && $elementArray['attrs']['style']) ? $elementArray['attrs']['style'] : '',
+      'element_src'           => $elementArray['attrs']['src'] ? $elementArray['attrs']['src'] : false,
     ];
 
     if($valuesArray['element_src'])

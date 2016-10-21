@@ -47,7 +47,7 @@ class HtmlHelper extends AbstractPrintableObject implements IPrintableObject
   {
 
     $valuesArray = [
-      'element_html' => $elementArray['attrs']['html'] ? $elementArray['attrs']['html'] : ''
+      'element_html' => (array_key_exists('html', $elementArray['attrs']) && $elementArray['attrs']['html']) ? $elementArray['attrs']['html'] : ''
     ];
 
     $template = $this->getPartialFile();

@@ -45,8 +45,8 @@ class TextHelper extends AbstractPrintableObject implements IPrintableObject
     $valuesArray = [
       $elementType    => true,
       'element_value' => htmlentities($elementArray['attrs']['value']),
-      'element_class' => $elementArray['attrs']['class'] ? $elementArray['attrs']['class'] : '',
-      'element_style' => ($elementArray['attrs']['customStyles'] ? $elementArray['attrs']['customStyles'] : '').' '.($elementArray['attrs']['styles'] ? $elementArray['attrs']['styles'] : '')
+      'element_class' => (array_key_exists('class', $elementArray['attrs']) && $elementArray['attrs']['class']) ? $elementArray['attrs']['class'] : '',
+      'element_style' => ((array_key_exists('customStyles', $elementArray['attrs']) && $elementArray['attrs']['customStyles']) ? $elementArray['attrs']['customStyles'] : '').' '.((array_key_exists('styles', $elementArray['attrs']) && $elementArray['attrs']['styles']) ? $elementArray['attrs']['styles'] : '')
     ];
 
     $template = $this->getPartialFile();
