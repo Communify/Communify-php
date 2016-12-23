@@ -36,10 +36,6 @@ class SEOParser extends C2AbstractFactorizable
    */
   private $result;
 
-  /**
-   * @var bool
-   */
-  private $allowRatings;
 
   /**
    * @var SEOFactory
@@ -62,10 +58,9 @@ class SEOParser extends C2AbstractFactorizable
 
   /**
    * @param $result
-   * @param $allowRatings
    * @param SEOFactory $factory
    */
-  function __construct($result, $allowRatings = null, SEOFactory $factory = null)
+  function __construct($result, SEOFactory $factory = null)
   {
 
     if($factory == null)
@@ -74,7 +69,6 @@ class SEOParser extends C2AbstractFactorizable
     }
 
     $this->result = $result;
-    $this->allowRatings = $allowRatings;
     $this->factory = $factory;
     $this->topic = $this->result['data']['sites'][0]['site'];
     $this->topicTypeId = $this->topic['type_configuration']['id'];
@@ -83,23 +77,18 @@ class SEOParser extends C2AbstractFactorizable
 
   /**
    * @param null $result
-   * @param null $allowRatings
    * @param SEOFactory $factory
    * @return SEOParser
    * @throws SEOException
    */
-  public static function factory( $result=null, $allowRatings = null, SEOFactory $factory = null )
+  public static function factory( $result=null, SEOFactory $factory = null )
   {
     if($result == null)
     {
       throw new SEOException('Invalid result: null value is not allowed');
     }
 
-    if($allowRatings === null)
-    {
-      $allowRatings = (bool) $result['data']['sites'][0]['site']['allow_ratings'];
-    }
-    return new SEOParser($result, $allowRatings, $factory);
+    return new SEOParser($result, $factory);
   }
 
   /**
@@ -120,7 +109,7 @@ class SEOParser extends C2AbstractFactorizable
   public function getTopic()
   {
     $parser = self::$factoryGeneratorFunction[$this->topicTypeId];
-    return $this->factory->$parser()->get($this->topic, $this->allowRatings);
+    return $this->factory->$parser()->get($this->topic);
   }
 
 

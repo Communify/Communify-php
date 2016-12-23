@@ -42,11 +42,10 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
 
   /**
    * @param $result
-   * @param null $allowRatings
    * @return SEOParser
    * @throws \Communify\SEO\SEOException
    */
-  protected function configureSut($result, $allowRatings = null)
+  protected function configureSut($result)
   {
     $languageParser = $this->getMock(SEOLanguage::class);
     $this->configureFactoryMethod('languageParser', $languageParser, $this->at(0));
@@ -55,34 +54,22 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
       ->method('get')
       ->will($this->returnValue(array('language_id' => 'ca')));
 
-    return SEOParser::factory($result, $allowRatings, $this->factory);
+    return SEOParser::factory($result, $this->factory);
   }
 
-  /**
-  * dataProvider getConstructorData
-  */
-  public function getConstructorData()
-  {
-    return array(
-      array(true),
-      array(false),
-    );
-  }
 
   /**
   * method: constructor
   * when: called
   * with:
   * should: correct
-   * @dataProvider getConstructorData
   */
-  public function test_constructor_called__correct($allowRatings)
+  public function test_constructor_called__correct()
   {
     $result = [
       'data'  => [
         'sites' => [
           ['site'  => [
-            'allow_ratings' => $allowRatings,
             'type_configuration' => ['id' => 'dummy']
           ]
           ]
@@ -92,9 +79,8 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
         ]
       ]
     ];
-    $sut = new SEOParser($result, $allowRatings);
+    $sut = new SEOParser($result);
     $this->assertAttributeEquals($result, 'result', $sut);
-    $this->assertAttributeEquals($allowRatings, 'allowRatings', $sut);
     $this->assertAttributeInstanceOf(SEOFactory::class, 'factory', $sut);
   }
 
@@ -124,84 +110,39 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
     SEOParser::factory(null);
   }
 
-  /**
-  * dataProvider getFactoryNotAllowRatingsParamData
-  */
-  public function getFactoryNotAllowRatingsParamData()
-  {
-    return array(
-      array(true),
-      array(false),
-    );
-  }
 
-  /**
-  * method: factory
-  * when: called
-  * with: notAllowRatingsParam
-  * should: correct
-   * @dataProvider getFactoryNotAllowRatingsParamData
-  */
-  public function test_factory_called_notAllowRatingsParam_correct($allowRatings)
-  {
-    $result = $this->configureFactoryResult($allowRatings);
-    $actual = SEOParser::factory($result);
-    $this->assertFactory($allowRatings, $actual, $result);
-    $this->assertAttributeInstanceOf('Communify\SEO\SEOFactory', 'factory', $actual);
-  }
-
-  /**
-  * dataProvider getFactoryData
-  */
-  public function getFactoryData()
-  {
-    return array(
-      array(true),
-      array(false),
-    );
-  }
 
   /**
   * method: factory
   * when: called
   * with:
   * should: correct
-   * @dataProvider getFactoryData
   */
-  public function test_factory_called__correct($allowRatings)
+  public function test_factory_called__correct()
   {
-    $result = $this->configureFactoryResult('dummy allow ratings');
-    $actual = SEOParser::factory($result, $allowRatings);
-    $this->assertFactory($allowRatings, $actual, $result);
+    $result = $this->configureFactoryResult();
+    $actual = SEOParser::factory($result);
+    $this->assertFactory($actual, $result);
     $this->assertAttributeInstanceOf('Communify\SEO\SEOFactory', 'factory', $actual);
   }
 
-  /**
-  * dataProvider getFactoryInjectedFactoryData
-  */
-  public function getFactoryInjectedFactoryData()
-  {
-    return array(
-      array(true),
-      array(false),
-    );
-  }
+
 
   /**
   * method: factory
   * when: called
   * with: injectedFactory
   * should: correct
-   * @dataProvider getFactoryInjectedFactoryData
   */
-  public function test_factory_called_injectedFactory_correct($allowRatings)
+  public function test_factory_called_injectedFactory_correct()
   {
     $factory = SEOFactory::factory();
-    $result = $this->configureFactoryResult('dummy allow ratings');
-    $actual = SEOParser::factory($result, $allowRatings, $factory);
-    $this->assertFactory($allowRatings, $actual, $result);
+    $result = $this->configureFactoryResult();
+    $actual = SEOParser::factory($result, $factory);
+    $this->assertFactory($actual, $result);
     $this->assertAttributeEquals($factory, 'factory', $actual);
   }
+
 
   /**
   * dataProvider getLangData
@@ -209,7 +150,7 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
   public function getLangData()
   {
     return array(
-      array(true, $this->any(), $this->any())
+      array($this->any(), $this->any())
     );
   }
 
@@ -220,7 +161,7 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
   * should: correct
    * @dataProvider getLangData
   */
-  public function test_getLang_called__correct($allowRatings, $timesFactory, $timesGet)
+  public function test_getLang_called__correct($timesFactory, $timesGet)
   {
     $expected = array('dummy expected value');
     $expectedArray = [
@@ -230,7 +171,6 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
       'data'  => [
         'sites' => [
           ['site'  => [
-            'allow_ratings' => $allowRatings,
             'type_configuration' => ['id' => 'dummy']
           ]
           ]
@@ -245,7 +185,7 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
     $this->configureFactoryMethod('languageParser', $languageParser, $timesFactory);
     $this->configureParserGet($timesGet, $languageParser, $expectedArray, $expected);
 
-    $actual = $this->configureSut($result, $allowRatings)->getLang();
+    $actual = $this->configureSut($result)->getLang();
     $this->assertEquals($expected, $actual);
   }
 
@@ -283,7 +223,6 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
       'data'  => [
         'sites' => [
           ['site'  => [
-            'allow_ratings' => false,
             'type_configuration' => ['id' => $topicType]
           ]
           ]
@@ -294,30 +233,28 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
       ]
     ];
 
-    $expectedArray = array_merge(['language_id' => 'ca'], ['allow_ratings' => false, 'type_configuration' => ['id' => $topicType]]);
+    $expectedArray = array_merge(['language_id' => 'ca'], ['type_configuration' => ['id' => $topicType]]);
     $topicParser = $this->getMock($expectedTopicParserClass);
 
     $this->configureFactoryMethod($topicParserInvocationName, $topicParser, $timesFactory);
     $this->configureParserGet($timesGet, $topicParser, $expectedArray, $expected, false);
 
-    $actual = $this->configureSut($result, false)->getTopic();
+    $actual = $this->configureSut($result)->getTopic();
     $this->assertEquals($expected, $actual);
   }
 
 
   /**
-   * @param $allowRatings
    * @return array
    */
-  private function configureFactoryResult($allowRatings)
+  private function configureFactoryResult()
   {
     $result = [
       'data'  => [
         'sites' => [
           ['site'  => [
-            'allow_ratings' => $allowRatings,
             'type_configuration' => ['id' => 'dummy']
-          ]
+            ]
           ]
         ],
         'public_configurations' => [
@@ -329,15 +266,13 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * @param $allowRatings
    * @param $actual
    * @param $result
    */
-  private function assertFactory($allowRatings, $actual, $result)
+  private function assertFactory($actual, $result)
   {
     $this->assertInstanceOf('Communify\SEO\SEOParser', $actual);
     $this->assertAttributeEquals($result, 'result', $actual);
-    $this->assertAttributeEquals($allowRatings, 'allowRatings', $actual);
   }
 
   /**
@@ -357,25 +292,13 @@ class SEOParserTest extends \PHPUnit_Framework_TestCase
    * @param $objectParser
    * @param $expectedArray
    * @param $expected
-   * @param null $allowRatings
    */
-  private function configureParserGet($timesGet, $objectParser, $expectedArray, $expected, $allowRatings = null)
+  private function configureParserGet($timesGet, $objectParser, $expectedArray, $expected)
   {
-    if($allowRatings === null)
-    {
       $objectParser->expects($timesGet)
         ->method('get')
         ->with($expectedArray)
         ->will($this->returnValue($expected));
-    }
-    else
-    {
-      $objectParser->expects($timesGet)
-        ->method('get')
-        ->with($expectedArray, $allowRatings)
-        ->will($this->returnValue($expected));
-    }
-
   }
 
 

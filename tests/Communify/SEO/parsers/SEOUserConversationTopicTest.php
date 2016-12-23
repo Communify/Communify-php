@@ -43,9 +43,9 @@ class SEOUserConversationTopicTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-  * dataProvider getAllowRatingsIsFalseCorrectData
+  * dataProvider getCorrectData
   */
-  public function getAllowRatingsIsFalseCorrectData()
+  public function getCorrectData()
   {
     return array(
       array($this->any()),
@@ -56,11 +56,11 @@ class SEOUserConversationTopicTest extends \PHPUnit_Framework_TestCase
   /**
   * method: get
   * when: called
-  * with: allowRatingsIsFalse
+  * with:
   * should: correct
-   * @dataProvider getAllowRatingsIsFalseCorrectData
+   * @dataProvider getCorrectData
   */
-  public function test_get_called_allowRatingsIsFalse_correct($timesRender)
+  public function test_get_called__correct($timesRender)
   {
     $ideas = 12345678;
     $name = 'dummy name';
@@ -70,11 +70,10 @@ class SEOUserConversationTopicTest extends \PHPUnit_Framework_TestCase
     $title = 'dummy title';
     $topicName = 'dummy topic name';
     $language = 'dummy language';
-    $allowRatings = false;
     $topic = $this->configureTopic($ideas, $name, $surname, $description, $fileUrl, $title, $topicName, $language);
     $expectedResult = 'dummy html';
 
-    $this->configureExpectedArrayAndRender($allowRatings, $ideas, '', $name, $surname, $description, $fileUrl, $title, $topicName,
+    $this->configureExpectedArrayAndRender($ideas, $name, $surname, $description, $fileUrl, $title, $topicName,
       $language, $timesRender, $expectedResult);
 
     $result = $this->sut->get($topic);
@@ -83,53 +82,7 @@ class SEOUserConversationTopicTest extends \PHPUnit_Framework_TestCase
 
 
   /**
-   * dataProvider getAllowRatingsIsTrueCorrectData
-   */
-  public function getAllowRatingsIsTrueCorrectData()
-  {
-    return array(
-      array($this->any()),
-      array($this->once())
-    );
-  }
-
-  /**
-  * method: get
-  * when: called
-  * with: allowRatingsIsTrue
-  * should: correct
-   * @dataProvider getAllowRatingsIsTrueCorrectData
-  */
-  public function test_get_called_allowRatingsIsTrue_correct($timesRender)
-  {
-    $ideas = 12345678;
-    $name = 'dummy name';
-    $surname = 'dummy surname';
-    $description = 'dummy description';
-    $fileUrl = 'dummy file url';
-    $title = 'dummy title';
-    $averageRatings = 'dummy average ratings';
-    $allowRatings = true;
-    $topicName = 'dummy topic name';
-    $language = 'dummy language';
-
-
-    $topic = $this->configureTopic($ideas, $name, $surname, $description, $fileUrl, $title, $topicName, $language, $averageRatings);
-    $expectedResult = 'dummy html';
-
-    $this->configureExpectedArrayAndRender($allowRatings, $ideas, $averageRatings, $name, $surname, $description, $fileUrl, $title, $topicName,
-      $language, $timesRender, $expectedResult);
-
-    $result = $this->sut->get($topic, true);
-    $this->assertEquals($expectedResult, $result);
-
-  }
-
-
-  /**
-   * @param $allowRatings
    * @param $ideas
-   * @param $averageRatings
    * @param $name
    * @param $surname
    * @param $description
@@ -140,13 +93,11 @@ class SEOUserConversationTopicTest extends \PHPUnit_Framework_TestCase
    * @param $timesRender
    * @param $expectedResult
    */
-  private function configureExpectedArrayAndRender($allowRatings, $ideas, $averageRatings, $name, $surname, $description, $fileUrl,
+  private function configureExpectedArrayAndRender($ideas, $name, $surname, $description, $fileUrl,
                                                    $title, $topicName, $language, $timesRender, $expectedResult)
   {
     $expectedArray = array(
-      'allow_ratings' => $allowRatings,
       'num_ideas' => $ideas,
-      'review_average' => $averageRatings,
       'topic_author' => $name . ' ' . $surname,
       'topic_description' => $description,
       'topic_img' => $fileUrl,

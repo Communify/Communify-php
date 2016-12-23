@@ -9,25 +9,10 @@
             <img width="100" src="{{topic_img}}" alt="{{lang.photo_about_topicTitle}}" />
             {{/ topic_img}}
 
-            {{# allow_ratings}}
-            <p>{{review_average}} / 5 <small>{{ lang.based_on_numOpinions }}</small></p>
-            {{/ allow_ratings}}
-
             <p>{{topic_description}}</p>
             <footer class="widget-topic-footer">
                 <small>{{lang.by_topicAuthor}}</small>
             </footer>
-
-            {{# allow_ratings}}
-            <!-- Google Rich Snippets for topic -->
-            <div itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
-                <meta itemprop="average" content="{{review_average}}">
-                <meta itemprop="count" content="{{num_opinions}}">
-                <meta itemprop="votes" content="{{num_opinions}}">
-                <meta itemprop="topicname" content="{{topic_name}}">
-            </div>
-            <!-- end Google Rich Snippets for topic -->
-            {{/ allow_ratings}}
 
         </article>
 

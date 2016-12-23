@@ -88,13 +88,12 @@ class SEOFactoryTest extends \PHPUnit_Framework_TestCase
   * should: correct
    * @dataProvider getParserData
   */
-  public function test_parser_called__correct($allowRatings)
+  public function test_parser_called__correct()
   {
     $result = [
       'data'  => [
         'sites' => [
             ['site'  => [
-              'allow_ratings' => $allowRatings,
               'type_configuration' => ['id' => 'dummy']
             ]
           ]
@@ -107,7 +106,6 @@ class SEOFactoryTest extends \PHPUnit_Framework_TestCase
     $actual = $this->sut->parser($result);
     $this->assert('SEOParser', $actual);
     $this->assertAttributeEquals($result, 'result', $actual);
-    $this->assertAttributeEquals($allowRatings, 'allowRatings', $actual);
   }
 
   /**

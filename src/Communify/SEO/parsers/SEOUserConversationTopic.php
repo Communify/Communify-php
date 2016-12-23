@@ -54,15 +54,12 @@ class SEOUserConversationTopic extends C2AbstractFactorizable implements ISEOPar
    * Get topic information from array result.
    *
    * @param $topic
-   * @param bool $allowRatings
    * @return array
    */
-  public function get($topic, $allowRatings = false)
+  public function get($topic)
   {
       $array =  array(
-        'allow_ratings'       => $allowRatings,
         'num_ideas'           => $topic['num_ideas'],
-        'review_average'      => $allowRatings ? $topic['average_ratings'] : '',
         'topic_author'        => htmlentities($topic['user']['name'].' '.$topic['user']['surname']),
         'topic_description'   => htmlentities($topic['description']),
         'topic_img'           => $topic['file_url'],

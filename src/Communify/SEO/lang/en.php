@@ -9,6 +9,6 @@ return [
     'opinions'                    => 'opinions',
     'photo_about_topicTitle'      => 'Photo about {{topic_title}}',
     'positive_votes_numPositive'  => '{{num_positives}} positive votes',
-    'powered_by'                  => 'reviews and comments plugins by',
+    'powered_by'                  => 'comments plugins by',
   ]
 ];
