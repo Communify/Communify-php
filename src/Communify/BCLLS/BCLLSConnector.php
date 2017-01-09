@@ -48,7 +48,7 @@ class BCLLSConnector extends C2AbstractConnector
   {
     $url = $credential->getUrl();
 
-    $request = $this->client->createRequest(self::POST_METHOD, $url.self::GET_AP_DATA_METHOD, null, $credential->get(), ['verify' => false]);
+    $request = $this->client->createRequest(self::POST_METHOD, $url.self::GET_AP_DATA_METHOD, null, $credential->get());
     $response = $this->client->send($request);
     $APDataResponse = $this->factory->response();
     $APDataResponse->set($response);
