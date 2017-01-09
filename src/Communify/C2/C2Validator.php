@@ -34,6 +34,7 @@ class C2Validator extends C2AbstractFactorizable
    */
   public function checkData($data)
   {
+    var_dump($data);exit;
     if( !isset($data['status']) )
     {
       throw new C2Exception(IC2Exception::STATUS_ERROR_NAME, IC2Exception::PARAM_ERROR);
