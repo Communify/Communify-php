@@ -27,8 +27,7 @@ use Communify\C2\interfaces\IC2Credential;
 class C2Credential extends C2AbstractFactorizable implements IC2Credential
 {
 
-  //const COMMUNIFY_API_URL = 'https://yourcommunify.com/api/';
-  const COMMUNIFY_API_URL = 'https://alex.localcommunify.com/api/';
+  const COMMUNIFY_API_URL = 'https://yourcommunify.com/api/';
 
   /**
    * @var array
