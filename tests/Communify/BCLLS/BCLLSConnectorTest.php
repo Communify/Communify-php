@@ -65,7 +65,13 @@ class BCLLSConnectorTest extends \PHPUnit_Framework_TestCase
         array('getAPData', BCLLSConnector::GET_AP_DATA_METHOD, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
         array('getAPData', BCLLSConnector::GET_AP_DATA_METHOD, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
 
-        
+        array('registerEvent', BCLLSConnector::REGISTER_EVENT_METHOD, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('registerEvent', BCLLSConnector::REGISTER_EVENT_METHOD, $this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('registerEvent', BCLLSConnector::REGISTER_EVENT_METHOD, $this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('registerEvent', BCLLSConnector::REGISTER_EVENT_METHOD, $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+        array('registerEvent', BCLLSConnector::REGISTER_EVENT_METHOD, $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+        array('registerEvent', BCLLSConnector::REGISTER_EVENT_METHOD, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+        array('registerEvent', BCLLSConnector::REGISTER_EVENT_METHOD, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
     );
   }
 

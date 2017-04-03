@@ -23,6 +23,17 @@ use Communify\C2\abstracts\C2AbstractClient;
 class BCLLSClient extends C2AbstractClient
 {
 
+  const IMPRESSION_EVENT    = 'get_site';
+  const CLICK_CTA_EVENT     = 'click_cta';
+  const INTERACTION_EVENT   = 'interaction';
+  const IMPRESSION          = 'impression';
+  const CONNECTION          = 'connection';
+
+  /**
+   * @var BCLLSConnector
+   */
+  protected $connector;
+
   /**
    * LGClient constructor.
    *
@@ -47,12 +58,25 @@ class BCLLSClient extends C2AbstractClient
   /**
    * @param $accountId
    * @param $data
-   * @return mixed
+   *
+   * @return BCLLSResponse
    */
   public function getAPData($accountId, $data)
   {
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->getAPData($credential);
+  }
+
+  /**
+   * @param $accountId
+   * @param $data
+   *
+   * @return \Communify\C2\interfaces\IC2Response
+   */
+  public function registerEvent($accountId, $data)
+  {
+    $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
+    return $this->connector->registerEvent($credential);
   }
 
 }

@@ -55,6 +55,10 @@ class BCLLSClientTest extends \PHPUnit_Framework_TestCase
       array( 'getAPData', 'getAPData', $this->any(), $this->any() ),
       array( 'getAPData', 'getAPData', $this->once(), $this->any() ),
       array( 'getAPData', 'getAPData', $this->any(), $this->once() ),
+
+      array( 'registerEvent', 'registerEvent', $this->any(), $this->any() ),
+      array( 'registerEvent', 'registerEvent', $this->once(), $this->any() ),
+      array( 'registerEvent', 'registerEvent', $this->any(), $this->once() ),
     );
   }
 
