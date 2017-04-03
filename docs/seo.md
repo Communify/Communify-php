@@ -22,7 +22,7 @@ NOTA:
 * limit: `integer`    
 * order_by: `integer` 
 ```
-    `limit` => seteja un limit de opinions/idees generades dins de la review/conversa   
+    `limit` => seteja un limit de opinions/idees generades dins de la conversa   
     `order_by` => seteja quin ordre tindran les opinions/idees. Es pot ordenar per 'date' o per 'votes'
 ```
 ## 1. Search Engine Optimization integration

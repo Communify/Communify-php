@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014 Communify.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,32 +15,30 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\EAP;
+namespace Communify\BCLLS;
 
 use Communify\C2\abstracts\C2AbstractClient;
 
-/**
- * Class EAPClient
- * @package Communify\EAP
- */
-class EAPClient extends C2AbstractClient
+
+class BCLLSClient extends C2AbstractClient
 {
 
   /**
+   * LGClient constructor.
    *
-   * @param EAPFactory $factory
-   * @param EAPConnector $connector
+   * @param BCLLSFactory|null   $factory
+   * @param BCLLSConnector|null $connector
    */
-  function __construct(EAPFactory $factory = null, EAPConnector $connector = null)
+  function __construct(BCLLSFactory $factory = null, BCLLSConnector $connector = null)
   {
     if($connector == null)
     {
-      $connector = EAPConnector::factory();
+      $connector = BCLLSConnector::factory();
     }
 
     if($factory == null)
     {
-      $factory = EAPFactory::factory();
+      $factory = BCLLSFactory::factory();
     }
 
     parent::__construct($factory, $connector);
@@ -50,10 +49,10 @@ class EAPClient extends C2AbstractClient
    * @param $data
    * @return mixed
    */
-  public function setOrder($accountId, $data)
+  public function getAPData($accountId, $data)
   {
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
-    return $this->connector->setOrder($credential);
+    return $this->connector->getAPData($credential);
   }
 
-} 
+}

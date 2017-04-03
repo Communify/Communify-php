@@ -13,19 +13,14 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
-namespace Communify\EAP;
+namespace Communify\BCLLS;
 
 use Communify\C2\abstracts\C2AbstractResponse;
 use Guzzle\Http\Message\Response;
 
-/**
- * Class EAPResponse
- * @package Communify\EAP
- */
-class EAPResponse extends C2AbstractResponse
-{
 
+class BCLLSResponse extends C2AbstractResponse
+{
   private $data;
 
   /**
@@ -45,5 +40,4 @@ class EAPResponse extends C2AbstractResponse
   {
     return $this->data;
   }
-
-} 
+}

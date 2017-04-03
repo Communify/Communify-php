@@ -14,11 +14,10 @@ El CSS que es genera manarà per sobre del fitxer CSS bàsics creats pels desenv
 ## Basic Custom CSS
 
 Entenem com a Basic Custom CSS tot aquell codi CSS personalitzat que ataca a les classes genèriques de Communify.   
-Aquests canvis s'aplicaràn a totes les converses i reviews per igual.
 
 ## Content ID a Custom CSS 
 
-Entenem com a Content ID a Custom CSS tot aquell codi CSS personalitzat que ataca a una única conversa o review, gràcies al Content ID.   
+Entenem com a Content ID a Custom CSS tot aquell codi CSS personalitzat que ataca a una única conversa, gràcies al Content ID.   
 Aquests canvis s'aplicaràn únicament al widget que porti assignat el Content ID incrustat al CSS.
 
 Per utilitzar Content ID a Custom CSS a la **pill** cal canviar la classe: 

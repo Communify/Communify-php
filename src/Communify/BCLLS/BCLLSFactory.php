@@ -14,32 +14,31 @@
  * permissions and limitations under the License.
  */
 
-namespace Communify\EAP;
+namespace Communify\BCLLS;
+
 
 use Communify\C2\C2Factory;
 
 
-class EAPFactory extends C2Factory
+class BCLLSFactory extends C2Factory
 {
 
   /**
-   * Create EAPConnector.
-   *
-   * @return EAPConnector
+   * @return \Communify\C2\interfaces\IC2Factorizable
    */
   public function connector()
   {
-    return EAPConnector::factory();
+    return BCLLSConnector::factory();
   }
 
   /**
-   * Create EAPResponse.
+   * Create BCLLSResponse.
    *
-   * @return EAPResponse
+   * @return BCLLSResponse
    */
   public function response()
   {
-    return EAPResponse::factory();
+    return BCLLSResponse::factory();
   }
 
 }

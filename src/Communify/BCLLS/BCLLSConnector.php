@@ -13,30 +13,28 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
-namespace Communify\EAP;
+namespace Communify\BCLLS;
 
 use Communify\C2\abstracts\C2AbstractConnector;
 use Communify\C2\C2Credential;
 use Guzzle\Http\Client;
 
 
-class EAPConnector extends C2AbstractConnector
+class BCLLSConnector extends C2AbstractConnector
 {
-
-  const SET_NEW_ORDER_API_METHOD = 'user/public/setNewOrder';
+  const GET_AP_DATA_METHOD  = 'user/public/getAPData';
 
   /**
    * Constructor with dependency injection.
    *
-   * @param EAPFactory $factory
+   * @param BCLLSFactory $factory
    * @param Client $client
    */
-  function __construct(EAPFactory $factory = null, Client $client = null)
+  function __construct(BCLLSFactory $factory = null, Client $client = null)
   {
     if($factory == null)
     {
-      $factory = EAPFactory::factory();
+      $factory = BCLLSFactory::factory();
     }
 
     parent::__construct($factory, $client);
@@ -44,16 +42,16 @@ class EAPConnector extends C2AbstractConnector
 
   /**
    * @param C2Credential $credential
-   * @return EAPResponse
+   * @return BCLLSResponse
    */
-  public function setOrder(C2Credential $credential)
+  public function getAPData(C2Credential $credential)
   {
     $url = $credential->getUrl();
-    $request = $this->client->createRequest(self::POST_METHOD, $url.'/'.self::SET_NEW_ORDER_API_METHOD, null, $credential->get());
-    $response = $this->client->send($request);
-    $eapResponse = $this->factory->response();
-    $eapResponse->set($response);
-    return $eapResponse;
-  }
 
+    $request = $this->client->createRequest(self::POST_METHOD, $url.self::GET_AP_DATA_METHOD, null, $credential->get());
+    $response = $this->client->send($request);
+    $APDataResponse = $this->factory->response();
+    $APDataResponse->set($response);
+    return $APDataResponse;
+  }
 }
