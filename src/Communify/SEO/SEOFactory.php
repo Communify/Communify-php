@@ -19,7 +19,6 @@ namespace Communify\SEO;
 use Communify\C2\C2Factory;
 use Communify\SEO\parsers\SEOEnrichedTopic;
 use Communify\SEO\parsers\SEOLanguage;
-use Communify\SEO\parsers\SEOOpinion;
 use Communify\SEO\parsers\SEOUserConversationTopic;
 use Communify\SEO\parsers\SEOLeadsTopic;
 
