@@ -27,6 +27,13 @@ use Communify\SEO\engines\helpers\TextHelper;
 use Communify\SEO\engines\helpers\VideoHelper;
 use Communify\SEO\SEOFactory;
 
+use Communify\SEO\SEOResponse;
+use Communify\SEO\parsers\SEOLanguage;
+use Communify\SEO\parsers\SEOUserConversationTopic;
+use Communify\SEO\parsers\SEOLeadsTopic;
+use Communify\SEO\parsers\SEOEnrichedTopic;
+
+
 /**
  * @covers Communify\SEO\SEOFactory
  */
@@ -49,11 +56,11 @@ class SEOFactoryTest extends \PHPUnit_Framework_TestCase
   public function getS2OMethodsData()
   {
     return array(
-      array('response', 'SEOResponse'),
-      array('languageParser', 'parsers\SEOLanguage'),
-      array('userConversationTopicParser', 'parsers\SEOUserConversationTopic'),
-      array('leadsTopicParser', 'parsers\SEOLeadsTopic'),
-      array('enrichedTopicParser', 'parsers\SEOEnrichedTopic'),
+      array('response', SEOResponse::class),
+      array('languageParser', SEOLanguage::class),
+      array('userConversationTopicParser', SEOUserConversationTopic::class),
+      array('leadsTopicParser', SEOLeadsTopic::class),
+      array('enrichedTopicParser', SEOEnrichedTopic::class),
     );
   }
 
@@ -67,7 +74,8 @@ class SEOFactoryTest extends \PHPUnit_Framework_TestCase
   public function test_s2OMethods_called__correctReturn($method, $class)
   {
     $actual = $this->sut->$method();
-    $this->assert($class, $actual);
+		$actualClass = get_class($actual);
+    $this->assertEquals($class, $actualClass);
   }
 
   /**
