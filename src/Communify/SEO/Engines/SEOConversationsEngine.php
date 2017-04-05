@@ -19,7 +19,7 @@ namespace Communify\SEO\engines;
 use Communify\C2\abstracts\C2AbstractFactorizable;
 
 /**
- * Class SEOConversartionsEngine
+ * Class SEOConversationsEngine
  * @package Communify\SEO
  */
 class SEOConversationsEngine extends C2AbstractFactorizable

@@ -23,6 +23,7 @@ use Guzzle\Http\Client;
 class BCLLSConnector extends C2AbstractConnector
 {
   const GET_AP_DATA_METHOD  = 'user/public/getAPData';
+  const REGISTER_EVENT_METHOD = 'user/public/registerEvent';
 
   /**
    * Constructor with dependency injection.
@@ -53,5 +54,24 @@ class BCLLSConnector extends C2AbstractConnector
     $APDataResponse = $this->factory->response();
     $APDataResponse->set($response);
     return $APDataResponse;
+  }
+
+
+  /**
+   * @param C2Credential $credential
+   *
+   * @return \Communify\C2\interfaces\IC2Response
+   */
+  public function registerEvent(C2Credential $credential)
+  {
+    $url = $credential->getUrl();
+
+    $request = $this->client->createRequest(self::POST_METHOD, $url.self::REGISTER_EVENT_METHOD, null, $credential->get());
+    $response = $this->client->send($request);
+
+    $registerEventResponse = $this->factory->response();
+    $registerEventResponse->set($response);
+
+    return $registerEventResponse;
   }
 }
