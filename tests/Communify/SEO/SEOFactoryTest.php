@@ -50,33 +50,33 @@ class SEOFactoryTest extends \PHPUnit_Framework_TestCase
     $this->sut = new SEOFactory();
   }
 
-  /**
-  * dataProvider getS2OMethodsData
-  */
-  public function getS2OMethodsData()
-  {
-    return array(
-      array('response', SEOResponse::class),
-      array('languageParser', SEOLanguage::class),
+//  /**
+//  * dataProvider getS2OMethodsData
+//  */
+//  public function getS2OMethodsData()
+//  {
+//    return array(
+//      array('response', SEOResponse::class),
+//      array('languageParser', SEOLanguage::class),
 //      array('userConversationTopicParser', SEOUserConversationTopic::class),
-      array('leadsTopicParser', SEOLeadsTopic::class),
-      array('enrichedTopicParser', SEOEnrichedTopic::class),
-    );
-  }
-
-  /**
-  * method: s2OMethods
-  * when: called
-  * with:
-  * should: correctReturn
-   * @dataProvider getS2OMethodsData
-  */
-  public function test_s2OMethods_called__correctReturn($method, $class)
-  {
-    $actual = $this->sut->$method();
-		$actualClass = get_class($actual);
-    $this->assertEquals($class, $actualClass);
-  }
+//      array('leadsTopicParser', SEOLeadsTopic::class),
+//      array('enrichedTopicParser', SEOEnrichedTopic::class),
+//    );
+//  }
+//
+//  /**
+//  * method: s2OMethods
+//  * when: called
+//  * with:
+//  * should: correctReturn
+//   * @dataProvider getS2OMethodsData
+//  */
+//  public function test_s2OMethods_called__correctReturn($method, $class)
+//  {
+//    $actual = $this->sut->$method();
+//		$actualClass = get_class($actual);
+//    $this->assertEquals($class, $actualClass);
+//  }
 
   /**
   * dataProvider getParserData
