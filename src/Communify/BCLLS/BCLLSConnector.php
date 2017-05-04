@@ -24,6 +24,7 @@ class BCLLSConnector extends C2AbstractConnector
 {
   const GET_AP_DATA_METHOD  = 'user/public/getAPData';
   const REGISTER_EVENT_METHOD = 'user/public/registerEvent';
+  const GET_NUM_EVENTS_METHOD = 'user/public/getNumEvents';
 
   /**
    * Constructor with dependency injection.
@@ -67,6 +68,26 @@ class BCLLSConnector extends C2AbstractConnector
     $url = $credential->getUrl();
 
     $request = $this->client->createRequest(self::POST_METHOD, $url.self::REGISTER_EVENT_METHOD, null, $credential->get());
+    $response = $this->client->send($request);
+
+    $registerEventResponse = $this->factory->response();
+    $registerEventResponse->set($response);
+
+    return $registerEventResponse;
+  }
+
+
+  /**
+   * @param C2Credential $credential
+   *
+   * @return \Communify\C2\interfaces\IC2Response
+   */
+  public function getNumEvents(C2Credential $credential)
+  {
+    $this->client->setSslVerification(false);
+    $url = $credential->getUrl();
+
+    $request = $this->client->createRequest(self::POST_METHOD, $url.self::GET_NUM_EVENTS_METHOD, null, $credential->get());
     $response = $this->client->send($request);
 
     $registerEventResponse = $this->factory->response();
