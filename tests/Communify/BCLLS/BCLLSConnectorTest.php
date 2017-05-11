@@ -80,6 +80,14 @@ class BCLLSConnectorTest extends \PHPUnit_Framework_TestCase
         array('getNumEvents', BCLLSConnector::GET_NUM_EVENTS_METHOD, $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
         array('getNumEvents', BCLLSConnector::GET_NUM_EVENTS_METHOD, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
         array('getNumEvents', BCLLSConnector::GET_NUM_EVENTS_METHOD, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
+
+        array('getLastConnection', BCLLSConnector::GET_LAST_CONNECTION_METHOD, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('getLastConnection', BCLLSConnector::GET_LAST_CONNECTION_METHOD, $this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('getLastConnection', BCLLSConnector::GET_LAST_CONNECTION_METHOD, $this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('getLastConnection', BCLLSConnector::GET_LAST_CONNECTION_METHOD, $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+        array('getLastConnection', BCLLSConnector::GET_LAST_CONNECTION_METHOD, $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+        array('getLastConnection', BCLLSConnector::GET_LAST_CONNECTION_METHOD, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+        array('getLastConnection', BCLLSConnector::GET_LAST_CONNECTION_METHOD, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once())
     );
   }
 
