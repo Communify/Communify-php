@@ -26,6 +26,7 @@ class BCLLSConnector extends C2AbstractConnector
   const REGISTER_EVENT_METHOD = 'user/public/registerEvent';
   const GET_NUM_EVENTS_METHOD = 'user/public/getNumEvents';
   const GET_LAST_CONNECTION_METHOD = 'user/public/getLastConnection';
+  const REGISTER_CAPTIVE_SESSION = 'user/public/registerCaptiveSession';
 
   /**
    * Constructor with dependency injection.
@@ -85,7 +86,6 @@ class BCLLSConnector extends C2AbstractConnector
    */
   public function getNumEvents(C2Credential $credential)
   {
-    $this->client->setSslVerification(false);
     $url = $credential->getUrl();
 
     $request = $this->client->createRequest(self::POST_METHOD, $url.self::GET_NUM_EVENTS_METHOD, null, $credential->get());
@@ -105,10 +105,28 @@ class BCLLSConnector extends C2AbstractConnector
    */
   public function getLastConnection(C2Credential $credential)
   {
-    $this->client->setSslVerification(false);
     $url = $credential->getUrl();
 
     $request = $this->client->createRequest(self::POST_METHOD, $url.self::GET_LAST_CONNECTION_METHOD, null, $credential->get());
+    $response = $this->client->send($request);
+
+    $registerEventResponse = $this->factory->response();
+    $registerEventResponse->set($response);
+
+    return $registerEventResponse;
+  }
+
+
+  /**
+   * @param C2Credential $credential
+   *
+   * @return \Communify\C2\interfaces\IC2Response
+   */
+  public function registerCaptiveSession(C2Credential $credential)
+  {
+    $url = $credential->getUrl();
+
+    $request = $this->client->createRequest(self::POST_METHOD, $url.self::REGISTER_CAPTIVE_SESSION, null, $credential->get());
     $response = $this->client->send($request);
 
     $registerEventResponse = $this->factory->response();
