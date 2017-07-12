@@ -67,6 +67,10 @@ class BCLLSClientTest extends \PHPUnit_Framework_TestCase
       array( 'getLastConnection', 'getLastConnection', $this->any(), $this->any() ),
       array( 'getLastConnection', 'getLastConnection', $this->once(), $this->any() ),
       array( 'getLastConnection', 'getLastConnection', $this->any(), $this->once() ),
+
+      array( 'registerCaptiveSession', 'registerCaptiveSession', $this->any(), $this->any() ),
+      array( 'registerCaptiveSession', 'registerCaptiveSession', $this->once(), $this->any() ),
+      array( 'registerCaptiveSession', 'registerCaptiveSession', $this->any(), $this->once() ),
     );
   }
 

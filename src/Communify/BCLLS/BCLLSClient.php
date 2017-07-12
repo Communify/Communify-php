@@ -104,4 +104,17 @@ class BCLLSClient extends C2AbstractClient
   }
 
 
+  /**
+   * @param $accountId
+   * @param $data
+   *
+   * @return \Communify\C2\interfaces\IC2Response
+   */
+  public function registerCaptiveSession($accountId, $data)
+  {
+    $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
+    return $this->connector->registerCaptiveSession($credential);
+  }
+
+
 }
