@@ -95,7 +95,15 @@ class BCLLSConnectorTest extends \PHPUnit_Framework_TestCase
         array('registerCaptiveSession', BCLLSConnector::REGISTER_CAPTIVE_SESSION, $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
         array('registerCaptiveSession', BCLLSConnector::REGISTER_CAPTIVE_SESSION, $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
         array('registerCaptiveSession', BCLLSConnector::REGISTER_CAPTIVE_SESSION, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
-        array('registerCaptiveSession', BCLLSConnector::REGISTER_CAPTIVE_SESSION, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once())
+        array('registerCaptiveSession', BCLLSConnector::REGISTER_CAPTIVE_SESSION, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
+
+        array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+        array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+        array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+        array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once())
     );
   }
 

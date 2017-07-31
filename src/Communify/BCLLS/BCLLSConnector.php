@@ -27,6 +27,7 @@ class BCLLSConnector extends C2AbstractConnector
   const GET_NUM_EVENTS_METHOD = 'user/public/getNumEvents';
   const GET_LAST_CONNECTION_METHOD = 'user/public/getLastConnection';
   const REGISTER_CAPTIVE_SESSION = 'user/public/registerCaptiveSession';
+  const REGISTER_ACCESS_POINT = 'user/public/setAccessPoint';
 
   /**
    * Constructor with dependency injection.
@@ -127,6 +128,25 @@ class BCLLSConnector extends C2AbstractConnector
     $url = $credential->getUrl();
 
     $request = $this->client->createRequest(self::POST_METHOD, $url.self::REGISTER_CAPTIVE_SESSION, null, $credential->get());
+    $response = $this->client->send($request);
+
+    $registerEventResponse = $this->factory->response();
+    $registerEventResponse->set($response);
+
+    return $registerEventResponse;
+  }
+
+
+  /**
+   * @param C2Credential $credential
+   *
+   * @return \Communify\C2\interfaces\IC2Response
+   */
+  public function registerAccessPoint(C2Credential $credential)
+  {
+    $url = $credential->getUrl();
+
+    $request = $this->client->createRequest(self::POST_METHOD, $url.self::REGISTER_ACCESS_POINT, null, $credential->get());
     $response = $this->client->send($request);
 
     $registerEventResponse = $this->factory->response();
