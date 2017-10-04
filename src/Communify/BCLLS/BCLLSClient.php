@@ -28,6 +28,7 @@ class BCLLSClient extends C2AbstractClient
   const INTERACTION_EVENT   = 'interaction';
   const IMPRESSION          = 'impression';
   const CONNECTION          = 'connection';
+  const SESSION             = 'session';
 
   /**
    * @var BCLLSConnector
@@ -101,19 +102,6 @@ class BCLLSClient extends C2AbstractClient
   {
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->getLastConnection($credential);
-  }
-
-
-  /**
-   * @param $accountId
-   * @param $data
-   *
-   * @return \Communify\C2\interfaces\IC2Response
-   */
-  public function registerCaptiveSession($accountId, $data)
-  {
-    $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
-    return $this->connector->registerCaptiveSession($credential);
   }
 
 
