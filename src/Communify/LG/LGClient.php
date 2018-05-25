@@ -55,7 +55,7 @@ class LGClient extends C2AbstractClient
       'Client_ip' => $this->getPublicClientIP()
     ];
 
-    $data['json'] = $this->checkIfJsonIsEmptyAndAddParamsToJson($data['json'], $paramsToJson);
+    $data['json'] = $this->addParamsToJson($data['json'], $paramsToJson);
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->generateLead($credential);
   }
@@ -105,7 +105,7 @@ class LGClient extends C2AbstractClient
    *
    * @return string
    */
-  private function checkIfJsonIsEmptyAndAddParamsToJson($dataJson, $params)
+  private function addParamsToJson($dataJson, $params)
   {
     if(!empty($dataJson) && $dataJson != null)
     {
