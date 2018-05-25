@@ -51,7 +51,11 @@ class LGClient extends C2AbstractClient
    */
   public function generateLead($accountId, $data)
   {
-    $data['json'] = json_encode(['Client_ip' => $this->getPublicClientIP()]);
+    $paramsToJson = [
+      'Client_ip' => $this->getPublicClientIP()
+    ];
+
+    $data['json'] = $this->checkIfJsonIsEmptyAndAddParamsToJson($data['json'], $paramsToJson);
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->generateLead($credential);
   }
@@ -93,5 +97,26 @@ class LGClient extends C2AbstractClient
     }
 
     return $publicClientIP;
+  }
+
+  /**
+   * @param $dataJson
+   * @param $params
+   *
+   * @return string
+   */
+  private function checkIfJsonIsEmptyAndAddParamsToJson($dataJson, $params)
+  {
+    if(!empty($dataJson) && $dataJson != null)
+    {
+      $dataJson = json_decode($dataJson, true);
+    }
+
+    foreach($params as $key => $param)
+    {
+      $dataJson[$key] = $param;
+    }
+
+    return json_encode($dataJson);
   }
 }
