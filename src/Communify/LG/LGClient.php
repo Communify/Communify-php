@@ -51,10 +51,10 @@ class LGClient extends C2AbstractClient
    */
   public function generateLead($accountId, $data)
   {
+    $data['json'] = json_encode(['Client_ip' => $this->getPublicClientIP()]);
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->generateLead($credential);
   }
-
 
   /**
    * @param $accountId
@@ -78,5 +78,20 @@ class LGClient extends C2AbstractClient
   {
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->getUserInfo($credential);
+  }
+
+  /**
+   * @return mixed
+   */
+  private function getPublicClientIP()
+  {
+    $publicClientIP = $_SERVER['REMOTE_ADDR'];
+
+    if(empty($publicClientIP) || $publicClientIP == false || $publicClientIP == null)
+    {
+      $publicClientIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+
+    return $publicClientIP;
   }
 }
