@@ -91,12 +91,12 @@ class LGClient extends C2AbstractClient
   {
     $publicClientIP = $_SERVER['HTTP_CLIENT_IP'];
 
-    if($this->checkPublicClientIP($publicClientIP))
+    if(!$this->checkPublicClientIP($publicClientIP))
     {
       $publicClientIP = $_SERVER['REMOTE_ADDR'];
     }
 
-    if($this->checkPublicClientIP($publicClientIP))
+    if(!$this->checkPublicClientIP($publicClientIP))
     {
       $publicClientIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
     }
@@ -136,7 +136,7 @@ class LGClient extends C2AbstractClient
 
     if(empty($publicClientIP) || $publicClientIP == false || $publicClientIP == null)
     {
-      $publicClientIP = false;
+      $return = false;
     }
 
     return $return;
