@@ -51,11 +51,11 @@ class LGClient extends C2AbstractClient
    */
   public function generateLead($accountId, $data)
   {
-    $paramsToJson = [
+    /*$paramsToJson = [
       'Client_ip' => $this->getPublicClientIP()
     ];
 
-    $data['json'] = $this->addParamsToJson($data['json'], $paramsToJson);
+    $data['json'] = $this->addParamsToJson($data['json'], $paramsToJson);*/
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->generateLead($credential);
   }
