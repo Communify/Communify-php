@@ -117,6 +117,6 @@ class LGClient extends C2AbstractClient
       $dataJson[$key] = $param;
     }
 
-    return json_encode($dataJson);
+    return json_encode($dataJson, JSON_UNESCAPED_UNICODE);
   }
 }
