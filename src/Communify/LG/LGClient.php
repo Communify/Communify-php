@@ -51,10 +51,14 @@ class LGClient extends C2AbstractClient
    */
   public function generateLead($accountId, $data)
   {
+    $paramsToJson = [
+      'Client_ip' => $this->getPublicClientIP()
+    ];
+
+    $data['json'] = $this->addParamsToJson($data['json'], $paramsToJson);
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->generateLead($credential);
   }
-
 
   /**
    * @param $accountId
@@ -78,5 +82,41 @@ class LGClient extends C2AbstractClient
   {
     $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
     return $this->connector->getUserInfo($credential);
+  }
+
+  /**
+   * @return mixed
+   */
+  private function getPublicClientIP()
+  {
+    $publicClientIP = $_SERVER['REMOTE_ADDR'];
+
+    if(empty($publicClientIP) || $publicClientIP == false || $publicClientIP == null)
+    {
+      $publicClientIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+
+    return $publicClientIP;
+  }
+
+  /**
+   * @param $dataJson
+   * @param $params
+   *
+   * @return string
+   */
+  private function addParamsToJson($dataJson, $params)
+  {
+    if(!empty($dataJson) && $dataJson != null)
+    {
+      $dataJson = json_decode($dataJson, true);
+    }
+
+    foreach($params as $key => $param)
+    {
+      $dataJson[$key] = $param;
+    }
+
+    return json_encode($dataJson, JSON_UNESCAPED_UNICODE);
   }
 }
