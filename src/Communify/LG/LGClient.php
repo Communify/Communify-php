@@ -132,11 +132,11 @@ class LGClient extends C2AbstractClient
    */
   private function checkPublicClientIP($publicClientIP)
   {
-    $return = true;
+    $return = false;
 
-    if(empty($publicClientIP) || $publicClientIP == false || $publicClientIP == null)
+    if(!empty($publicClientIP) && $publicClientIP != false && $publicClientIP != null)
     {
-      $return = false;
+      $return = true;
     }
 
     return $return;
