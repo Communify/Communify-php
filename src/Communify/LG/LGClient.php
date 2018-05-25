@@ -89,9 +89,14 @@ class LGClient extends C2AbstractClient
    */
   private function getPublicClientIP()
   {
-    $publicClientIP = $_SERVER['REMOTE_ADDR'];
+    $publicClientIP = $_SERVER['HTTP_CLIENT_IP'];
 
-    if(empty($publicClientIP) || $publicClientIP == false || $publicClientIP == null)
+    if($this->checkPublicClientIP($publicClientIP))
+    {
+      $publicClientIP = $_SERVER['REMOTE_ADDR'];
+    }
+
+    if($this->checkPublicClientIP($publicClientIP))
     {
       $publicClientIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
     }
@@ -118,5 +123,22 @@ class LGClient extends C2AbstractClient
     }
 
     return json_encode($dataJson, JSON_UNESCAPED_UNICODE);
+  }
+
+  /**
+   * @param $publicClientIP
+   *
+   * @return bool
+   */
+  private function checkPublicClientIP($publicClientIP)
+  {
+    $return = true;
+
+    if(empty($publicClientIP) || $publicClientIP == false || $publicClientIP == null)
+    {
+      $publicClientIP = false;
+    }
+
+    return $return;
   }
 }
