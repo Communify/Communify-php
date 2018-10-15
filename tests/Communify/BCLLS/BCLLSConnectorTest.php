@@ -95,7 +95,15 @@ class BCLLSConnectorTest extends \PHPUnit_Framework_TestCase
         array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
         array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
         array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
-        array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once())
+        array('registerAccessPoint', BCLLSConnector::REGISTER_ACCESS_POINT, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
+
+        array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+        array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+        array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+        array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once())
     );
   }
 
