@@ -71,6 +71,10 @@ class BCLLSClientTest extends \PHPUnit_Framework_TestCase
       array( 'registerAccessPoint', 'registerAccessPoint', $this->any(), $this->any() ),
       array( 'registerAccessPoint', 'registerAccessPoint', $this->once(), $this->any() ),
       array( 'registerAccessPoint', 'registerAccessPoint', $this->any(), $this->once() ),
+
+      array( 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->any() ),
+      array( 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->once(), $this->any() ),
+      array( 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->once() ),
     );
   }
 
