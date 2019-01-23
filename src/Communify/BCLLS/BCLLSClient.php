@@ -29,6 +29,10 @@ class BCLLSClient extends C2AbstractClient
   const IMPRESSION          = 'impression';
   const CONNECTION          = 'connection';
   const SESSION             = 'session';
+  const EMAIL_CLICK         = 'email_click';
+  const EMAIL_OPEN          = 'email_open';
+  const EMAIL_REDEMPTION    = 'email_redemption';
+  const EMAIL_SEND          = 'email_send';
 
   /**
    * @var BCLLSConnector
