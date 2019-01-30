@@ -103,7 +103,15 @@ class BCLLSConnectorTest extends \PHPUnit_Framework_TestCase
         array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
         array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
         array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
-        array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once())
+        array('getLeadsBySiteAndLeadValue', BCLLSConnector::GET_LEAD_BY_SITE_AND_LEAD_VALUE, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
+
+        array('sendMail', BCLLSConnector::SEND_MAIL, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('sendMail', BCLLSConnector::SEND_MAIL, $this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('sendMail', BCLLSConnector::SEND_MAIL, $this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('sendMail', BCLLSConnector::SEND_MAIL, $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+        array('sendMail', BCLLSConnector::SEND_MAIL, $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+        array('sendMail', BCLLSConnector::SEND_MAIL, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+        array('sendMail', BCLLSConnector::SEND_MAIL, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once())
     );
   }
 
