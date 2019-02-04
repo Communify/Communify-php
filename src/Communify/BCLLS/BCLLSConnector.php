@@ -28,6 +28,7 @@ class BCLLSConnector extends C2AbstractConnector
   const GET_LAST_CONNECTION_METHOD = 'user/public/getLastConnection';
   const REGISTER_ACCESS_POINT = 'user/public/setAccessPoint';
   const GET_LEAD_BY_SITE_AND_LEAD_VALUE = 'backoffice/beecells/getLeadsBySiteAndLeadValue';
+  const SEND_MAIL = 'backoffice/beecells/sendMail';
 
   /**
    * Constructor with dependency injection.
@@ -153,5 +154,24 @@ class BCLLSConnector extends C2AbstractConnector
     $registerEventResponse->set($response);
 
     return $registerEventResponse;
+  }
+
+
+  /**
+   * @param C2Credential $credential
+   *
+   * @return \Communify\C2\interfaces\IC2Response
+   */
+  public function sendMail(C2Credential $credential)
+  {
+    $url = $credential->getUrl();
+
+    $request = $this->client->createRequest(self::POST_METHOD, $url.self::SEND_MAIL, null, $credential->get());
+    $response = $this->client->send($request);
+
+    $sendMail = $this->factory->response();
+    $sendMail->set($response);
+
+    return $sendMail;
   }
 }

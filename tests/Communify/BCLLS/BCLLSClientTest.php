@@ -75,6 +75,10 @@ class BCLLSClientTest extends \PHPUnit_Framework_TestCase
       array( 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->any() ),
       array( 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->once(), $this->any() ),
       array( 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->once() ),
+
+      array( 'sendMail', 'sendMail', $this->any(), $this->any() ),
+      array( 'sendMail', 'sendMail', $this->once(), $this->any() ),
+      array( 'sendMail', 'sendMail', $this->any(), $this->once() ),
     );
   }
 
