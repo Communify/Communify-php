@@ -52,33 +52,33 @@ class BCLLSClientTest extends \PHPUnit_Framework_TestCase
   public function getClientCallsCorrectData()
   {
     return array(
-      array( 'getAPData', 'getAPData', $this->any(), $this->any() ),
-      array( 'getAPData', 'getAPData', $this->once(), $this->any() ),
-      array( 'getAPData', 'getAPData', $this->any(), $this->once() ),
+      array( BCLLSClient::WEB_SSID, 'getAPData', 'getAPData', $this->any(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'getAPData', 'getAPData', $this->once(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'getAPData', 'getAPData', $this->any(), $this->once() ),
 
-      array( 'registerEvent', 'registerEvent', $this->any(), $this->any() ),
-      array( 'registerEvent', 'registerEvent', $this->once(), $this->any() ),
-      array( 'registerEvent', 'registerEvent', $this->any(), $this->once() ),
+      array( BCLLSClient::WEB_SSID, 'registerEvent', 'registerEvent', $this->any(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'registerEvent', 'registerEvent', $this->once(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'registerEvent', 'registerEvent', $this->any(), $this->once() ),
 
-      array( 'getNumEvents', 'getNumEvents', $this->any(), $this->any() ),
-      array( 'getNumEvents', 'getNumEvents', $this->once(), $this->any() ),
-      array( 'getNumEvents', 'getNumEvents', $this->any(), $this->once() ),
+      array( BCLLSClient::WEB_SSID, 'getNumEvents', 'getNumEvents', $this->any(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'getNumEvents', 'getNumEvents', $this->once(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'getNumEvents', 'getNumEvents', $this->any(), $this->once() ),
 
-      array( 'getLastConnection', 'getLastConnection', $this->any(), $this->any() ),
-      array( 'getLastConnection', 'getLastConnection', $this->once(), $this->any() ),
-      array( 'getLastConnection', 'getLastConnection', $this->any(), $this->once() ),
+      array( BCLLSClient::WEB_SSID, 'getLastConnection', 'getLastConnection', $this->any(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'getLastConnection', 'getLastConnection', $this->once(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'getLastConnection', 'getLastConnection', $this->any(), $this->once() ),
 
-      array( 'registerAccessPoint', 'registerAccessPoint', $this->any(), $this->any() ),
-      array( 'registerAccessPoint', 'registerAccessPoint', $this->once(), $this->any() ),
-      array( 'registerAccessPoint', 'registerAccessPoint', $this->any(), $this->once() ),
+      array( BCLLSClient::WEB_SSID, 'registerAccessPoint', 'registerAccessPoint', $this->any(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'registerAccessPoint', 'registerAccessPoint', $this->once(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'registerAccessPoint', 'registerAccessPoint', $this->any(), $this->once() ),
 
-      array( 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->any() ),
-      array( 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->once(), $this->any() ),
-      array( 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->once() ),
+      array( BCLLSClient::WEB_SSID, 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->once(), $this->any() ),
+      array( BCLLSClient::WEB_SSID, 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->once() ),
 
-      array( 'sendMail', 'sendMail', $this->any(), $this->any() ),
-      array( 'sendMail', 'sendMail', $this->once(), $this->any() ),
-      array( 'sendMail', 'sendMail', $this->any(), $this->once() ),
+      array( BCLLSClient::BACKOFFICE_SSID, 'sendMail', 'sendMail', $this->any(), $this->any() ),
+      array( BCLLSClient::BACKOFFICE_SSID, 'sendMail', 'sendMail', $this->once(), $this->any() ),
+      array( BCLLSClient::BACKOFFICE_SSID, 'sendMail', 'sendMail', $this->any(), $this->once() ),
     );
   }
 
@@ -89,23 +89,23 @@ class BCLLSClientTest extends \PHPUnit_Framework_TestCase
   * should: correctInnerCalls
    * @dataProvider getClientCallsCorrectData
   */
-  public function test_clientCalls_called__correctInnerCalls($functionName, $functionToCall, $timesCredential, $timesConnectorCall)
+  public function test_clientCalls_called__correctInnerCalls($ssid, $functionName, $functionToCall, $timesCredential, $timesConnectorCall)
   {
-    $this->configureCalls( $functionName, $functionToCall, $timesCredential, $timesConnectorCall );
+    $this->configureCalls( $ssid, $functionName, $functionToCall, $timesCredential, $timesConnectorCall );
   }
 
   /**
+   * @param $ssid
    * @param $functionName
    * @param $functionToCall
    * @param $timesConnectorCall
    * @param $timesCredential
    */
-  private function configureCalls($functionName, $functionToCall, $timesConnectorCall, $timesCredential)
+  private function configureCalls($ssid, $functionName, $functionToCall, $timesConnectorCall, $timesCredential)
   {
     $accountId = 'dummy account id';
     $data = 'dummy data value';
     $expected = 'dummy expected value';
-    $ssid = BCLLSClient::WEB_SSID;
 
     $credential = $this->configureCredential( $ssid, $accountId, $data, $timesCredential );
 
