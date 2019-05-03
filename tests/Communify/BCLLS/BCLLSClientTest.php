@@ -72,9 +72,9 @@ class BCLLSClientTest extends \PHPUnit_Framework_TestCase
       array( BCLLSClient::WEB_SSID, 'registerAccessPoint', 'registerAccessPoint', $this->once(), $this->any() ),
       array( BCLLSClient::WEB_SSID, 'registerAccessPoint', 'registerAccessPoint', $this->any(), $this->once() ),
 
-      array( BCLLSClient::WEB_SSID, 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->any() ),
-      array( BCLLSClient::WEB_SSID, 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->once(), $this->any() ),
-      array( BCLLSClient::WEB_SSID, 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->once() ),
+      array( BCLLSClient::BACKOFFICE_SSID, 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->any() ),
+      array( BCLLSClient::BACKOFFICE_SSID, 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->once(), $this->any() ),
+      array( BCLLSClient::BACKOFFICE_SSID, 'getLeadsBySiteAndLeadValue', 'getLeadsBySiteAndLeadValue', $this->any(), $this->once() ),
 
       array( BCLLSClient::BACKOFFICE_SSID, 'sendMail', 'sendMail', $this->any(), $this->any() ),
       array( BCLLSClient::BACKOFFICE_SSID, 'sendMail', 'sendMail', $this->once(), $this->any() ),

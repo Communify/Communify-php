@@ -130,7 +130,7 @@ class BCLLSClient extends C2AbstractClient
    */
   public function getLeadsBySiteAndLeadValue($accountId, $data)
   {
-    $credential = $this->factory->credential(self::WEB_SSID, $accountId, $data);
+    $credential = $this->factory->credential(self::BACKOFFICE_SSID, $accountId, $data);
     return $this->connector->getLeadsBySiteAndLeadValue($credential);
   }
 
