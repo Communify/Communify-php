@@ -29,6 +29,7 @@ class BCLLSConnector extends C2AbstractConnector
   const REGISTER_ACCESS_POINT = 'user/public/setAccessPoint';
   const GET_LEAD_BY_SITE_AND_LEAD_VALUE = 'backoffice/beecells/getLeadsBySiteAndLeadValue';
   const SEND_MAIL = 'backoffice/beecells/sendMail';
+  const GET_LEADS_BY_CUSTOM_FILTERS = 'backoffice/beecells/getLeadsByCustomFilters';
 
   /**
    * Constructor with dependency injection.
@@ -173,5 +174,23 @@ class BCLLSConnector extends C2AbstractConnector
     $sendMail->set($response);
 
     return $sendMail;
+  }
+
+  /**
+   * @param C2Credential $credential
+   *
+   * @return \Communify\C2\interfaces\IC2Response
+   */
+  public function getLeadsByCustomFilters(C2Credential $credential)
+  {
+    $url = $credential->getUrl();
+
+    $request = $this->client->createRequest(self::POST_METHOD, $url.self::GET_LEADS_BY_CUSTOM_FILTERS, null, $credential->get());
+    $response = $this->client->send($request);
+
+    $leadsByCustomFilters = $this->factory->response();
+    $leadsByCustomFilters->set($response);
+
+    return $leadsByCustomFilters;
   }
 }

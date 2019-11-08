@@ -79,6 +79,10 @@ class BCLLSClientTest extends \PHPUnit_Framework_TestCase
       array( BCLLSClient::BACKOFFICE_SSID, 'sendMail', 'sendMail', $this->any(), $this->any() ),
       array( BCLLSClient::BACKOFFICE_SSID, 'sendMail', 'sendMail', $this->once(), $this->any() ),
       array( BCLLSClient::BACKOFFICE_SSID, 'sendMail', 'sendMail', $this->any(), $this->once() ),
+
+      array( BCLLSClient::BACKOFFICE_SSID, 'getLeadsByCustomFilters', 'getLeadsByCustomFilters', $this->any(), $this->any() ),
+      array( BCLLSClient::BACKOFFICE_SSID, 'getLeadsByCustomFilters', 'getLeadsByCustomFilters', $this->once(), $this->any() ),
+      array( BCLLSClient::BACKOFFICE_SSID, 'getLeadsByCustomFilters', 'getLeadsByCustomFilters', $this->any(), $this->once() )
     );
   }
 
