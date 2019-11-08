@@ -111,7 +111,15 @@ class BCLLSConnectorTest extends \PHPUnit_Framework_TestCase
         array('sendMail', BCLLSConnector::SEND_MAIL, $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
         array('sendMail', BCLLSConnector::SEND_MAIL, $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
         array('sendMail', BCLLSConnector::SEND_MAIL, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
-        array('sendMail', BCLLSConnector::SEND_MAIL, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once())
+        array('sendMail', BCLLSConnector::SEND_MAIL, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once()),
+
+        array('getLeadsByCustomFilters', BCLLSConnector::GET_LEADS_BY_CUSTOM_FILTERS, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('getLeadsByCustomFilters', BCLLSConnector::GET_LEADS_BY_CUSTOM_FILTERS, $this->once(), $this->any(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('getLeadsByCustomFilters', BCLLSConnector::GET_LEADS_BY_CUSTOM_FILTERS, $this->any(), $this->once(), $this->any(), $this->any(), $this->any(), $this->any()),
+        array('getLeadsByCustomFilters', BCLLSConnector::GET_LEADS_BY_CUSTOM_FILTERS, $this->any(), $this->any(), $this->once(), $this->any(), $this->any(), $this->any()),
+        array('getLeadsByCustomFilters', BCLLSConnector::GET_LEADS_BY_CUSTOM_FILTERS, $this->any(), $this->any(), $this->any(), $this->once(), $this->any(), $this->any()),
+        array('getLeadsByCustomFilters', BCLLSConnector::GET_LEADS_BY_CUSTOM_FILTERS, $this->any(), $this->any(), $this->any(), $this->any(), $this->once(), $this->any()),
+        array('getLeadsByCustomFilters', BCLLSConnector::GET_LEADS_BY_CUSTOM_FILTERS, $this->any(), $this->any(), $this->any(), $this->any(), $this->any(), $this->once())
     );
   }
 

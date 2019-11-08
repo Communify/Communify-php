@@ -147,4 +147,15 @@ class BCLLSClient extends C2AbstractClient
     return $this->connector->sendMail($credential);
   }
 
+  /**
+   * @param $accountId
+   * @param $data
+   *
+   * @return \Communify\C2\interfaces\IC2Response
+   */
+  public function getLeadsByCustomFilters($accountId, $data)
+  {
+    $credential = $this->factory->credential(self::BACKOFFICE_SSID, $accountId, $data);
+    return $this->connector->getLeadsByCustomFilters($credential);
+  }
 }
