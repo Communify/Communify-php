@@ -28,7 +28,7 @@ class BCLLSConnector extends C2AbstractConnector
   const GET_LAST_CONNECTION_METHOD = 'user/public/getLastConnection';
   const REGISTER_ACCESS_POINT = 'user/public/setAccessPoint';
   const GET_LEAD_BY_SITE_AND_LEAD_VALUE = 'backoffice/beecells/getLeadsBySiteAndLeadValue';
-  const SEND_MAIL = 'backoffice/beecells/sendMail';
+  const SEND_MAIL = 'backoffice/communications/sendMail';
   const GET_LEADS_BY_CUSTOM_FILTERS = 'backoffice/beecells/getLeadsByCustomFilters';
 
   /**
