@@ -435,8 +435,8 @@ class S2OResponseTest extends \PHPUnit_Framework_TestCase
   */
   public function test_setUrl_called_correctUrl_correctReturn()
   {
-    $this->sut->setUrl('http://env.yourcommunify.com/api/env');
-    $this->assertAttributeEquals('http://env.yourcommunify.com', 'url', $this->sut);
+    $this->sut->setUrl('http://env.pleasepoint.com/api/env');
+    $this->assertAttributeEquals('http://env.pleasepoint.com', 'url', $this->sut);
   }
 
 }

@@ -156,8 +156,8 @@ class S2OResponse extends C2AbstractResponse
   }
 
   /**
-   * Set url attribute. Expected to be as: http://[env].yourcommunify.com/api/[env]
-   * Save url as: http://[env].yourcommunify.com
+   * Set url attribute. Expected to be as: http://[env].pleasepoint.com/api/[env]
+   * Save url as: http://[env].pleasepoint.com
    *
    * @param String $url
    */

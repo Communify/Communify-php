@@ -44,7 +44,7 @@ class C2CredentialTest extends \PHPUnit_Framework_TestCase
   {
     $ssid = 'dummy ssid';
     $accountId = 'dummy account id';
-    $url = 'https://yourcommunify.com/api/';
+    $url = 'https://api.pleasepoint.com/api/';
     $secureSsl = true;
     $data = array('dummy' => 'value');
     $expected = $this->generateExpectedData($ssid, $accountId, $data);
